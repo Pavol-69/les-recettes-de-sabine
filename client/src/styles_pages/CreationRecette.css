@@ -1,0 +1,17 @@
+#fond_menu_creation_recette {
+    /*Position*/
+    position: relative;
+    
+    /*Dimensions*/
+    width: 1000px;
+    height: 1000px;
+
+    padding-top: 50px;
+    padding-bottom: 100px;
+
+    /*Styles*/
+    background-color: rgb(255, 255, 255, 0.7);
+    border-radius: 5px;
+
+    border: solid;
+}

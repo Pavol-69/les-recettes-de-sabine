@@ -1,0 +1,12 @@
+.font_site {
+    /*Position*/
+    position: absolute; /* /!\ penser à mettre l'élément parent en position : relative / absolute également */
+    z-index: -2;
+
+    /*Dimensions*/
+    height: 100%;
+    width: 100%;
+
+    /*Style*/
+    opacity: 0.3;
+}
