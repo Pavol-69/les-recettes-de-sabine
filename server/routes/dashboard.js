@@ -18,10 +18,11 @@ router.get("/userInfos", authorization, async (req, res) => {
 
 router.get("/allUsersInfos", authorization, async (req, res) => {
 
+    console.log("toto");
+    
     try {
         const user = await pool.query(
-            "SELECT * FROM users",
-            [req.user]
+            "SELECT * FROM users"
         );
         res.json(user);
     } catch (err) {

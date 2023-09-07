@@ -24,7 +24,6 @@ function App() {
 	const [role, setRole] = useState(getUserInfos());
 	const [isAuth, setIsAuth] = useState(isVerify());
 	const [pseudo, setPseudo] = useState();
-	const [isLoading, setIsLoading] = useState(false);
 
 	async function getUserInfos() {
 		try {
@@ -72,7 +71,6 @@ function CheckInfos() {
 		{
 		  	path: "/",
 		  	element: <PagePrincipale isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>,
-			loader: CheckInfos(),
 		},
 		{
 		  	path: "/inscription",
@@ -82,7 +80,6 @@ function CheckInfos() {
 				) : (
 					<Navigate to="/" />
 				),
-			loader: CheckInfos(),
 		},
 		{
 		  	path: "/connexion",
@@ -91,7 +88,6 @@ function CheckInfos() {
 				) : (
 					<Navigate to="/" />
 				),
-			loader: CheckInfos(),
 		},
 		{
 		  	path: "/creation-recette",
@@ -100,16 +96,14 @@ function CheckInfos() {
 				) : (
 					<Navigate to="/" />
 				),
-			loader: CheckInfos(),
 		},
 		{
 		  	path: "/admin",
 		  	element:
-				isAuth && role === "admin" ?
+				isAuth || role === "admin" ?
 					<PageAdmin isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>
 				:
 					<Navigate to="/" />,
-				loader: CheckInfos(),
 		},
 	  ]);
 

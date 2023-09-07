@@ -8,10 +8,12 @@ import myFondSite from "../datas/FondSiteSabine.jpg"
 
 // CSS
 import "../styles/CSSGeneral.css"
-import "../styles_pages/Connexion.css"
+import "../styles_pages/Admin.css"
 import { toast } from 'react-toastify';
 
 function PageAdmin({isAuth, setIsAuth, pseudo, role}) {
+	
+	getAllUsersInfos();
 	
 	async function getAllUsersInfos() {
 		try {
@@ -21,7 +23,7 @@ function PageAdmin({isAuth, setIsAuth, pseudo, role}) {
 			});
 
 			const parseRes = await response.json();
-			console.log(parseRes);
+			return(parseRes.rows);
 
 		} catch (err) {
 			console.error(err.message);

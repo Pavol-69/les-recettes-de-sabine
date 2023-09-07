@@ -1,0 +1,14 @@
+#fond_menu_connexion {
+    /*Position*/
+    position: relative;
+    
+    /*Dimensions*/
+    width: 1000px;
+    height: 1000px;
+
+    /*Styles*/
+    background-color: rgb(255, 255, 255, 0.7);
+    border-radius: 5px;
+
+    border: solid;
+}
