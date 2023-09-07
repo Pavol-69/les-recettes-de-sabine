@@ -21,12 +21,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
+	const [role, setRole] = useState(getUserInfos());
 	const [isAuth, setIsAuth] = useState(isVerify());
-	const [role, setRole] = useState(CheckInfos());
-	const [pseudo, setPseudo] = useState(CheckInfos());
+	const [pseudo, setPseudo] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
-	async function getUserInfos(test) {
+	async function getUserInfos() {
 		try {
 			const response = await fetch("http://localhost:5000/dashboard/userInfos", {
 				method : "GET",
@@ -34,9 +34,9 @@ function App() {
 			});
 
 			const parseRes = await response.json();
+			
 			setPseudo(parseRes.user_pseudo);
 			setRole(parseRes.user_role);
-			if(test === "toto"){console.log("role : " + role)};
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -66,17 +66,13 @@ function CheckInfos() {
 
 	useEffect (() => {
 		CheckInfos(); 
-		setIsLoading(true);
-		console.log("isLoading : " + isLoading);
-		console.log("role : " + role);
-		console.log("pseudo : " + pseudo);
-		console.log("isAuth : " + isAuth);
 	}, []);
 
 	const router = createBrowserRouter([
 		{
 		  	path: "/",
 		  	element: <PagePrincipale isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>,
+			loader: CheckInfos(),
 		},
 		{
 		  	path: "/inscription",
@@ -85,7 +81,8 @@ function CheckInfos() {
 					<PageInscription isAuth={isAuth} setIsAuth={setIsAuth}/>
 				) : (
 					<Navigate to="/" />
-				)
+				),
+			loader: CheckInfos(),
 		},
 		{
 		  	path: "/connexion",
@@ -93,7 +90,8 @@ function CheckInfos() {
 					<PageConnexion isAuth={isAuth} setIsAuth={setIsAuth}/>
 				) : (
 					<Navigate to="/" />
-				)
+				),
+			loader: CheckInfos(),
 		},
 		{
 		  	path: "/creation-recette",
@@ -101,16 +99,17 @@ function CheckInfos() {
 					<PageCreationRecette isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>
 				) : (
 					<Navigate to="/" />
-				)
+				),
+			loader: CheckInfos(),
 		},
 		{
 		  	path: "/admin",
-		  	element: //isLoading ? (
+		  	element:
 				isAuth && role === "admin" ?
 					<PageAdmin isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>
 				:
-					<Navigate to="/" />
-				//) : null
+					<Navigate to="/" />,
+				loader: CheckInfos(),
 		},
 	  ]);
 
