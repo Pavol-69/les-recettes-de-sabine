@@ -37,7 +37,7 @@ router.post("/inscription",validInfo, async (req, res) => {
         // Création nouvel utilisateur
 
         // Création de la valeur user_role, qui par défaut sera à "à définir"
-        const role = "à définir";
+        const role = "to_define";
 
         const newUser = await pool.query(
             "INSERT INTO users (user_name, user_family_name, user_pseudo, user_mail, user_password, user_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",

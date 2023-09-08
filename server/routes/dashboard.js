@@ -18,8 +18,6 @@ router.get("/userInfos", authorization, async (req, res) => {
 
 router.get("/allUsersInfos", authorization, async (req, res) => {
 
-    console.log("toto");
-    
     try {
         const user = await pool.query(
             "SELECT * FROM users"
@@ -30,5 +28,18 @@ router.get("/allUsersInfos", authorization, async (req, res) => {
         res.status(500).json("Erreur serveur.");
     }
 });
+
+router.post("/changeRole", authorization, async (req, res) => {
+    try {
+        console.log("toto");
+        /*const user = await pool.query(
+            "SELECT * FROM users"
+        );*/
+        res.json(true);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json("Erreur serveur.");
+    }
+})
 
 module.exports = router;
