@@ -24,6 +24,7 @@ function App() {
 	const [role, setRole] = useState(getUserInfos());
 	const [isAuth, setIsAuth] = useState(isVerify());
 	const [pseudo, setPseudo] = useState();
+	const [isAdmin, setIsAdmin] = useState(getUserInfos());
 
 	async function getUserInfos() {
 		try {
@@ -36,6 +37,7 @@ function App() {
 			
 			setPseudo(parseRes.user_pseudo);
 			setRole(parseRes.user_role);
+			if(parseRes.user_role === "admin"){setIsAdmin(true)}else{setIsAdmin(false)};
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -99,9 +101,8 @@ function CheckInfos() {
 		},
 		{
 		  	path: "/admin",
-		  	element:
-				isAuth || role === "admin" ?
-					<PageAdmin isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>
+		  	element: isAuth && isAdmin ?
+					<PageAdmin  isAuth={isAuth} setIsAuth={setIsAuth} pseudo={pseudo} role={role}/>
 				:
 					<Navigate to="/" />,
 		},

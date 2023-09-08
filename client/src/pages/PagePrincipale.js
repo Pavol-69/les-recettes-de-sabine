@@ -17,8 +17,6 @@ import { toast } from 'react-toastify';
 
 function PagePrincipale({isAuth, setIsAuth, pseudo, role}) {
 	
-	//console.log(pseudo);
-
 	return (		
 		<div className='relatif'>
 			<FondSite myFondSite={myFondSite}/>
