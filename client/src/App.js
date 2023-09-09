@@ -13,11 +13,17 @@ import "./styles/index.css";
 import React, { useState, useEffect } from "react";
 import {
   createBrowserRouter,
+  BrowserRouter as Router,
+  Routes,
+  Route,
   RouterProvider,
   Navigate,
 } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./auth/PrivateRoute";
+import PublicRoute from "./auth/PublicRoute";
+import AdminRoute from "./auth/AdminRoute";
 
 function App() {
   const [role, setRole] = useState("");
@@ -38,11 +44,11 @@ function App() {
 
       setPseudo(parseRes.user_pseudo);
       setRole(parseRes.user_role);
-      if (parseRes.user_role === "admin") {
+      /*if (parseRes.user_role === "admin") {
         setIsAdmin(true);
       } else {
         setIsAdmin(false);
-      }
+      }*/
     } catch (err) {
       console.error(err.message);
     }
@@ -64,12 +70,11 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("enter useEffect");
     getUserInfos();
     isVerify();
   }, []);
 
-  const router = createBrowserRouter([
+  /*const router = createBrowserRouter([
     {
       path: "/",
       element: (
@@ -126,14 +131,74 @@ function App() {
     },
   ]);
 
-  /*<React.StrictMode>
+  <React.StrictMode>
       <RouterProvider router={router} />
       <ToastContainer />
     </React.StrictMode>*/
 
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <PagePrincipale
+                isAuth={isAuth}
+                setIsAuth={setIsAuth}
+                pseudo={pseudo}
+                role={role}
+              />
+            }
+          />
+          <Route path="/inscription" element={<PublicRoute isAuth={isAuth} />}>
+            <Route
+              path="/inscription"
+              element={
+                <PageInscription isAuth={isAuth} setIsAuth={setIsAuth} />
+              }
+            />
+          </Route>
+          <Route path="/connexion" element={<PublicRoute isAuth={isAuth} />}>
+            <Route
+              path="/connexion"
+              element={<PageConnexion isAuth={isAuth} setIsAuth={setIsAuth} />}
+            />
+          </Route>
+          <Route
+            path="/creation-recette"
+            element={<PrivateRoute isAuth={isAuth} />}
+          >
+            <Route
+              path="/creation-recette"
+              element={
+                <PageCreationRecette
+                  isAuth={isAuth}
+                  setIsAuth={setIsAuth}
+                  pseudo={pseudo}
+                  role={role}
+                />
+              }
+            />
+          </Route>
+          <Route
+            path="/admin"
+            element={<AdminRoute isAuth={isAuth} role={role} />}
+          >
+            <Route
+              path="/admin"
+              element={
+                <PageAdmin
+                  isAuth={isAuth}
+                  setIsAuth={setIsAuth}
+                  pseudo={pseudo}
+                  role={role}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      </Router>
       <ToastContainer />
     </React.StrictMode>
   );
