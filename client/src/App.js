@@ -4,6 +4,12 @@ import PageConnexion from "./pages/PageConnexion";
 import PageInscription from "./pages/PageInscription";
 import PageAdmin from "./pages/PageAdmin";
 import PagePrincipale from "./pages/PagePrincipale";
+import PageUserInfos from "./pages/PageUserInfos";
+import PrivateRoute from "./auth/PrivateRoute";
+import PublicRoute from "./auth/PublicRoute";
+import AdminRoute from "./auth/AdminRoute";
+import PageMdpOublie from "./pages/PageMdpOublie";
+import PageResetPassword from "./pages/PageResetPassword";
 
 //CSS
 import "./styles/CSSGeneral.css";
@@ -21,9 +27,6 @@ import {
 } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PrivateRoute from "./auth/PrivateRoute";
-import PublicRoute from "./auth/PublicRoute";
-import AdminRoute from "./auth/AdminRoute";
 
 function App() {
   const [role, setRole] = useState("");
@@ -74,8 +77,6 @@ function App() {
   }, []);
 
   if (isLoadedInfo && isLoadedAuth) {
-    console.log("isAuth : " + isAuth);
-    console.log("role : " + role);
     return (
       <React.StrictMode>
         <Router>
@@ -109,6 +110,18 @@ function App() {
                   <PageConnexion isAuth={isAuth} setIsAuth={setIsAuth} />
                 }
               />
+              <Route
+                path="/connexion/mot-de-passe-oublie"
+                element={
+                  <PageMdpOublie isAuth={isAuth} setIsAuth={setIsAuth} />
+                }
+              />
+              <Route
+                path="/connexion/reinitialisation-mot-de-passe/:resetKey"
+                element={
+                  <PageResetPassword isAuth={isAuth} setIsAuth={setIsAuth} />
+                }
+              />
             </Route>
             <Route
               path="/creation-recette"
@@ -137,6 +150,20 @@ function App() {
                     isAuth={isAuth}
                     setIsAuth={setIsAuth}
                     pseudo={pseudo}
+                    role={role}
+                  />
+                }
+              />
+            </Route>
+            <Route path="/mes-infos" element={<PrivateRoute isAuth={isAuth} />}>
+              <Route
+                path="/mes-infos"
+                element={
+                  <PageUserInfos
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    myPseudo={pseudo}
+                    setPseudo={setPseudo}
                     role={role}
                   />
                 }
