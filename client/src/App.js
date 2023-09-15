@@ -34,6 +34,8 @@ function App() {
   const [isLoadedInfo, setIsLoadedInfo] = useState(false);
   const [isLoadedAuth, setIsLoadedAuth] = useState(false);
   const [pseudo, setPseudo] = useState("");
+  const [toShow, setToShow] = useState(false);
+  const [pathToRecipe, setPathToRecipe] = useState("");
 
   async function getUserInfos() {
     try {
@@ -89,6 +91,8 @@ function App() {
                   setIsAuth={setIsAuth}
                   pseudo={pseudo}
                   role={role}
+                  toShow={toShow}
+                  setToShow={setToShow}
                 />
               }
             />
@@ -128,13 +132,15 @@ function App() {
               element={<PrivateRoute isAuth={isAuth} />}
             >
               <Route
-                path="/creation-recette"
+                path="/creation-recette/:rct_id"
                 element={
                   <PageCreationRecette
                     isAuth={isAuth}
                     setIsAuth={setIsAuth}
                     pseudo={pseudo}
                     role={role}
+                    toShow={toShow}
+                    setToShow={setToShow}
                   />
                 }
               />
@@ -151,6 +157,8 @@ function App() {
                     setIsAuth={setIsAuth}
                     pseudo={pseudo}
                     role={role}
+                    toShow={toShow}
+                    setToShow={setToShow}
                   />
                 }
               />
@@ -165,6 +173,8 @@ function App() {
                     myPseudo={pseudo}
                     setPseudo={setPseudo}
                     role={role}
+                    toShow={toShow}
+                    setToShow={setToShow}
                   />
                 }
               />

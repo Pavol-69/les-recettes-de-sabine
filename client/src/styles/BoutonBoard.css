@@ -1,33 +1,43 @@
 .bouton_board {
-    /*Centrage*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    /*Dimensions*/
-    height: 60px;
-    width: 200px;
-    margin-left: 20px;
-    margin-right: 20px;
+  /*Dimensions*/
+  height: 60px;
+  width: 200px;
+  margin-left: 20px;
+  margin-right: 20px;
 
-    /*Style*/
-    background-color: var(--main-color);
-    color: var(--color-text);
-    text-decoration:none;
-    border: solid 3px;
-    border-radius: 10px;    
+  /*Style*/
+  background-color: var(--main-color);
+  color: var(--color-text);
+  text-decoration: none;
+  border: solid 3px;
+  border-radius: 10px;
 
-    /*hoover*/
-    transition: 0.5s;
+  /*hoover*/
+  transition: 0.5s;
 
-    /*Texte*/
-    font-family: "Roboto";
-    font-size: 1.5em;
-    font-weight: bold;
+  /*Texte*/
+  font-family: "Roboto";
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 .bouton_board:hover {
-    /*Style*/
-    background-color: var(--color-hover);
-    cursor: pointer;
+  /*Style*/
+  background-color: var(--color-hover);
+  cursor: pointer;
+}
+
+.paquet_boutons {
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Position*/
+  margin-top: 20px;
 }

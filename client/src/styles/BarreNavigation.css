@@ -1,16 +1,18 @@
 header {
-    /*Position*/
-    position: absolute;
-    
-    /*Centrage*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /*Position*/
+  position: absolute;
+  z-index: 2;
 
-    /*Dimensions*/
-    height: 50px;
-    width: 100%;
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    /*Style*/
-    background-color: var(--main-color-transparent);
+  /*Dimensions*/
+  height: 50px;
+  width: 100%;
+
+  /*Style*/
+  background-color: var(--main-color-transparent);
+  box-shadow: 0px 5px 10px var(--color-shadow);
 }

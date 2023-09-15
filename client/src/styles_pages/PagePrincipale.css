@@ -1,38 +1,70 @@
 #titre_site {
-    /*Centrage*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    /*Position*/
-    margin-top: 50px;
+  /*Position*/
+  margin-top: 50px;
 
-    /*Dimensions*/
-    width: 100%;
-    height: 150px;
+  /*Dimensions*/
+  width: 100%;
+  height: 150px;
 
-    /*Texte*/
-    font-family: Cookie;
-    color: var(--main-color);
-    font-weight: bold;
-    font-size: 10em;
-    text-shadow:var(--color-text) 1px 1px 0px;
+  /*Texte*/
+  font-family: Cookie;
+  color: var(--main-color);
+  font-weight: bold;
+  font-size: 10em;
+  text-shadow: var(--color-text) 1px 1px 0px;
 }
 
 .board {
-    /*Centrage*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-#boutons_connexion {
-    /*Centrage*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.plage_user_auth {
+  /*Position*/
+  position: relative;
 
-    /*Position*/
-    margin-top: 20px;
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 100%;
+  margin-top: 150px;
+}
+
+.vignette_recette {
+  /*Dimensions*/
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Style*/
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 5px 10px var(--color-shadow);
+  border-radius: 10px;
+
+  /*Autre*/
+  overflow: hidden;
+
+  /*hover*/
+  transition: 0.5s;
+}
+
+.vignette_recette:hover {
+  box-shadow: 0px 5px 20px var(--color-shadow);
 }

@@ -2,6 +2,7 @@
 import BarreNavigation from "../components/BarreNavigation";
 import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
+import MenuAjoutRecette from "../components/MenuAjoutRecette";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
@@ -12,7 +13,7 @@ import "../styles_pages/Admin.css";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-function PageAdmin({ isAuth, setIsAuth, pseudo, role }) {
+function PageAdmin({ isAuth, setIsAuth, pseudo, role, toShow, setToShow }) {
   const [myUsers, setMyUsers] = useState([]);
 
   async function getAllUsersInfos() {
@@ -76,6 +77,8 @@ function PageAdmin({ isAuth, setIsAuth, pseudo, role }) {
         setIsAuth={setIsAuth}
         pseudo={pseudo}
         role={role}
+        toShow={toShow}
+        setToShow={setToShow}
       />
       <div className="board">
         <div id="fond_menu_admin" className="fond_menu">
@@ -113,7 +116,7 @@ function PageAdmin({ isAuth, setIsAuth, pseudo, role }) {
           ))}
         </div>
       </div>
-
+      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} />
       <PiedDePage />
     </div>
   );

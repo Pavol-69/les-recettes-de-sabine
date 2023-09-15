@@ -16,6 +16,9 @@ app.use("/dashboard", require("./routes/dashboard"));
 // Mot de Passe oublié
 app.use("/forgottenpassword", require("./routes/forgottenPassword"));
 
+// Recette
+app.use("/recipe", require("./routes/recipe"));
+
 app.listen(5000, () => {
   console.log("Le serveur fonctionne sur le port 5000");
 });

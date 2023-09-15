@@ -9,20 +9,32 @@ import "../styles/BoutonMenu.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function BarreNavigation({ isAuth, setIsAuth, pseudo, role }) {
+function BarreNavigation({
+  isAuth,
+  setIsAuth,
+  pseudo,
+  role,
+  toShow,
+  setToShow,
+}) {
   const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
     setIsAuth(false);
     toast.info("Déconnecté(e).");
   };
+
+  const newRecipe = (e) => {
+    e.preventDefault();
+    setToShow(true);
+  };
+
   return isAuth ? (
     <header>
       <BoutonLien myLink={"/"} myTitle={"Page de Garde"} />
-      <BoutonLien
-        myLink={"/creation-recette"}
-        myTitle={"Ajouter une Nouvelle Recette"}
-      />
+      <div className="bouton_menu" onClick={(e) => newRecipe(e)}>
+        Ajouter une Nouvelle Recette
+      </div>
       <BoutonLien myLink={"/mes-infos"} myTitle={"Mes Informations"} />
       {role === "admin" ? (
         <BoutonLien myLink={"/admin"} myTitle={"Admin"} />

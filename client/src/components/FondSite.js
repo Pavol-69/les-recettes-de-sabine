@@ -1,10 +1,13 @@
 // Styles
-import "../styles/FondSite.css"
+import "../styles/FondSite.css";
 
-function FondSite({myFondSite}) {
-	return (
-		<div className="font_site" style={{backgroundImage: `url(${myFondSite})`}}></div>
-	)
+function FondSite({ myFondSite }) {
+  return (
+    <div
+      className="font_site"
+      style={{ backgroundImage: `url(${myFondSite})` }}
+    ></div>
+  );
 }
 
-export default FondSite
+export default FondSite;

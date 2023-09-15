@@ -2,6 +2,7 @@
 import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import BarreNavigation from "../components/BarreNavigation";
+import MenuAjoutRecette from "../components/MenuAjoutRecette";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
@@ -14,7 +15,15 @@ import "../styles_pages/UserInfos.css";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-function PageUserInfos({ isAuth, setIsAuth, myPseudo, setPseudo, role }) {
+function PageUserInfos({
+  isAuth,
+  setIsAuth,
+  myPseudo,
+  setPseudo,
+  role,
+  toShow,
+  setToShow,
+}) {
   const [myInfo, setMyInfo] = useState({
     name: "",
     family_name: "",
@@ -107,6 +116,8 @@ function PageUserInfos({ isAuth, setIsAuth, myPseudo, setPseudo, role }) {
         setIsAuth={setIsAuth}
         pseudo={myPseudo}
         role={role}
+        toShow={toShow}
+        setToShow={setToShow}
       />
       <div className="board">
         <div id="fond_menu_inscription" className="fond_menu">
@@ -184,7 +195,7 @@ function PageUserInfos({ isAuth, setIsAuth, myPseudo, setPseudo, role }) {
           </form>
         </div>
       </div>
-
+      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} />
       <PiedDePage />
     </div>
   );

@@ -1,0 +1,25 @@
+.titre_ajout_recette {
+  /*Texte*/
+  font-weight: bold;
+  font-size: 2em;
+}
+
+.menu_ajout_recette {
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.input_ajout_recette {
+  /*Dimensions*/
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  /*Texte*/
+  font-size: 1.3em;
+}
