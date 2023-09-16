@@ -14,7 +14,6 @@ import "../styles_pages/ResetPassword.css";
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 function PageResetPassword({ isAuth, setIsAuth }) {
   const [myPasswords, setMyPasswords] = useState({

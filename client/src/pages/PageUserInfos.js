@@ -54,7 +54,6 @@ function PageUserInfos({
 
       setMyInfo({
         ...myInfo,
-        user_id: parseRes.user_id,
         name: parseRes.user_name,
         family_name: parseRes.user_family_name,
         pseudo: parseRes.user_pseudo,
@@ -195,7 +194,7 @@ function PageUserInfos({
           </form>
         </div>
       </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} />
+      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
       <PiedDePage />
     </div>
   );

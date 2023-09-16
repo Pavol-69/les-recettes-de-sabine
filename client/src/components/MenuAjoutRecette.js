@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
 
-function MenuAjoutRecette({ toShow, setToShow }) {
+function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
   const [myBoardPosition, setMyBoardPosition] = useState("100vw");
   const [myName, setMyName] = useState("");
   const [path, setPath] = useState("");
@@ -32,6 +32,7 @@ function MenuAjoutRecette({ toShow, setToShow }) {
 
         body: JSON.stringify({
           rct_name: myName,
+          user_pseudo: pseudo,
         }),
       });
 
@@ -71,7 +72,11 @@ function MenuAjoutRecette({ toShow, setToShow }) {
   };
 
   return path === "" && !isLoaded ? (
-    <div id="boardAjoutRecette" className="board_menu_suppl" style={myLeft}>
+    <div
+      id="boardAjoutRecette"
+      className="board_menu_suppl elements_centre"
+      style={myLeft}
+    >
       {toShow ? (
         <form
           className="menu_ajout_recette"

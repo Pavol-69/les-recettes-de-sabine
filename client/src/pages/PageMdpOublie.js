@@ -13,7 +13,6 @@ import "../styles_pages/Connexion.css";
 // Autre
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 function PageMdpOublie({ isAuth, setIsAuth }) {
   const [mail, setMail] = useState("");

@@ -17,15 +17,8 @@ import "./styles/index.css";
 
 // Autre
 import React, { useState, useEffect } from "react";
-import {
-  createBrowserRouter,
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -35,7 +28,6 @@ function App() {
   const [isLoadedAuth, setIsLoadedAuth] = useState(false);
   const [pseudo, setPseudo] = useState("");
   const [toShow, setToShow] = useState(false);
-  const [pathToRecipe, setPathToRecipe] = useState("");
 
   async function getUserInfos() {
     try {
@@ -170,7 +162,7 @@ function App() {
                   <PageUserInfos
                     isAuth={isAuth}
                     setIsAuth={setIsAuth}
-                    myPseudo={pseudo}
+                    MyPseudo={pseudo}
                     setPseudo={setPseudo}
                     role={role}
                     toShow={toShow}

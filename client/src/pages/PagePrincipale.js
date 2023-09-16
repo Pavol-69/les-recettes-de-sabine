@@ -14,10 +14,8 @@ import "../styles/BoutonBoard.css";
 
 // Autre
 import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
-// Images qu'il faudra virer plus tard
-import ImgRecette1 from "../datas/images_sample/Burger_butternut_rotie.jpg";
 
 function PagePrincipale({
   isAuth,
@@ -27,7 +25,41 @@ function PagePrincipale({
   toShow,
   setToShow,
 }) {
-  const rct_id1 = "4c2549e8-0cc1-4b45-85ca-8541da96ca7d";
+  const [myRctList, setMyRctList] = useState([]);
+
+  useEffect(() => {
+    if (isAuth) {
+      getRctList();
+    } else {
+      setMyRctList([]);
+    }
+  }, []);
+
+  async function getRctList() {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/recipe/getRecipesList",
+        {
+          method: "GET",
+          headers: {},
+        }
+      );
+
+      const parseRes = await response.json();
+
+      if (parseRes.myRecipeList) {
+        if (parseRes.myRecipeList.rows) {
+          setMyRctList(parseRes.myRecipeList.rows);
+        } else {
+          setMyRctList(parseRes.myRecipeList);
+        }
+      } else {
+        toast.error(parseRes);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
   return (
     <div className="relatif">
@@ -55,17 +87,21 @@ function PagePrincipale({
           </div>
         ) : (
           <div className="plage_user_auth">
-            <Link
-              id="4c2549e8-0cc1-4b45-85ca-8541da96ca7d"
-              className="vignette_recette"
-              to="/creation-recette/4c2549e8-0cc1-4b45-85ca-8541da96ca7d"
-            >
-              <img className="vignette_recette_img" src={ImgRecette1} />
-            </Link>
+            {myRctList.length > 0
+              ? myRctList.map((myRct) => (
+                  <Link
+                    id={myRct.rct_id}
+                    className="vignette_recette"
+                    to={"/creation-recette/" + myRct.rct_id}
+                  >
+                    <div>{myRct.rct_name}</div>
+                  </Link>
+                ))
+              : null}
           </div>
         )}
       </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} />
+      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
       <PiedDePage />
     </div>
   );

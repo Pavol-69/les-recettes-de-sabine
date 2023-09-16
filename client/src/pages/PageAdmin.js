@@ -116,7 +116,7 @@ function PageAdmin({ isAuth, setIsAuth, pseudo, role, toShow, setToShow }) {
           ))}
         </div>
       </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} />
+      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
       <PiedDePage />
     </div>
   );
