@@ -64,7 +64,7 @@ html {
 
   /*Dimensions*/
   width: 100%;
-  height: 100vh;
+  height: 100%;
 
   /*Style*/
   background-color: rgb(255, 255, 255, 0.5);
@@ -85,4 +85,17 @@ html {
 .texte_centre {
   /*Centrage*/
   text-align: center;
+}
+
+.decalage_bandeau {
+  /*Dimensions*/
+  margin-top: 150px;
+}
+
+.non_select {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

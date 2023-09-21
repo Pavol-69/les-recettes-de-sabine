@@ -3,11 +3,13 @@ import BarreNavigation from "../components/BarreNavigation";
 import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
+import ModifTitreRecette from "../components/ModifTitreRecette";
+import ModifNbPersonne from "../components/ModifNbPersonne";
+import ModifIngredient from "../components/ModifIngredient";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
 import iconeModifier from "../datas/Icones/icone_modifier.png";
-import iconePoubelle from "../datas/Icones/icone_poubelle.png";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -33,7 +35,7 @@ function PageCreationRecette({
     user_pseudo: "",
     rct_nb: 0,
     rct_nb_type: "",
-    rct_section_ing: [],
+    rct_section_ing: [["no_section", 1]],
     rct_ing: [],
     rct_section_step: [],
     rct_step: [],
@@ -45,7 +47,7 @@ function PageCreationRecette({
     user_pseudo: "",
     rct_nb: 0,
     rct_nb_type: "",
-    rct_section_ing: [],
+    rct_section_ing: [["no_section", 1]],
     rct_ing: [],
     rct_section_step: [],
     rct_step: [],
@@ -56,60 +58,16 @@ function PageCreationRecette({
   const [changingName, setChangingName] = useState(false);
   const [changingNbPersonne, setChangingNbPersonne] = useState(false);
   const [changingIngredients, setChangingIngredients] = useState(false);
+  const [changingSteps, setChangingSteps] = useState(false);
   const boardModificationName = "board_modification";
   const myBoard = document.getElementById(boardModificationName);
-  let myIngList = [];
-  let mySectionIngList = [];
+  const [test, setTest] = useState(false);
+
   let myStepList = [];
   let mySectionStepList = [];
 
-  // Morceaux HTML qui se répetent
-  class BoutonsModifier extends React.Component {
-    constructor(props) {
-      super(props);
-      this.myRef = React.createRef();
-    }
-    render() {
-      return (
-        <div className="paquet_boutons">
-          <button
-            className="bouton_board non_selectionnable"
-            id="bouton_valider"
-            onClick={(e) => onSubmitValider(e)}
-          >
-            Valider
-          </button>
-          <button
-            className="bouton_board non_selectionnable"
-            id="bouton_annuler"
-            onClick={(e) => annuler(e)}
-          >
-            Annuler
-          </button>
-        </div>
-      );
-    }
-  }
-
-  const annuler = (e) => {
-    e.preventDefault();
-    ouvertureModif(false);
-    setChangingName(false);
-    setChangingNbPersonne(false);
-  };
-
-  const onSubmitValider = async (e) => {
-    e.preventDefault();
-    ouvertureModif(false);
-    if (updateRecipeDb()) {
-      setMyRct({ ...myRct, ...myRct_new });
-    }
-    setChangingName(false);
-    setChangingNbPersonne(false);
-  };
-
   // Fonctions fetch
-  async function getName() {
+  async function getRecipeInfos() {
     try {
       const response = await fetch(
         "http://localhost:5000/recipe/getRecipeInfos",
@@ -137,78 +95,11 @@ function PageCreationRecette({
     }
   }
 
-  async function updateRecipeDb() {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeInfos",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
-
-          body: JSON.stringify({
-            rct_id: rct_id,
-            rct_name: myRct_new.rct_name,
-            rct_nb: myRct_new.rct_nb,
-            rct_nb_type: myRct_new.rct_nb_type,
-          }),
-        }
-      );
-
-      const parseRes = await response.json();
-
-      if (parseRes) {
-        toast.success("Recette mise à jour avec succès");
-        return true;
-      } else {
-        toast.error(parseRes);
-        return false;
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
   useEffect(() => {
-    getName();
+    getRecipeInfos();
   }, []);
 
   // Fonctions Modifier
-  const modifierTitre = (e) => {
-    e.preventDefault();
-    ouvertureModif(true);
-    setMyRct_new({ ...myRct_new, ...myRct });
-    setChangingName(true);
-  };
-
-  const modifierNbPersonne = (e) => {
-    e.preventDefault();
-    ouvertureModif(true);
-    setMyRct_new({ ...myRct_new, ...myRct });
-    setChangingNbPersonne(true);
-  };
-
-  const modifierIngredients = (e) => {
-    e.preventDefault();
-    ouvertureModif(true);
-    setMyRct_new({ ...myRct_new, ...myRct });
-    setChangingIngredients(true);
-  };
-
-  const ajoutSection = (e) => {
-    e.preventDefault();
-
-    mySectionIngList.push(["", mySectionIngList.length + 1]);
-    setMyRct({
-      ...myRct,
-      ["rct_section_ing"]: mySectionIngList,
-    });
-    console.log(mySectionIngList);
-    console.log(myRct);
-  };
-
-  const ajoutIngredient = (e) => {
-    e.preventDefault();
-  };
 
   function ouvertureModif(myBool) {
     if (myBool) {
@@ -218,9 +109,22 @@ function PageCreationRecette({
     }
   }
 
-  // Fonctions onChange
-  function myOnChange(e) {
-    setMyRct_new({ ...myRct_new, [e.target.name]: e.target.value });
+  function modifButton(e) {
+    e.preventDefault();
+    ouvertureModif(true);
+    setMyRct_new({ ...myRct_new, ...myRct });
+    if (e.target.id === "icone_modifier_titre") {
+      setChangingName(true);
+    }
+    if (e.target.id === "icone_modifier_nb_personne") {
+      setChangingNbPersonne(true);
+    }
+    if (e.target.id === "icone_modifier_ingredient") {
+      setChangingIngredients(true);
+    }
+    if (e.target.id === "icone_modifier_step") {
+      setChangingSteps(true);
+    }
   }
 
   return (
@@ -241,7 +145,7 @@ function PageCreationRecette({
             id="icone_modifier_titre"
             className="icone_modifier"
             src={iconeModifier}
-            onClick={(e) => modifierTitre(e)}
+            onClick={(e) => modifButton(e)}
           />
           <div id="signature">Créée par {myRct.user_pseudo}</div>
         </div>
@@ -254,7 +158,7 @@ function PageCreationRecette({
               id="icone_modifier_nb_personne"
               className="icone_modifier"
               src={iconeModifier}
-              onClick={(e) => modifierNbPersonne(e)}
+              onClick={(e) => modifButton(e)}
             />
           </div>
           <div id="titre_liste_ingredient" className="texte_centre">
@@ -263,93 +167,42 @@ function PageCreationRecette({
               id="icone_modifier_ingredient"
               className="icone_modifier"
               src={iconeModifier}
-              onClick={(e) => modifierIngredients(e)}
+              onClick={(e) => modifButton(e)}
             />
           </div>
         </div>
       </div>
-      <div
-        id={boardModificationName}
-        className="board_menu_suppl elements_centre"
-      >
+      <div id={boardModificationName} className="board_menu_suppl">
         {changingName ? (
-          <form
-            className="menu_modif elements_centre"
-            onSubmit={(e) => onSubmitValider(e)}
-          >
-            <div className="titre_modif texte_centre">
-              Modification du titre de cette recette
-            </div>
-            <input
-              onChange={myOnChange}
-              className="input_modif"
-              type="text"
-              name="rct_name"
-              placeholder="Veuillez renseigner un titre pour cette recette"
-              value={myRct_new.rct_name}
-            ></input>
-            <BoutonsModifier />
-          </form>
-        ) : null}
-        {changingNbPersonne ? (
-          <form className="menu_modif" onSubmit={(e) => onSubmitValider(e)}>
-            <div className="titre_modif texte_centre">
-              Modification du nombre de personnes pour lesquelles les quantités
-              sont indiquées
-            </div>
-            <div className="elements_centre">
-              <input
-                onChange={myOnChange}
-                id="input_rct_nb"
-                className="input_modif texte_centre"
-                type="number"
-                name="rct_nb"
-                value={myRct_new.rct_nb}
-              ></input>
-              <input
-                onChange={myOnChange}
-                id="input_rct_nb_type"
-                className="input_modif"
-                type="text"
-                name="rct_nb_type"
-                value={myRct_new.rct_nb_type}
-              ></input>
-            </div>
-            <BoutonsModifier />
-          </form>
-        ) : null}
-        {changingIngredients ? (
-          <form className="menu_modif" onSubmit={(e) => onSubmitValider(e)}>
-            <div className="titre_modif texte_centre">Liste ingrédients</div>
-            <div className="elements_centre">
-              <button
-                className="bouton_board non_selectionnable"
-                onClick={(e) => ajoutSection(e)}
-              >
-                Ajouter une section
-              </button>
-              <button
-                className="bouton_board non_selectionnable"
-                onClick={(e) => ajoutIngredient(e)}
-              >
-                Ajouter un ingredient
-              </button>
-              <img
-                id="icone_poubelle"
-                className="icone_supprimer"
-                src={iconePoubelle}
-              />
-            </div>
-            {myRct.rct_section_ing.length > 0
-              ? myRct.rct_section_ing.map(
-                  <div>
-                    <input value={myRct.rct_section_ing[0]}></input>
-                    <input value={myRct.rct_section_ing[1]}></input>
-                  </div>
-                )
-              : null}
-            <BoutonsModifier />
-          </form>
+          <ModifTitreRecette
+            rct_id={rct_id}
+            myRct={myRct}
+            setMyRct={setMyRct}
+            myRct_new={myRct_new}
+            setMyRct_new={setMyRct_new}
+            setChangingName={setChangingName}
+            myBoard={myBoard}
+          />
+        ) : changingNbPersonne ? (
+          <ModifNbPersonne
+            rct_id={rct_id}
+            myRct={myRct}
+            setMyRct={setMyRct}
+            myRct_new={myRct_new}
+            setMyRct_new={setMyRct_new}
+            setChangingNbPersonne={setChangingNbPersonne}
+            myBoard={myBoard}
+          />
+        ) : changingIngredients ? (
+          <ModifIngredient
+            rct_id={rct_id}
+            myRct={myRct}
+            setMyRct={setMyRct}
+            myRct_new={myRct_new}
+            setMyRct_new={setMyRct_new}
+            setChangingIngredients={setChangingIngredients}
+            myBoard={myBoard}
+          />
         ) : null}
       </div>
       <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />

@@ -1,0 +1,104 @@
+#icone_poubelle {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 50px;
+  margin: 3px;
+  padding: 2px;
+  border-radius: 22px;
+
+  /*hover*/
+  transition: 0.5s;
+}
+
+#icone_poubelle:hover {
+  /*Style*/
+  filter: drop-shadow(0px 0px 15px red);
+}
+
+.input_section_ing {
+  /*Dimensions*/
+  width: 500px;
+
+  /*Position*/
+  margin-left: 10px;
+}
+
+.ligne_section,
+.ligne_ingredient {
+  /*Positon
+  position: relative;*/
+
+  /*Dimensions*/
+  min-height: 30px;
+  margin: 10px;
+
+  /*Alignement*/
+  display: flex;
+  flex-direction: row;
+}
+
+.ligne_section {
+  background-color: green;
+}
+
+.ligne_ingredient {
+  /*Positon*/
+  margin-left: 50px;
+
+  background-color: magenta;
+}
+
+.ligne_section_tempo {
+  /*Positon
+  position: relative;*/
+  margin: 10px;
+
+  /*Dimensions*/
+  height: 30px;
+  padding: 5px;
+
+  /*Autre*/
+  transition: 0.5s;
+
+  /*Style*/
+  border: solid;
+  opacity: 0.1;
+  background-color: greenyellow;
+}
+
+.saisie {
+  /*Dimensions*/
+  width: 20px;
+  height: 20px;
+
+  /*Style*/
+  background-color: blue;
+}
+
+#field_sections {
+  /*Position*/
+  padding-right: 50px;
+}
+
+.ligne_ingredient {
+  /*Position
+  position: relative;*/
+  left: 50px;
+}
+
+.input_ing_qty {
+  /*Dimensions*/
+  width: 50px;
+}
+
+.input_ing_unit {
+  /*Dimensions*/
+  width: 100px;
+}
+
+.input_ing_what {
+  /*Dimensions*/
+  width: 300px;
+}
