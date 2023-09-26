@@ -29,11 +29,12 @@ function ModifTitreRecette({
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-    ouvertureModif(false);
+
     if (updateRecipeDb()) {
+      ouvertureModif(false);
+      setChangingName(false);
       setMyRct({ ...myRct, ...myRct_new });
     }
-    setChangingName(false);
   };
 
   function ouvertureModif(myBool) {

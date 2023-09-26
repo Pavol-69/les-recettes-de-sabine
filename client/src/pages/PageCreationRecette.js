@@ -6,6 +6,7 @@ import MenuAjoutRecette from "../components/MenuAjoutRecette";
 import ModifTitreRecette from "../components/ModifTitreRecette";
 import ModifNbPersonne from "../components/ModifNbPersonne";
 import ModifIngredient from "../components/ModifIngredient";
+import ModifStep from "../components/ModifStep";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
@@ -37,7 +38,7 @@ function PageCreationRecette({
     rct_nb_type: "",
     rct_section_ing: [["no_section", 1]],
     rct_ing: [],
-    rct_section_step: [],
+    rct_section_step: [["no_section", 1]],
     rct_step: [],
   });
 
@@ -47,7 +48,7 @@ function PageCreationRecette({
     user_pseudo: "",
     rct_nb: 0,
     rct_nb_type: "",
-    rct_section_ing: [["no_section", 1]],
+    rct_section_ing: [],
     rct_ing: [],
     rct_section_step: [],
     rct_step: [],
@@ -61,10 +62,6 @@ function PageCreationRecette({
   const [changingSteps, setChangingSteps] = useState(false);
   const boardModificationName = "board_modification";
   const myBoard = document.getElementById(boardModificationName);
-  const [test, setTest] = useState(false);
-
-  let myStepList = [];
-  let mySectionStepList = [];
 
   // Fonctions fetch
   async function getRecipeInfos() {
@@ -82,10 +79,12 @@ function PageCreationRecette({
       if (parseRes.myInfo) {
         setMyRct({
           ...myRct,
-          ["rct_name"]: parseRes.myInfo.rows[0].rct_name,
-          ["user_pseudo"]: parseRes.myInfo.rows[0].user_pseudo,
-          ["rct_nb"]: parseRes.myInfo.rows[0].rct_nb,
-          ["rct_nb_type"]: parseRes.myInfo.rows[0].rct_nb_type,
+          rct_name: parseRes.myInfo.rows[0].rct_name,
+          user_pseudo: parseRes.myInfo.rows[0].user_pseudo,
+          rct_nb: parseRes.myInfo.rows[0].rct_nb,
+          rct_nb_type: parseRes.myInfo.rows[0].rct_nb_type,
+          rct_section_ing: parseRes.mySectionIngList,
+          rct_ing: parseRes.myIngList,
         });
       } else {
         toast.error(parseRes);
@@ -139,16 +138,6 @@ function PageCreationRecette({
         setToShow={setToShow}
       />
       <div className="board">
-        <div className="titre_recette elements_centre">
-          {myRct.rct_name}
-          <img
-            id="icone_modifier_titre"
-            className="icone_modifier"
-            src={iconeModifier}
-            onClick={(e) => modifButton(e)}
-          />
-          <div id="signature">Créée par {myRct.user_pseudo}</div>
-        </div>
         <div className="bandeau_gauche">
           <div className="nb_personne elements_centre">
             {myRct.rct_nb === 0
@@ -170,8 +159,62 @@ function PageCreationRecette({
               onClick={(e) => modifButton(e)}
             />
           </div>
+          <div id="liste_ingredient">
+            {myRct.rct_section_ing.length > 0
+              ? myRct.rct_section_ing.map((section_ing) => (
+                  <ul>
+                    {section_ing[0] !== "no_section" ? (
+                      <p className="gras souligne texte_ingredient">
+                        {section_ing[0]}
+                      </p>
+                    ) : null}
+                    {myRct.rct_ing.length > 0
+                      ? myRct.rct_ing.map((ing) =>
+                          ing[3] === section_ing[1] ? (
+                            <li className="point_ingredient">
+                              {ing[0] > 0 ? (
+                                <span className="gras texte_ingredient">
+                                  {ing[0] + " "}
+                                </span>
+                              ) : null}
+                              {ing[1] !== "" ? (
+                                <span className="gras texte_ingredient">
+                                  {ing[1] + " "}
+                                </span>
+                              ) : null}
+                              {ing[2] !== "" ? (
+                                <span className="texte_ingredient">
+                                  {ing[2]}
+                                </span>
+                              ) : null}
+                            </li>
+                          ) : null
+                        )
+                      : null}
+                  </ul>
+                ))
+              : null}
+          </div>
+        </div>
+
+        <div id="main_board">
+          <div className="titre_recette elements_centre">
+            {myRct.rct_name}
+            <img
+              id="icone_modifier_titre"
+              className="icone_modifier"
+              src={iconeModifier}
+              onClick={(e) => modifButton(e)}
+            />
+            <div id="signature">Créée par {myRct.user_pseudo}</div>
+          </div>
+          <div id="paquet_recette_image">
+            <div id="recette_board"></div>
+            <div id="image_board"></div>
+          </div>
         </div>
       </div>
+
       <div id={boardModificationName} className="board_menu_suppl">
         {changingName ? (
           <ModifTitreRecette
@@ -201,6 +244,16 @@ function PageCreationRecette({
             myRct_new={myRct_new}
             setMyRct_new={setMyRct_new}
             setChangingIngredients={setChangingIngredients}
+            myBoard={myBoard}
+          />
+        ) : changingSteps ? (
+          <ModifStep
+            rct_id={rct_id}
+            myRct={myRct}
+            setMyRct={setMyRct}
+            myRct_new={myRct_new}
+            setMyRct_new={setMyRct_new}
+            setChangingSteps={setChangingSteps}
             myBoard={myBoard}
           />
         ) : null}

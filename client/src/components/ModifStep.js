@@ -2,12 +2,11 @@
 import "../styles/CSSGeneral.css";
 import "../styles_pages/CreationRecette.css";
 import "../styles/BoutonBoard.css";
-import "../styles/ModifIngredient.css";
+import "../styles/ModifStep.css";
 
 // Autre
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "font-awesome/css/font-awesome.min.css";
 import {
@@ -15,7 +14,7 @@ import {
   faArrowsUpDownLeftRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-function ModifIngredient({
+function ModifStep({
   rct_id,
   myRct,
   setMyRct,
@@ -597,4 +596,4 @@ function ModifIngredient({
   );
 }
 
-export default ModifIngredient;
+export default ModifStep;

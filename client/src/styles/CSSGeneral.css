@@ -29,7 +29,7 @@ html {
   min-height: 100vh;
 
   /*Autre*/
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .board {
@@ -98,4 +98,14 @@ html {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.gras {
+  /*Texte*/
+  font-weight: bold;
+}
+
+.souligne {
+  /*Texte*/
+  text-decoration: underline;
 }
