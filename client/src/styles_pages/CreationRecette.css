@@ -89,23 +89,15 @@
 
 .bandeau_gauche {
   /*Position*/
-  position: fixed;
   z-index: 0;
-  left: 0px;
-  top: 50px;
-  bottom: 50px;
 
   /*Dimensions*/
-  width: 350px;
+  width: 420px;
   margin: 30px;
 
   /*Style*/
   background-color: rgb(255, 255, 255, 0.8);
   box-shadow: 5px 5px 10px var(--color-shadow);
-
-  /*Autre*/
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .nb_personne {
@@ -135,6 +127,12 @@
   left: 10px;
 }
 
+#icone_modifier_step {
+  /*Position*/
+  top: -5x;
+  left: 10px;
+}
+
 #titre_liste_ingredient {
   /*Position*/
   position: relative;
@@ -159,33 +157,32 @@
 
 #liste_ingredient {
   /*Position*/
-  position: relative;
-  left: 900px;
   padding-left: 15px;
 
   /*Dimensions*/
   width: 100%;
 }
 
-#board_absolute_recette {
+#board_creation_recette {
   /*Position*/
-  position: relative;
-  left: 00px;
-  right: 0px;
-  width: 100%;
-
-  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
 }
 
 #main_board {
   /*Position*/
   position: relative;
-  background-color: aquamarine;
-  opacity: 0.5;
+  margin-right: 20px;
+  
+  /*Dimensions*/
   width: 100%;
 }
 
 .titre_recette {
+  /*Position*/
+  position: relative;
+  
   /*Dimensions*/
   height: 100px;
   width: 100%;
@@ -200,9 +197,9 @@
 
 #signature {
   /*Position*/
-  position: relative;
-  top: 35px;
-  left: -150px;
+  position: absolute;
+  bottom: 5px;
+  right: 100px;
 
   /*Texte*/
   font-size: 0.4em;
@@ -211,7 +208,7 @@
 #paquet_recette_image {
   /*Display*/
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: 60% 40%;
   gap: 20px;
 }
 
@@ -219,11 +216,9 @@
   /*Position*/
   margin-left: 20px;
 
-  /*Dimensions*/
-  height: 1500px;
-
-  opacity: 0.5;
-  background-color: red;
+  /*Style*/
+  background-color: rgb(255, 255, 255, 0.8);
+  box-shadow: 5px 5px 10px var(--color-shadow);
 }
 
 #image_board {
@@ -231,8 +226,45 @@
   margin-right: 40px;
 
   /*Dimensions*/
-  height: 500px;
+  height: 400px;
 
   opacity: 0.5;
   background-color: green;
+}
+
+.intitule_recette{
+  /*Position*/
+  margin: 10px;
+  
+  /*Texte*/
+  font-family: Cookie;
+  color: var(--main-color);
+  font-weight: bold;
+  font-size: 3em;
+  text-shadow: var(--color-text) 1px 1px 0px;
+}
+
+.point_step {
+  /*Position*/
+  margin-bottom: 10px;
+}
+
+#liste_step {
+  /*Position*/
+  margin: 10px;
+}
+
+.titre_liste_categories {
+  /*Position*/
+  margin: 10px;
+
+  /*Dimensions*/
+  width: 200px;
+  
+  /*Texte*/
+  font-family: Cookie;
+  color: var(--main-color);
+  font-weight: bold;
+  font-size: 3em;
+  text-shadow: var(--color-text) 1px 1px 0px;
 }

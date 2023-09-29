@@ -20,7 +20,7 @@ function ModifStep({
   setMyRct,
   myRct_new,
   setMyRct_new,
-  setChangingIngredients,
+  setChangingSteps,
   myBoard,
 }) {
   const [mySupprBool, setMySupprBool] = useState(false);
@@ -33,18 +33,18 @@ function ModifStep({
     }
   }
 
-  async function updateRecipeDb(mySectionIngList, myIngList) {
+  async function updateRecipeDb(mySectionStepList, myStepList) {
     try {
       const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeIngredients",
+        "http://localhost:5000/recipe/updateRecipeSteps",
         {
           method: "Post",
           headers: { rct_id: rct_id, "content-type": "application/json" },
 
           body: JSON.stringify({
             rct_id: rct_id,
-            rct_section_ing: mySectionIngList,
-            rct_ing: myIngList,
+            rct_section_step: mySectionStepList,
+            rct_step: myStepList,
           }),
         }
       );
@@ -66,7 +66,7 @@ function ModifStep({
   function annuler(e) {
     e.preventDefault();
     ouvertureModif(false);
-    setChangingIngredients(false);
+    setChangingSteps(false);
   }
 
   function onSubmitValider(e) {
@@ -74,16 +74,16 @@ function ModifStep({
     // Enregistrement de toutes nos nouvelles données
 
     let k = 0;
-    let myIngList = [];
-    let mySectionIngList = [];
+    let myStepList = [];
+    let mySectionStepList = [];
     let myField = document.getElementById("field_sections");
-    mySectionIngList.push(["no_section", 1]);
+    mySectionStepList.push(["no_section", 1]);
 
     for (let i = 0; i < myField.childNodes.length; i++) {
       let myNode = myField.childNodes[i];
       // Sections
       if (i > 0) {
-        mySectionIngList.push([
+        mySectionStepList.push([
           myNode.childNodes[0].childNodes[3].value,
           i + 1,
         ]);
@@ -92,14 +92,12 @@ function ModifStep({
         myNode = myNode.childNodes[0];
       }
 
-      // Ingrédients
+      // Steps
       for (let j = 0; j < myNode.childNodes.length; j++) {
         let mySubNode = myNode.childNodes[j];
         k++;
-        myIngList.push([
+        myStepList.push([
           mySubNode.childNodes[0].childNodes[3].value,
-          mySubNode.childNodes[0].childNodes[4].value,
-          mySubNode.childNodes[0].childNodes[5].value,
           i + 1,
           k,
         ]);
@@ -108,47 +106,45 @@ function ModifStep({
 
     setMyRct_new({
       ...myRct_new,
-      rct_section_ing: mySectionIngList,
-      rct_ing: myIngList,
+      rct_section_step: mySectionStepList,
+      rct_step: myStepList,
     });
 
-    if (updateRecipeDb(mySectionIngList, myIngList)) {
+    if (updateRecipeDb(mySectionStepList, myStepList)) {
       setMyRct({
         ...myRct,
-        rct_section_ing: mySectionIngList,
-        rct_ing: myIngList,
+        rct_section_step: mySectionStepList,
+        rct_step: myStepList,
       });
       ouvertureModif(false);
-      setChangingIngredients(false);
+      setChangingSteps(false);
     }
   }
 
   function ajoutSection(e) {
     e.preventDefault();
     setMyRct_new((prevState) => {
-      let mySectionIngList = [...myRct_new.rct_section_ing];
-      mySectionIngList.push(["", prevState.rct_section_ing.length + 1]);
+      let mySectionStepList = [...myRct_new.rct_section_step];
+      mySectionStepList.push(["", prevState.rct_section_step.length + 1]);
 
       return {
         ...prevState,
-        rct_section_ing: mySectionIngList,
+        rct_section_step: mySectionStepList,
       };
     });
   }
 
-  function ajoutIngredient(e) {
+  function ajoutStep(e) {
     e.preventDefault();
     setMyRct_new((prevState) => {
-      console.log(prevState.rct_section_ing);
+      console.log(prevState.rct_step);
       return {
         ...prevState,
-        rct_ing: prevState.rct_ing.concat([
+        rct_step: prevState.rct_step.concat([
           [
-            0,
             "",
-            "",
-            prevState.rct_section_ing[0][1],
-            prevState.rct_ing.length + 1,
+            prevState.rct_section_step[0][1],
+            prevState.rct_step.length + 1,
           ],
         ]),
       };
@@ -156,35 +152,34 @@ function ModifStep({
   }
 
   // Fonctions onChange
-  const myOnChange_section_ing = (e) => {
+  const myOnChange_section_step = (e) => {
     setMyRct_new((prevState) => {
-      let mySectionIngList = [...myRct_new.rct_section_ing];
+      let mySectionStepList = [...myRct_new.rct_section_step];
       const mySplit = e.target.name.split("_");
       let myPosition = mySplit[mySplit.length - 1];
-      for (let i = 0; i < mySectionIngList.length; i++) {
-        if (mySectionIngList[i][1] === myPosition) {
+      for (let i = 0; i < mySectionStepList.length; i++) {
+        if (mySectionStepList[i][1] === myPosition) {
           myPosition = i;
         }
       }
-      console.log(myPosition);
-      mySectionIngList[myPosition - 1][0] = e.target.value;
+      mySectionStepList[myPosition - 1][0] = e.target.value;
       return {
         ...prevState,
-        rct_section_ing: mySectionIngList,
+        rct_section_step: mySectionStepList,
       };
     });
   };
 
-  function myOnChange_ing(e) {
-    let myIngList = [];
-    myIngList = myRct_new.rct_ing;
+  function myOnChange_step(e) {
+    let myStepList = [];
+    myStepList = myRct_new.rct_step;
     const mySplit = e.target.name.split("_");
-    let myPosition = Number(mySplit[mySplit.length - 2]);
-    let myColumn = Number(mySplit[mySplit.length - 1]);
-    myIngList[myPosition - 1][myColumn] = e.target.value;
+    let myPosition = Number(mySplit[mySplit.length - 1]);
+    console.log(myPosition);
+    myStepList[myPosition - 1][0] = e.target.value;
     setMyRct_new((prevState) => ({
       ...prevState,
-      rct_ing: myIngList,
+      rct_step: myStepList,
     }));
   }
 
@@ -193,16 +188,16 @@ function ModifStep({
     // Vérification de si on prend bien le bon élément kl
     if (e.target.className === "saisie") {
       let isSection = false;
-      let isIngredient = false;
+      let isStep = false;
 
       if (e.target.parentNode.className === "ligne_section") {
         isSection = true;
       }
-      if (e.target.parentNode.className === "ligne_ingredient") {
-        isIngredient = true;
+      if (e.target.parentNode.className === "ligne_step") {
+        isStep = true;
       }
 
-      if (isSection || isIngredient) {
+      if (isSection || isStep) {
         // Ma poubelle pour suppression
         const maPoubelle = document.getElementById("icone_poubelle");
 
@@ -216,7 +211,7 @@ function ModifStep({
         if (isSection) {
           myField = myDrag.parentNode;
         }
-        if (isIngredient) {
+        if (isStep) {
           myField = myDrag.parentNode.parentNode.parentNode; // et oui, on remonte loin..
         }
 
@@ -229,7 +224,7 @@ function ModifStep({
         myTempo.className = "ligne_section_tempo";
         myField.appendChild(myTempo);
         myTempo.style.height = myDrag.offsetHeight + "px";
-        if (isIngredient) {
+        if (isStep) {
           myTempo.style.marginLeft = "50px";
         }
 
@@ -257,7 +252,7 @@ function ModifStep({
           }
         }
 
-        if (isIngredient) {
+        if (isStep) {
           for (let i = 0; i < myField.childNodes.length; i++) {
             let myNode = myField.childNodes[i];
             if (
@@ -271,7 +266,7 @@ function ModifStep({
             }
             for (let j = 0; j < myNode.childNodes.length; j++) {
               let mySubNode = myNode.childNodes[j];
-              if (mySubNode.className === "paquet_ligne_ing") {
+              if (mySubNode.className === "paquet_ligne_step") {
                 for (let k = 0; k < mySubNode.childNodes.length; k++) {
                   if (
                     mySubNode.childNodes[k].className !==
@@ -302,7 +297,7 @@ function ModifStep({
           myY = event.pageY;
 
           // on repositionne l'élément drag par rapport à la souris afin qu'on est l'impression qu'on ait sélectionné le milieu du bloc de saisie
-          if (isIngredient) {
+          if (isStep) {
             myDrag.style.left = myX - 71 + "px";
           } else {
             myDrag.style.left = myX - 31 + "px";
@@ -402,7 +397,7 @@ function ModifStep({
               }
             }
 
-            if (isIngredient) {
+            if (isStep) {
               if (myPosition === -1) {
                 // Si première position mais que le compartiment "no_section" est vide, il faut le mettre dedans plutôt que "avant le premier élément"
                 if (myField.childNodes[0].childNodes.length > 0) {
@@ -411,7 +406,7 @@ function ModifStep({
                   myField.childNodes[0].childNodes[1].appendChild(myDrag);
                 }
               } else if (myPosition === -2) {
-                // Si le dernier élément est une section, il faut mettre l'ingrédient dedans et non pas en dernière position
+                // Si le dernier élément est une section, il faut mettre la step dedans et non pas en dernière position
                 if (
                   myTopList[myTopList.length - 1].childNodes[0].className ===
                   "ligne_section"
@@ -469,7 +464,7 @@ function ModifStep({
       //onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre decalage_bandeau">
-        Liste ingrédients
+        Liste étapes
       </div>
       <div className="elements_centre">
         <button
@@ -480,9 +475,9 @@ function ModifStep({
         </button>
         <button
           className="bouton_board non_selectionnable"
-          onClick={(e) => ajoutIngredient(e)}
+          onClick={(e) => ajoutStep(e)}
         >
-          Ajouter un ingrédient
+          Ajouter une étape
         </button>
         <div id="icone_poubelle">
           <FontAwesomeIcon
@@ -494,10 +489,10 @@ function ModifStep({
         </div>
       </div>
       <div id="field_sections">
-        {myRct_new.rct_section_ing.length > 0
-          ? myRct_new.rct_section_ing.map((section_ing) => (
+        {myRct_new.rct_section_step.length > 0
+          ? myRct_new.rct_section_step.map((section_step) => (
               <div className="case">
-                {section_ing[0] !== "no_section" ? (
+                {section_step[0] !== "no_section" ? (
                   <div className="ligne_section">
                     <div className="case_icone_4_fleches elements_centre">
                       <FontAwesomeIcon
@@ -512,22 +507,22 @@ function ModifStep({
                     ></div>
                     <div className="non_select">Section : </div>
                     <input
-                      onChange={myOnChange_section_ing}
-                      className="input_section_ing non_select"
-                      name={"input_section_ing_" + section_ing[1]}
-                      value={section_ing[0]}
+                      onChange={myOnChange_section_step}
+                      className="input_section_step non_select"
+                      name={"input_section_step_" + section_step[1]}
+                      value={section_step[0]}
                       type="text"
                       placeholder="Veuillez renseigner un nom de section"
                     ></input>
                   </div>
                 ) : null}
 
-                <div className="paquet_ligne_ing">
-                  {myRct_new.rct_ing.length > 0
-                    ? myRct_new.rct_ing.map((ing) =>
-                        ing[3] === section_ing[1] ? (
+                <div className="paquet_ligne_step">
+                  {myRct_new.rct_step.length > 0
+                    ? myRct_new.rct_step.map((step) =>
+                    step[1] === section_step[1] ? (
                           <div className="case">
-                            <div className="ligne_ingredient">
+                            <div className="ligne_step">
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon
                                   size="2x"
@@ -541,31 +536,15 @@ function ModifStep({
                               ></div>
 
                               <div className="non_select elements_centre">
-                                Ingrédient :
+                                Etape :
                               </div>
-                              <input
-                                onChange={myOnChange_ing}
-                                className="input_ing_qty non_select"
-                                name={"input_ing_qty_" + ing[4] + "_0"}
-                                type="number"
-                                value={ing[0]}
-                              ></input>
-                              <input
-                                onChange={myOnChange_ing}
-                                className="input_ing_unit non_select"
-                                name={"input_ing_unit_" + ing[4] + "_1"}
-                                type="text"
-                                value={ing[1]}
-                                placeholder="Unité..."
-                              ></input>
-                              <input
-                                onChange={myOnChange_ing}
-                                className="input_ing_what non_select"
-                                name={"input_ing_what_" + ing[4] + "_2"}
-                                type="text"
-                                value={ing[2]}
-                                placeholder=" Nom de l'ingrédient..."
-                              ></input>
+                              <textarea
+                                onChange={myOnChange_step}
+                                className="input_step non_select"
+                                name={"input_step_" + step[2]}
+                                value={step[0]}
+                                placeholder=" Contenu de votre étape..."
+                              ></textarea>
                             </div>
                           </div>
                         ) : null

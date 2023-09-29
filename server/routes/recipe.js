@@ -22,6 +22,12 @@ router.post("/addRecipe", async (req, res) => {
     await pool.query(
       "CREATE TABLE IF NOT EXISTS images(img_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, img_byte VARCHAR(255) NOT NULL)"
     );
+    await pool.query(
+      "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL"
+    );
+    await pool.query(
+      "CREATE TABLE IF NOT EXISTS table_categories(table_cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL"
+    );
 
     // Ajout d'une ligne dans la table recette avec le nom transmis
     await pool.query(
@@ -44,6 +50,12 @@ router.post("/addRecipe", async (req, res) => {
     await pool.query(
       "INSERT INTO section_step (rct_id, section_step_name, section_step_position) VALUES ($1, $2, $3)",
       [rct_id.rows[0].rct_id, "no_section", 1]
+    );
+
+    // Ajout d'une ligne dans la table des catégories
+    await pool.query(
+      "INSERT INTO table_categories (rct_id) VALUES ($1)",
+      [rct_id.rows[0].rct_id]
     );
 
     res.json(rct_id);
@@ -101,8 +113,20 @@ router.get("/getRecipeInfos", async (req, res) => {
       [rct_id]
     );
 
+    const myInfoSectionStep = await pool.query(
+      "SELECT section_step_id, section_step_name, section_step_position FROM section_step WHERE rct_id = $1",
+      [rct_id]
+    );
+
+    const myInfoStep = await pool.query(
+      "SELECT section_step_id, step_content, step_position FROM steps WHERE rct_id = $1",
+      [rct_id]
+    );
+
     let mySectionIngList = [];
     let myIngList = [];
+    let mySectionStepList = [];
+    let myStepList = [];
 
     for (i = 0; i < myInfoSectionIng.rows.length; i++) {
       mySectionIngList.push([
@@ -121,7 +145,22 @@ router.get("/getRecipeInfos", async (req, res) => {
       ]);
     }
 
-    res.json({ myInfo, mySectionIngList, myIngList });
+    for (i = 0; i < myInfoSectionStep.rows.length; i++) {
+      mySectionStepList.push([
+        myInfoSectionStep.rows[i].section_step_name,
+        myInfoSectionStep.rows[i].section_step_id,
+      ]);
+    }
+
+    for (i = 0; i < myInfoStep.rows.length; i++) {
+      myStepList.push([
+        myInfoStep.rows[i].step_content,
+        myInfoStep.rows[i].section_step_id,
+        myInfoStep.rows[i].step_position,
+      ]);
+    }
+
+    res.json({ myInfo, mySectionIngList, myIngList, mySectionStepList, myStepList });
   } catch (err) {
     console.log(err.message);
     res.status(500).json("Erreur serveur");
@@ -186,6 +225,54 @@ router.post("/updateRecipeIngredients", async (req, res) => {
           new_rct_ing[i][1],
           new_rct_ing[i][2],
           new_rct_ing[i][4],
+        ]
+      );
+    }
+
+    res.json(true);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.post("/updateRecipeSteps", async (req, res) => {
+  try {
+    const rct_id = req.header("rct_id");
+    const new_rct_section_step = req.body.rct_section_step;
+    const new_rct_step = req.body.rct_step;
+
+    //Suppression de tout ce qui existe dans la bdd relatif à cette recette
+    await pool.query("DELETE FROM section_step WHERE rct_id=$1", [rct_id]);
+    await pool.query("DELETE FROM steps WHERE rct_id=$1", [rct_id]);
+
+    // Ajout de toutes les sections contenues dans req.body.section_ing
+    for (let i = 0; i < new_rct_section_step.length; i++) {
+      await pool.query(
+        "INSERT INTO section_step (rct_id, section_step_name, section_step_position) VALUES ($1, $2, $3)",
+        [rct_id, new_rct_section_step[i][0], new_rct_section_step[i][1]]
+      );
+    }
+
+    // Ajout de toutes les ingrédients contenus dans req.body.ing
+    for (let i = 0; i < new_rct_step.length; i++) {
+      let rct_section_id = "";
+      if (new_rct_step[1] === 1) {
+        rct_section_id = "no_section";
+      } else {
+        rct_section_id = await pool.query(
+          "SELECT section_step_id FROM section_step WHERE (rct_id=$1) AND (section_step_position=$2)",
+          [rct_id, new_rct_step[i][1]]
+        );
+      }
+
+      await pool.query(
+        "INSERT INTO steps (rct_id, section_step_id, step_content, step_position) VALUES ($1, $2, $3, $4)",
+        [
+          rct_id,
+          rct_section_id.rows[0].section_step_id,
+          new_rct_step[i][0],
+          new_rct_step[i][2],
         ]
       );
     }
