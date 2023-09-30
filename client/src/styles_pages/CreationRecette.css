@@ -174,7 +174,7 @@
   /*Position*/
   position: relative;
   margin-right: 20px;
-  
+
   /*Dimensions*/
   width: 100%;
 }
@@ -182,7 +182,7 @@
 .titre_recette {
   /*Position*/
   position: relative;
-  
+
   /*Dimensions*/
   height: 100px;
   width: 100%;
@@ -232,10 +232,10 @@
   background-color: green;
 }
 
-.intitule_recette{
+.intitule_recette {
   /*Position*/
   margin: 10px;
-  
+
   /*Texte*/
   font-family: Cookie;
   color: var(--main-color);
@@ -260,11 +260,35 @@
 
   /*Dimensions*/
   width: 200px;
-  
+
   /*Texte*/
   font-family: Cookie;
   color: var(--main-color);
   font-weight: bold;
   font-size: 3em;
   text-shadow: var(--color-text) 1px 1px 0px;
+}
+
+.categorie_rct {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 50px;
+  margin: 10px;
+
+  /*Style*/
+  border-radius: 5px;
+  background-color: var(--main-color);
+  color: var(--color-text);
+
+  /*Texte*/
+  font-size: 1.5em;
+}
+
+.liste_categorie {
+  /*Flex*/
+  display: flex;
 }

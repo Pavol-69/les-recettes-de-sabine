@@ -94,6 +94,7 @@ function PageCreationRecette({
           rct_ing: parseRes.myIngList,
           rct_section_step: parseRes.mySectionStepList,
           rct_step: parseRes.myStepList,
+          rct_cat: parseRes.myCatList,
         });
       } else {
         toast.error(parseRes);
@@ -149,7 +150,7 @@ function PageCreationRecette({
         toShow={toShow}
         setToShow={setToShow}
       />
-      <div id = "board_creation_recette" className="board">
+      <div id="board_creation_recette" className="board">
         <div className="bandeau_gauche">
           <div className="nb_personne elements_centre">
             {myRct.rct_nb === 0
@@ -211,38 +212,50 @@ function PageCreationRecette({
 
         <div id="main_board">
           <div className="titre_recette elements_centre">
-              <div>
-                {myRct.rct_name}
-                <img
-                  id="icone_modifier_titre"
-                  className="icone_modifier"
-                  src={iconeModifier}
-                  onClick={(e) => modifButton(e)}
-                />
-                <div id="signature">Créée par {myRct.user_pseudo}</div>
-              </div>
+            <div>
+              {myRct.rct_name}
+              <img
+                id="icone_modifier_titre"
+                className="icone_modifier"
+                src={iconeModifier}
+                onClick={(e) => modifButton(e)}
+              />
+              <div id="signature">Créée par {myRct.user_pseudo}</div>
+            </div>
           </div>
-          
+
           <div className="liste_categories">
             <div className="titre_liste_categories elements_centre">
-            Catégories
-            <img
-              id="icone_modifier_categorie"
-              className="icone_modifier"
-              src={iconeModifier}
-              onClick={(e) => modifButton(e)}
-            /></div>
+              Catégories
+              <img
+                id="icone_modifier_categorie"
+                className="icone_modifier"
+                src={iconeModifier}
+                onClick={(e) => modifButton(e)}
+              />
+            </div>
+            <div className="liste_categorie">
+              {myRct.rct_cat.length > 0
+                ? myRct.rct_cat.map((cat) =>
+                    cat[1] ? (
+                      <div className="categorie_rct elements_centre gras">
+                        {cat}
+                      </div>
+                    ) : null
+                  )
+                : null}
+            </div>
           </div>
           <div id="paquet_recette_image">
             <div id="recette_board">
               <div className="intitule_recette">
                 La recette
                 <img
-                    id="icone_modifier_step"
-                    className="icone_modifier"
-                    src={iconeModifier}
-                    onClick={(e) => modifButton(e)}
-                  />
+                  id="icone_modifier_step"
+                  className="icone_modifier"
+                  src={iconeModifier}
+                  onClick={(e) => modifButton(e)}
+                />
               </div>
               <div id="liste_step">
                 {myRct.rct_section_step.length > 0

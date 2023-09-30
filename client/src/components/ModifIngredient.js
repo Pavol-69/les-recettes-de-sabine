@@ -140,7 +140,6 @@ function ModifIngredient({
   function ajoutIngredient(e) {
     e.preventDefault();
     setMyRct_new((prevState) => {
-      console.log(prevState.rct_section_ing);
       return {
         ...prevState,
         rct_ing: prevState.rct_ing.concat([
@@ -148,7 +147,7 @@ function ModifIngredient({
             0,
             "",
             "",
-            prevState.rct_section_ing[0][1],
+            prevState.rct_section_ing[prevState.rct_section_ing.length - 1][1],
             prevState.rct_ing.length + 1,
           ],
         ]),

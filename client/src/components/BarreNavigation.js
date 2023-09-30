@@ -39,6 +39,9 @@ function BarreNavigation({
       {role === "admin" ? (
         <BoutonLien myLink={"/admin"} myTitle={"Admin"} />
       ) : null}
+      {role === "admin" ? (
+        <BoutonLien myLink={"/categorie"} myTitle={"Gestion des Catégories"} />
+      ) : null}
       <Link onClick={(e) => logout(e)} className="bouton_menu" to="/">
         Déconnexion
       </Link>

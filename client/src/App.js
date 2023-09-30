@@ -10,6 +10,7 @@ import PublicRoute from "./auth/PublicRoute";
 import AdminRoute from "./auth/AdminRoute";
 import PageMdpOublie from "./pages/PageMdpOublie";
 import PageResetPassword from "./pages/PageResetPassword";
+import PageGestionCategorie from "./pages/PageGestionCategorie";
 
 //CSS
 import "./styles/CSSGeneral.css";
@@ -119,12 +120,9 @@ function App() {
                 }
               />
             </Route>
-            <Route
-              path="/creation-recette"
-              element={<PrivateRoute isAuth={isAuth} />}
-            >
+            <Route path="/recette" element={<PrivateRoute isAuth={isAuth} />}>
               <Route
-                path="/creation-recette/:rct_id"
+                path="/recette/:rct_id"
                 element={
                   <PageCreationRecette
                     isAuth={isAuth}
@@ -145,6 +143,24 @@ function App() {
                 path="/admin"
                 element={
                   <PageAdmin
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    pseudo={pseudo}
+                    role={role}
+                    toShow={toShow}
+                    setToShow={setToShow}
+                  />
+                }
+              />
+            </Route>
+            <Route
+              path="/categorie"
+              element={<AdminRoute isAuth={isAuth} role={role} />}
+            >
+              <Route
+                path="/categorie"
+                element={
+                  <PageGestionCategorie
                     isAuth={isAuth}
                     setIsAuth={setIsAuth}
                     pseudo={pseudo}

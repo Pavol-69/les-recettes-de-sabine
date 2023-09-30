@@ -72,7 +72,7 @@ html {
 
   /*Autre*/
   transition: 0.5s;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .elements_centre {
@@ -108,4 +108,69 @@ html {
 .souligne {
   /*Texte*/
   text-decoration: underline;
+}
+
+.ligne {
+  /*Flex*/
+  display: flex;
+  flex-direction: row;
+}
+
+.paquet_cat {
+  /*Flex*/
+  display: flex;
+  flex-wrap: wrap;
+
+  /*Dimensions*/
+  width: 100%;
+}
+
+.categorie {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 50px;
+  margin: 10px;
+
+  /*Style*/
+  background-color: var(--main-color);
+  color: var(--color-text);
+  border-radius: 5px;
+}
+
+.categorie_nom,
+.categorie_nom_admin {
+  /*Texte*/
+  font-size: 1.5em;
+
+  /*Hoover*/
+  transition: 0.2s;
+}
+
+.cat_fermer {
+  /*Position*/
+  position: absolute;
+  top: -10px;
+  right: 5px;
+
+  /*Texte*/
+  font-size: 1.5em;
+
+  /*Style*/
+  color: var(--color-text);
+
+  /*Hoover*/
+  transition: 0.2s;
+}
+
+.cat_fermer:hover,
+.categorie_nom_admin:hover {
+  /*Texte*/
+  font-size: 1.6em;
+
+  /*Style*/
+  cursor: pointer;
 }

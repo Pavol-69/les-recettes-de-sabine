@@ -1,0 +1,17 @@
+#fond_menu_categorie {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 1000px;
+
+  /*Alignement*/
+  display: flex;
+  flex-direction: column;
+
+  /*Styles*/
+  background-color: rgb(255, 255, 255, 0.7);
+  border-radius: 5px;
+
+  border: solid;
+}

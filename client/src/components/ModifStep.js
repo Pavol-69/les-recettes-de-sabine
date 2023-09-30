@@ -137,13 +137,16 @@ function ModifStep({
   function ajoutStep(e) {
     e.preventDefault();
     setMyRct_new((prevState) => {
+      console.log("toto");
       console.log(prevState.rct_step);
       return {
         ...prevState,
         rct_step: prevState.rct_step.concat([
           [
             "",
-            prevState.rct_section_step[0][1],
+            prevState.rct_section_step[
+              prevState.rct_section_step.length - 1
+            ][1],
             prevState.rct_step.length + 1,
           ],
         ]),
@@ -520,7 +523,7 @@ function ModifStep({
                 <div className="paquet_ligne_step">
                   {myRct_new.rct_step.length > 0
                     ? myRct_new.rct_step.map((step) =>
-                    step[1] === section_step[1] ? (
+                        step[1] === section_step[1] ? (
                           <div className="case">
                             <div className="ligne_step">
                               <div className="case_icone_4_fleches elements_centre">

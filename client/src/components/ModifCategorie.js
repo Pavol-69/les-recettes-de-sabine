@@ -13,27 +13,56 @@ function ModifCategorie({
   setMyRct,
   myRct_new,
   setMyRct_new,
-  setChangingNbPersonne,
+  setChangingCat,
   myBoard,
 }) {
-  // Fonctions onChange
-  function myOnChange(e) {
-    setMyRct_new({ ...myRct_new, [e.target.name]: e.target.value });
-  }
-
   const annuler = (e) => {
     e.preventDefault();
     ouvertureModif(false);
-    setChangingNbPersonne(false);
+    setChangingCat(false);
   };
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-    ouvertureModif(false);
-    if (updateRecipeDb()) {
+
+    if (updateRecipeCat()) {
+      ouvertureModif(false);
       setMyRct({ ...myRct, ...myRct_new });
+      setChangingCat(false);
     }
-    setChangingNbPersonne(false);
+  };
+
+  const catSelect = (e) => {
+    e.preventDefault();
+
+    let myBool = false;
+
+    if (e.target.className.indexOf("selected") === 0) {
+      e.target.className = e.target.className.replace(
+        "selected",
+        "non_selected"
+      );
+      myBool = false;
+    } else if (e.target.className.indexOf("non_selected") === 0) {
+      e.target.className = e.target.className.replace(
+        "non_selected",
+        "selected"
+      );
+      myBool = true;
+    }
+
+    let myList = myRct_new.rct_cat;
+
+    for (let i = 0; i < myList.length; i++) {
+      if (myList[i][0] === e.target.innerHTML) {
+        myList[i][1] = myBool;
+      }
+    }
+
+    setMyRct_new({
+      ...myRct_new,
+      rct_cat: myList,
+    });
   };
 
   function ouvertureModif(myBool) {
@@ -44,19 +73,16 @@ function ModifCategorie({
     }
   }
 
-  async function updateRecipeDb() {
+  async function updateRecipeCat() {
     try {
       const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeInfos",
+        "http://localhost:5000/recipe/updateRecipeCategories",
         {
           method: "Post",
           headers: { rct_id: rct_id, "content-type": "application/json" },
 
           body: JSON.stringify({
-            rct_id: rct_id,
-            rct_name: myRct_new.rct_name,
-            rct_nb: myRct_new.rct_nb,
-            rct_nb_type: myRct_new.rct_nb_type,
+            rct_cat: myRct_new.rct_cat,
           }),
         }
       );
@@ -82,26 +108,28 @@ function ModifCategorie({
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">
-        Modification du nombre de personnes pour lesquelles les quantités sont
-        indiquées
+        Choisissez les catégories associées à votre recette
       </div>
       <div className="elements_centre">
-        <input
-          onChange={myOnChange}
-          id="input_rct_nb"
-          className="input_modif texte_centre"
-          type="number"
-          name="rct_nb"
-          value={myRct_new.rct_nb}
-        ></input>
-        <input
-          onChange={myOnChange}
-          id="input_rct_nb_type"
-          className="input_modif"
-          type="text"
-          name="rct_nb_type"
-          value={myRct_new.rct_nb_type}
-        ></input>
+        {myRct_new.rct_cat.length > 0
+          ? myRct_new.rct_cat.map((cat) =>
+              cat[1] ? (
+                <div
+                  onClick={(e) => catSelect(e)}
+                  className="selected elements_centre gras"
+                >
+                  {cat}
+                </div>
+              ) : (
+                <div
+                  onClick={(e) => catSelect(e)}
+                  className="non_selected elements_centre gras"
+                >
+                  {cat}
+                </div>
+              )
+            )
+          : null}
       </div>
       <div className="paquet_boutons">
         <button

@@ -40,7 +40,7 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
 
       if (parseRes.rows[0].rct_id) {
         toast.success("Recette créée");
-        setPath("/creation-recette/" + parseRes.rows[0].rct_id);
+        setPath("/recette/" + parseRes.rows[0].rct_id);
         setIsLoaded(true);
         return true;
       } else {

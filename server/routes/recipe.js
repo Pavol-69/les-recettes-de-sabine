@@ -1,5 +1,48 @@
 const pool = require("../db");
+const authorizationAdmin = require("../middlewear/authorizationAdmin");
 const router = require("express").Router();
+
+String.prototype.sansAccent = function () {
+  var accent = [
+    /[\300-\306]/g,
+    /[\340-\346]/g, // A, a
+    /[\310-\313]/g,
+    /[\350-\353]/g, // E, e
+    /[\314-\317]/g,
+    /[\354-\357]/g, // I, i
+    /[\322-\330]/g,
+    /[\362-\370]/g, // O, o
+    /[\331-\334]/g,
+    /[\371-\374]/g, // U, u
+    /[\321]/g,
+    /[\361]/g, // N, n
+    /[\307]/g,
+    /[\347]/g, // C, c
+  ];
+  var noaccent = [
+    "A",
+    "a",
+    "E",
+    "e",
+    "I",
+    "i",
+    "O",
+    "o",
+    "U",
+    "u",
+    "N",
+    "n",
+    "C",
+    "c",
+  ];
+
+  var str = this;
+  for (var i = 0; i < accent.length; i++) {
+    str = str.replace(accent[i], noaccent[i]);
+  }
+
+  return str;
+};
 
 router.post("/addRecipe", async (req, res) => {
   try {
@@ -23,10 +66,10 @@ router.post("/addRecipe", async (req, res) => {
       "CREATE TABLE IF NOT EXISTS images(img_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, img_byte VARCHAR(255) NOT NULL)"
     );
     await pool.query(
-      "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL"
+      "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL)"
     );
     await pool.query(
-      "CREATE TABLE IF NOT EXISTS table_categories(table_cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL"
+      "CREATE TABLE IF NOT EXISTS table_categories(table_cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL)"
     );
 
     // Ajout d'une ligne dans la table recette avec le nom transmis
@@ -53,10 +96,9 @@ router.post("/addRecipe", async (req, res) => {
     );
 
     // Ajout d'une ligne dans la table des catégories
-    await pool.query(
-      "INSERT INTO table_categories (rct_id) VALUES ($1)",
-      [rct_id.rows[0].rct_id]
-    );
+    await pool.query("INSERT INTO table_categories (rct_id) VALUES ($1)", [
+      rct_id.rows[0].rct_id,
+    ]);
 
     res.json(rct_id);
   } catch (err) {
@@ -123,10 +165,13 @@ router.get("/getRecipeInfos", async (req, res) => {
       [rct_id]
     );
 
+    const myInfoCat = await pool.query("SELECT cat_name FROM categories");
+
     let mySectionIngList = [];
     let myIngList = [];
     let mySectionStepList = [];
     let myStepList = [];
+    let myCatList = [];
 
     for (i = 0; i < myInfoSectionIng.rows.length; i++) {
       mySectionIngList.push([
@@ -160,7 +205,35 @@ router.get("/getRecipeInfos", async (req, res) => {
       ]);
     }
 
-    res.json({ myInfo, mySectionIngList, myIngList, mySectionStepList, myStepList });
+    let myAlphaList = [];
+
+    for (i = 0; i < myInfoCat.rows.length; i++) {
+      myAlphaList.push(myInfoCat.rows[i].cat_name);
+    }
+
+    myAlphaList = myAlphaList.sort();
+
+    for (i = 0; i < myAlphaList.length; i++) {
+      let myInfoRctCat = await pool.query(
+        "SELECT " + myAlphaList[i] + " FROM table_categories WHERE rct_id = $1",
+        [rct_id]
+      );
+
+      if (myInfoRctCat.rows[0][myInfoRctCat.fields[0].name] === true) {
+        myCatList.push([myAlphaList[i], true]);
+      } else {
+        myCatList.push([myAlphaList[i], false]);
+      }
+    }
+
+    res.json({
+      myInfo,
+      mySectionIngList,
+      myIngList,
+      mySectionStepList,
+      myStepList,
+      myCatList,
+    });
   } catch (err) {
     console.log(err.message);
     res.status(500).json("Erreur serveur");
@@ -274,6 +347,155 @@ router.post("/updateRecipeSteps", async (req, res) => {
           new_rct_step[i][0],
           new_rct_step[i][2],
         ]
+      );
+    }
+
+    res.json(true);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.post("/addCategory", authorizationAdmin, async (req, res) => {
+  try {
+    await pool.query(
+      "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL)"
+    );
+
+    const cat_name =
+      req.body.cat_name.slice(0, 1).toUpperCase() +
+      req.body.cat_name.slice(1, req.body.cat_name.length).toLowerCase();
+
+    console.log(cat_name);
+
+    // Si le nom est non défini, ça dégage
+    if (cat_name === "") {
+      return res
+        .status(401)
+        .json("Le nom de la catégorie ne peut pas être nul.");
+    }
+
+    // On veut éviter les doublons
+    const myVerif = await pool.query(
+      "SELECT * FROM categories WHERE cat_name = $1",
+      [cat_name]
+    );
+
+    if (myVerif.rows.length !== 0) {
+      return res.status(401).json("Catégorie déjà existante.");
+    }
+
+    await pool.query(
+      "ALTER TABLE table_categories ADD " + cat_name.replace(" ", "_") + " BOOL"
+    );
+
+    await pool.query("INSERT INTO categories (cat_name) VALUES ($1)", [
+      cat_name,
+    ]);
+
+    const myCat = await pool.query("SELECT * FROM categories");
+    let myList = [];
+    for (let i = 0; i < myCat.rows.length; i++) {
+      myList.push(myCat.rows[i].cat_name);
+    }
+    res.json(myList.sort());
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.get("/getAllCategories", async (req, res) => {
+  try {
+    const myCat = await pool.query("SELECT * FROM categories");
+    let myList = [];
+    for (let i = 0; i < myCat.rows.length; i++) {
+      myList.push(myCat.rows[i].cat_name);
+    }
+    res.json(myList.sort());
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.post("/deleteCategory", authorizationAdmin, async (req, res) => {
+  try {
+    await pool.query("DELETE FROM categories WHERE cat_name = $1", [
+      req.body.cat_name,
+    ]);
+    await pool.query(
+      "ALTER TABLE table_categories DROP COLUMN " +
+        req.body.cat_name.replace(" ", "_")
+    );
+    const myCat = await pool.query("SELECT * FROM categories");
+    let myList = [];
+    for (let i = 0; i < myCat.rows.length; i++) {
+      myList.push(myCat.rows[i].cat_name);
+    }
+    res.json(myList.sort());
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.post("/updateCategoryName", authorizationAdmin, async (req, res) => {
+  try {
+    const cat_name =
+      req.body.cat_name.slice(0, 1).toUpperCase() +
+      req.body.cat_name.slice(1, req.body.cat_name.length).toLowerCase();
+
+    const old_cat_name =
+      req.body.old_name.slice(0, 1).toUpperCase() +
+      req.body.old_name.slice(1, req.body.old_name.length).toLowerCase();
+
+    // On veut éviter les doublons
+    const myVerif = await pool.query(
+      "SELECT * FROM categories WHERE cat_name = $1",
+      [cat_name]
+    );
+
+    if (myVerif.rows.length !== 0 && cat_name !== old_cat_name) {
+      return res.status(401).json("Catégorie déjà existante.");
+    }
+
+    await pool.query(
+      "UPDATE categories SET cat_name = $1 WHERE cat_name = $2",
+      [cat_name, old_cat_name]
+    );
+    await pool.query(
+      "ALTER TABLE table_categories RENAME COLUMN " +
+        old_cat_name.replace(" ", "_") +
+        " TO " +
+        cat_name.replace(" ", "_")
+    );
+    const myCat = await pool.query("SELECT * FROM categories");
+    let myList = [];
+    for (let i = 0; i < myCat.rows.length; i++) {
+      myList.push(myCat.rows[i].cat_name);
+    }
+    res.json(myList.sort());
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.post("/updateRecipeCategories", async (req, res) => {
+  try {
+    const rct_id = req.header("rct_id");
+    const rct_cat = req.body.rct_cat;
+
+    for (let i = 0; i < rct_cat.length; i++) {
+      await pool.query(
+        "UPDATE table_categories SET " +
+          rct_cat[i][0] +
+          " = " +
+          rct_cat[i][1] +
+          " WHERE rct_id = $1",
+        [rct_id]
       );
     }
 

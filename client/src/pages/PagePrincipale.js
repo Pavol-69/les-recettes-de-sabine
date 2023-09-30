@@ -92,7 +92,7 @@ function PagePrincipale({
                   <Link
                     id={myRct.rct_id}
                     className="vignette_recette"
-                    to={"/creation-recette/" + myRct.rct_id}
+                    to={"/recette/" + myRct.rct_id}
                   >
                     <div>{myRct.rct_name}</div>
                   </Link>
