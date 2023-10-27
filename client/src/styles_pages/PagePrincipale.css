@@ -27,7 +27,8 @@
   flex-direction: column;
 }
 
-.plage_user_auth {
+#all_recipes,
+#plage_resultat {
   /*Position*/
   position: relative;
 
@@ -39,32 +40,28 @@
   /*Dimensions*/
   width: 100%;
   height: 100%;
-  margin-top: 150px;
 }
 
-.vignette_recette {
+#plage_recherche {
   /*Dimensions*/
-  width: 200px;
-  height: 200px;
-  margin: 10px;
+  width: 100%;
+  margin-bottom: 100px;
 
-  /*Centrage*/
+  /*Flex*/
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /*Style*/
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 5px 10px var(--color-shadow);
-  border-radius: 10px;
-
-  /*Autre*/
-  overflow: hidden;
-
-  /*hover*/
-  transition: 0.5s;
+  flex-direction: column;
 }
 
-.vignette_recette:hover {
-  box-shadow: 0px 5px 20px var(--color-shadow);
+.elt_recherche {
+  /*Dimensions*/
+  margin: 10px;
+}
+
+#input_recherche {
+  /*Dimensions*/
+  height: 30px;
+  width: 700px;
+
+  /*Texte*/
+  font-size: 1.5em;
 }

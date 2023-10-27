@@ -1,35 +1,38 @@
 // CCS
 import "../styles/CSSGeneral.css";
-import "../styles_pages/CreationRecette.css";
 import "../styles/BoutonBoard.css";
 import "../styles/ModifCategorie.css";
 
-// Autre
-import { toast } from "react-toastify";
-
-function ModifCategorie({
-  rct_id,
-  myRct,
-  setMyRct,
-  myRct_new,
-  setMyRct_new,
-  setChangingCat,
+function MenuFiltreRecherche({
+  myFilterList,
+  setMyFilterList,
   myBoard,
+  myFilterBool,
+  setMyFilterBool,
 }) {
   const annuler = (e) => {
     e.preventDefault();
     ouvertureModif(false);
-    setChangingCat(false);
+    setMyFilterBool(false);
   };
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-
-    if (updateRecipeCat()) {
-      ouvertureModif(false);
-      setMyRct({ ...myRct, ...myRct_new });
-      setChangingCat(false);
+    let myList = myFilterList;
+    for (let i = 0; i < myList.length; i++) {
+      if (
+        myBoard.childNodes[0].childNodes[1].childNodes[i].className.indexOf(
+          "selected"
+        ) === 0
+      ) {
+        myList[i][1] = true;
+      } else {
+        myList[i][1] = false;
+      }
     }
+    setMyFilterList(myList);
+    ouvertureModif(false);
+    setMyFilterBool(false);
   };
 
   const catSelect = (e) => {
@@ -50,19 +53,6 @@ function ModifCategorie({
       );
       myBool = true;
     }
-
-    let myList = myRct_new.rct_cat;
-
-    for (let i = 0; i < myList.length; i++) {
-      if (myList[i][0] === e.target.innerHTML) {
-        myList[i][1] = myBool;
-      }
-    }
-
-    setMyRct_new({
-      ...myRct_new,
-      rct_cat: myList,
-    });
   };
 
   function ouvertureModif(myBool) {
@@ -73,59 +63,29 @@ function ModifCategorie({
     }
   }
 
-  async function updateRecipeCat() {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeCategories",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
-
-          body: JSON.stringify({
-            rct_cat: myRct_new.rct_cat,
-          }),
-        }
-      );
-
-      const parseRes = await response.json();
-
-      if (parseRes) {
-        toast.success("Recette mise à jour avec succès");
-        return true;
-      } else {
-        toast.error(parseRes);
-        return false;
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
   return (
     <form
       id="menu_modif_categorie"
       className="menu_modif elements_centre"
       onSubmit={(e) => onSubmitValider(e)}
     >
-      <div className="titre_modif texte_centre">
-        Choisissez les catégories associées à votre recette
-      </div>
+      <div className="titre_modif texte_centre">Filtrer par catégorie</div>
       <div className="elements_centre">
-        {myRct_new.rct_cat.length > 0
-          ? myRct_new.rct_cat.map((cat) =>
+        {myFilterList.length > 0
+          ? myFilterList.map((cat) =>
               cat[1] ? (
                 <div
                   onClick={(e) => catSelect(e)}
                   className="selected elements_centre gras"
                 >
-                  {cat}
+                  {cat[0]}
                 </div>
               ) : (
                 <div
                   onClick={(e) => catSelect(e)}
                   className="non_selected elements_centre gras"
                 >
-                  {cat}
+                  {cat[0]}
                 </div>
               )
             )
@@ -151,4 +111,4 @@ function ModifCategorie({
   );
 }
 
-export default ModifCategorie;
+export default MenuFiltreRecherche;

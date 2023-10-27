@@ -128,6 +128,22 @@ router.get("/getRecipesList", async (req, res) => {
       myRecipeList = await pool.query("SELECT rct_id, rct_name FROM recettes");
     }
 
+    myRecipeList = myRecipeList.rows;
+
+    for (let i = 0; i < myRecipeList.length; i++) {
+      let myLine = await pool.query(
+        "SELECT * FROM table_categories where rct_id = $1",
+        [myRecipeList[i].rct_id]
+      );
+      let myCatList = [];
+      for (j = 0; j < myLine.fields.length; j++) {
+        if (myLine.rows[0][myLine.fields[j].name] === true) {
+          myCatList.push(myLine.fields[j].name);
+        }
+      }
+      myRecipeList[i].cat = myCatList;
+    }
+
     res.json({ myRecipeList });
   } catch (err) {
     console.log(err.message);
