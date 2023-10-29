@@ -107,6 +107,8 @@ function PagePrincipale({
   }
 
   function rechercher(e) {
+    e.preventDefault();
+
     let hasFilter = false;
     for (let i = 0; i < myFilterList.length; i++) {
       if (myFilterList[i][1]) {
@@ -150,6 +152,8 @@ function PagePrincipale({
   }
 
   function reinitialisation(e) {
+    e.preventDefault();
+
     let myTab = myFilterList;
     for (let i = 0; i < myTab.length; i++) {
       myTab[i][1] = false;
@@ -187,7 +191,7 @@ function PagePrincipale({
         ) : (
           <div className="plage_user_auth">
             <div id="plage_recherche" className="elements_centre">
-              <submit id="groupe_recherche">
+              <form id="groupe_recherche" onSubmit={(e) => rechercher(e)}>
                 <input
                   id="input_recherche"
                   className="elt_recherche"
@@ -215,7 +219,7 @@ function PagePrincipale({
                     Réinitialisation
                   </button>
                 </div>
-              </submit>
+              </form>
               <div id="plage_resultat">
                 {mySearchList.length > 0
                   ? mySearchList.map((myRct) => (

@@ -8,6 +8,7 @@ import ModifNbPersonne from "../components/ModifNbPersonne";
 import ModifIngredient from "../components/ModifIngredient";
 import ModifStep from "../components/ModifStep";
 import ModifCategorie from "../components/ModifCategorie";
+import ModifImages from "../components/ModifImages";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
@@ -64,6 +65,7 @@ function PageCreationRecette({
   const [changingIngredients, setChangingIngredients] = useState(false);
   const [changingSteps, setChangingSteps] = useState(false);
   const [changingCat, setChangingCat] = useState(false);
+  const [changingImg, setChangingImg] = useState(false);
   const boardModificationName = "board_modification";
   const myBoard = document.getElementById(boardModificationName);
 
@@ -136,6 +138,9 @@ function PageCreationRecette({
     }
     if (e.target.id === "icone_modifier_categorie") {
       setChangingCat(true);
+    }
+    if (e.target.id === "icone_modifier_img") {
+      setChangingImg(true);
     }
   }
 
@@ -284,7 +289,14 @@ function PageCreationRecette({
                   : null}
               </div>
             </div>
-            <div id="image_board"></div>
+            <div id="image_board">
+              <img
+                id="icone_modifier_img"
+                className="icone_modifier"
+                src={iconeModifier}
+                onClick={(e) => modifButton(e)}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -338,6 +350,16 @@ function PageCreationRecette({
             myRct_new={myRct_new}
             setMyRct_new={setMyRct_new}
             setChangingCat={setChangingCat}
+            myBoard={myBoard}
+          />
+        ) : changingImg ? (
+          <ModifImages
+            rct_id={rct_id}
+            myRct={myRct}
+            setMyRct={setMyRct}
+            myRct_new={myRct_new}
+            setMyRct_new={setMyRct_new}
+            setChangingImg={setChangingImg}
             myBoard={myBoard}
           />
         ) : null}
