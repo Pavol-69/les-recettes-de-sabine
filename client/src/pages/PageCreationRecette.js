@@ -43,6 +43,7 @@ function PageCreationRecette({
     rct_section_step: [["no_section", 1]],
     rct_step: [],
     rct_cat: [],
+    rct_img: ["", "", "", "", ""],
   });
 
   // Application des modif qu'au moment de valider
@@ -56,6 +57,7 @@ function PageCreationRecette({
     rct_section_step: [],
     rct_step: [],
     rct_cat: [],
+    rct_img: ["", "", "", "", ""],
   });
 
   // Mes variables
@@ -81,9 +83,6 @@ function PageCreationRecette({
       );
 
       const parseRes = await response.json();
-
-      console.log(parseRes.mySectionStepList);
-      console.log(parseRes.myStepList);
 
       if (parseRes.myInfo) {
         setMyRct({

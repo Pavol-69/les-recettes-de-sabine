@@ -1,3 +1,6 @@
+// Components
+import "./UploadImage";
+
 // CCS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/CreationRecette.css";
@@ -7,6 +10,7 @@ import "../styles/ModifImages.css";
 // Autre
 import { toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
+import UploadImage from "./UploadImage";
 
 function ModifImages({
   rct_id,
@@ -17,6 +21,15 @@ function ModifImages({
   setChangingImg,
   myBoard,
 }) {
+  const [uploadedFileUrl, setUploadedFileUrl] = useState({
+    uploadedFiles: null,
+  });
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+  });
+  const [change, setChange] = useState(true);
+
   function ouvertureModif(myBool) {
     if (myBool) {
       myBoard.style.left = "0px";
@@ -36,7 +49,7 @@ function ModifImages({
   const onSubmitValider = async (e) => {
     e.preventDefault();
     let myElt = document.getElementById("plage_insersion_image");
-    setImg(URL.createObjectURL(myElt.childNodes[0].files[0]));
+    //setImg(URL.createObjectURL(myElt.childNodes[0].files[0]));
   };
 
   const myArray = [1, 2, 3, 4, 5];
@@ -52,11 +65,12 @@ function ModifImages({
           Choisissez les images que vous souhaitez intégrer à votre recette
         </div>
         <div id="plage_insersion_image">
-          {myArray.map((i) => (
+          {/*myArray.map((i) => (
             <div className="ligne_upload">
               Image {i} : <input key={i} type="file" name="upfile" />
             </div>
-          ))}
+          ))*/}
+          <UploadImage />
         </div>
         <img src={img}></img>
         <div className="paquet_boutons">
