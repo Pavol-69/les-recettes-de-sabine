@@ -174,3 +174,41 @@ html {
   /*Style*/
   cursor: pointer;
 }
+
+.colonne {
+  /*Flex*/
+  display: flex;
+  flex-direction: column;
+}
+
+.ligne {
+  /*Flex*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.texte_taille_1 {
+  /*Texte*/
+  font-size: 1em;
+}
+
+.texte_taille_2 {
+  /*Texte*/
+  font-size: 1.3em;
+}
+
+.texte_taille_3 {
+  /*Texte*/
+  font-size: 1.6em;
+}
+
+.texte_taille_4 {
+  /*Texte*/
+  font-size: 1.9em;
+}
+
+.texte_taille_5 {
+  /*Texte*/
+  font-size: 2.2em;
+}

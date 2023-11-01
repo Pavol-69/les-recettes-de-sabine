@@ -63,7 +63,7 @@ router.post("/addRecipe", async (req, res) => {
       "CREATE TABLE IF NOT EXISTS steps(step_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, section_step_id VARCHAR(255) NOT NULL, step_content TEXT NOT NULL, step_position INT NOT NULL)"
     );
     await pool.query(
-      "CREATE TABLE IF NOT EXISTS images(img_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, img_byte VARCHAR(255) NOT NULL)"
+      "CREATE TABLE IF NOT EXISTS images(img_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, img_1 VARCHAR(255) NOT NULL, img_2 VARCHAR(255) NOT NULL, img_3 VARCHAR(255) NOT NULL, img_4 VARCHAR(255) NOT NULL, img_5 VARCHAR(255) NOT NULL)"
     );
     await pool.query(
       "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL)"
@@ -83,6 +83,12 @@ router.post("/addRecipe", async (req, res) => {
       "SELECT rct_id FROM recettes WHERE rct_name = $1",
       [req.body.rct_name]
     );
+
+    // Initialisation Images
+    /*await pool.query(
+      "INSERT INTO images (rct_id, img_1, img_2, img_3, img_4, img_5) VALUES ($1, $2, $3, $4, $5, $6)",
+      [rct_id, "", "", "", "", ""]
+    );*/
 
     // Ajout de la section de base pour ingredients et steps
     await pool.query(
@@ -130,19 +136,20 @@ router.get("/getRecipesList", async (req, res) => {
 
     myRecipeList = myRecipeList.rows;
 
-    for (let i = 0; i < myRecipeList.length; i++) {
+    /*for (let i = 0; i < myRecipeList.length; i++) {
       let myLine = await pool.query(
         "SELECT * FROM table_categories where rct_id = $1",
         [myRecipeList[i].rct_id]
       );
       let myCatList = [];
       for (j = 0; j < myLine.fields.length; j++) {
+        console.log(myLine.fields[j].name);
         if (myLine.rows[0][myLine.fields[j].name] === true) {
           myCatList.push(myLine.fields[j].name);
         }
       }
       myRecipeList[i].cat = myCatList;
-    }
+    }*/
 
     res.json({ myRecipeList });
   } catch (err) {

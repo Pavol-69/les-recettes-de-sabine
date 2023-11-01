@@ -8,7 +8,6 @@ import "../styles/BoutonBoard.css";
 import "../styles/ModifImages.css";
 
 // Autre
-import { toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
 import UploadImage from "./UploadImage";
 
@@ -21,15 +20,6 @@ function ModifImages({
   setChangingImg,
   myBoard,
 }) {
-  const [uploadedFileUrl, setUploadedFileUrl] = useState({
-    uploadedFiles: null,
-  });
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-  });
-  const [change, setChange] = useState(true);
-
   function ouvertureModif(myBool) {
     if (myBool) {
       myBoard.style.left = "0px";
@@ -37,8 +27,6 @@ function ModifImages({
       myBoard.style.left = "100vw";
     }
   }
-
-  const [img, setImg] = useState("");
 
   const annuler = (e) => {
     e.preventDefault();
@@ -48,11 +36,8 @@ function ModifImages({
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-    let myElt = document.getElementById("plage_insersion_image");
-    //setImg(URL.createObjectURL(myElt.childNodes[0].files[0]));
+    //console.log(myRct.rct_img);
   };
-
-  const myArray = [1, 2, 3, 4, 5];
 
   return (
     <div>
@@ -62,17 +47,20 @@ function ModifImages({
         onSubmit={(e) => onSubmitValider(e)}
       >
         <div className="titre_modif texte_centre">
-          Choisissez les images que vous souhaitez intégrer à votre recette
+          Choisissez les images que vous souhaitez intégrer à votre recette (5
+          maximum)
         </div>
-        <div id="plage_insersion_image">
-          {/*myArray.map((i) => (
-            <div className="ligne_upload">
-              Image {i} : <input key={i} type="file" name="upfile" />
-            </div>
-          ))*/}
-          <UploadImage />
+        <div id="plage_insersion_image" className="ligne elements_centre">
+          {myRct_new.rct_img.map((imgUrl, index) =>
+            myRct_new.rct_img[index - 1] !== "" ? (
+              <UploadImage
+                myRct_new={myRct_new}
+                setMyRct_new={setMyRct_new}
+                i={index}
+              />
+            ) : null
+          )}
         </div>
-        <img src={img}></img>
         <div className="paquet_boutons">
           <button
             className="bouton_board non_selectionnable"

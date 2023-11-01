@@ -109,6 +109,10 @@ function PageCreationRecette({
     getRecipeInfos();
   }, []);
 
+  useEffect(() => {
+    console.log(myRct);
+  }, [myRct]);
+
   // Fonctions Modifier
 
   function ouvertureModif(myBool) {
@@ -301,6 +305,15 @@ function PageCreationRecette({
       </div>
 
       <div id={boardModificationName} className="board_menu_suppl">
+        {/*changingName && <ModifTitreRecette
+            rct_id={rct_id}
+            myRct={myRct}
+            setMyRct={setMyRct}
+            myRct_new={myRct_new}
+            setMyRct_new={setMyRct_new}
+            setChangingName={setChangingName}
+            myBoard={myBoard}
+          />*/}
         {changingName ? (
           <ModifTitreRecette
             rct_id={rct_id}
