@@ -109,10 +109,6 @@ function PageCreationRecette({
     getRecipeInfos();
   }, []);
 
-  useEffect(() => {
-    console.log(myRct);
-  }, [myRct]);
-
   // Fonctions Modifier
 
   function ouvertureModif(myBool) {
@@ -126,7 +122,7 @@ function PageCreationRecette({
   function modifButton(e) {
     e.preventDefault();
     ouvertureModif(true);
-    setMyRct_new({ ...myRct_new, ...myRct });
+    setMyRct_new(myRct);
     if (e.target.id === "icone_modifier_titre") {
       setChangingName(true);
     }
@@ -182,17 +178,20 @@ function PageCreationRecette({
           </div>
           <div id="liste_ingredient">
             {myRct.rct_section_ing.length > 0
-              ? myRct.rct_section_ing.map((section_ing) => (
-                  <ul>
+              ? myRct.rct_section_ing.map((section_ing, index_section_ing) => (
+                  <ul key={"section_ing" + index_section_ing}>
                     {section_ing[0] !== "no_section" ? (
                       <p className="gras souligne texte_ingredient">
                         {section_ing[0]}
                       </p>
                     ) : null}
                     {myRct.rct_ing.length > 0
-                      ? myRct.rct_ing.map((ing) =>
+                      ? myRct.rct_ing.map((ing, index_ing) =>
                           ing[3] === section_ing[1] ? (
-                            <li className="point_ingredient">
+                            <li
+                              key={"ing" + index_ing}
+                              className="point_ingredient"
+                            >
                               {ing[0] > 0 ? (
                                 <span className="gras texte_ingredient">
                                   {ing[0] + " "}
@@ -244,9 +243,12 @@ function PageCreationRecette({
             </div>
             <div className="liste_categorie">
               {myRct.rct_cat.length > 0
-                ? myRct.rct_cat.map((cat) =>
+                ? myRct.rct_cat.map((cat, index_cat) =>
                     cat[1] ? (
-                      <div className="categorie_rct elements_centre gras">
+                      <div
+                        key={"cat" + index_cat}
+                        className="categorie_rct elements_centre gras"
+                      >
                         {cat}
                       </div>
                     ) : null
@@ -267,28 +269,33 @@ function PageCreationRecette({
               </div>
               <div id="liste_step">
                 {myRct.rct_section_step.length > 0
-                  ? myRct.rct_section_step.map((section_step) => (
-                      <ul>
-                        {section_step[0] !== "no_section" ? (
-                          <p className="gras souligne texte_ingredient">
-                            {section_step[0]}
-                          </p>
-                        ) : null}
-                        {myRct.rct_step.length > 0
-                          ? myRct.rct_step.map((step) =>
-                              step[1] === section_step[1] ? (
-                                <li className="point_step">
-                                  {step[0] !== "" ? (
-                                    <span className="texte_step">
-                                      {step[0]}
-                                    </span>
-                                  ) : null}
-                                </li>
-                              ) : null
-                            )
-                          : null}
-                      </ul>
-                    ))
+                  ? myRct.rct_section_step.map(
+                      (section_step, index_section_step) => (
+                        <ul key={"section_step" + index_section_step}>
+                          {section_step[0] !== "no_section" ? (
+                            <p className="gras souligne texte_ingredient">
+                              {section_step[0]}
+                            </p>
+                          ) : null}
+                          {myRct.rct_step.length > 0
+                            ? myRct.rct_step.map((step, index_step) =>
+                                step[1] === section_step[1] ? (
+                                  <li
+                                    key={"step" + index_step}
+                                    className="point_step"
+                                  >
+                                    {step[0] !== "" ? (
+                                      <span className="texte_step">
+                                        {step[0]}
+                                      </span>
+                                    ) : null}
+                                  </li>
+                                ) : null
+                              )
+                            : null}
+                        </ul>
+                      )
+                    )
                   : null}
               </div>
             </div>
@@ -305,36 +312,28 @@ function PageCreationRecette({
       </div>
 
       <div id={boardModificationName} className="board_menu_suppl">
-        {/*changingName && <ModifTitreRecette
-            rct_id={rct_id}
-            myRct={myRct}
-            setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
-            setChangingName={setChangingName}
-            myBoard={myBoard}
-          />*/}
-        {changingName ? (
+        {!!changingName && (
           <ModifTitreRecette
             rct_id={rct_id}
+            defaultValue={myRct.rct_name}
             myRct={myRct}
             setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
             setChangingName={setChangingName}
             myBoard={myBoard}
           />
-        ) : changingNbPersonne ? (
+        )}
+        {!!changingNbPersonne && (
           <ModifNbPersonne
             rct_id={rct_id}
             myRct={myRct}
             setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
+            defaultValue_nb={myRct.rct_nb}
+            defaultValue_type={myRct.rct_nb_type}
             setChangingNbPersonne={setChangingNbPersonne}
             myBoard={myBoard}
           />
-        ) : changingIngredients ? (
+        )}
+        {!!changingIngredients && (
           <ModifIngredient
             rct_id={rct_id}
             myRct={myRct}
@@ -344,7 +343,8 @@ function PageCreationRecette({
             setChangingIngredients={setChangingIngredients}
             myBoard={myBoard}
           />
-        ) : changingSteps ? (
+        )}
+        {!!changingSteps && (
           <ModifStep
             rct_id={rct_id}
             myRct={myRct}
@@ -354,7 +354,8 @@ function PageCreationRecette({
             setChangingSteps={setChangingSteps}
             myBoard={myBoard}
           />
-        ) : changingCat ? (
+        )}
+        {!!changingCat && (
           <ModifCategorie
             rct_id={rct_id}
             myRct={myRct}
@@ -364,17 +365,17 @@ function PageCreationRecette({
             setChangingCat={setChangingCat}
             myBoard={myBoard}
           />
-        ) : changingImg ? (
+        )}
+        {!!changingImg && (
           <ModifImages
             rct_id={rct_id}
+            defaultValue={myRct.rct_img}
             myRct={myRct}
             setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
             setChangingImg={setChangingImg}
             myBoard={myBoard}
           />
-        ) : null}
+        )}
       </div>
       <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
       <PiedDePage />

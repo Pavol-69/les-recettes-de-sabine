@@ -112,9 +112,10 @@ function ModifCategorie({
       </div>
       <div className="elements_centre">
         {myRct_new.rct_cat.length > 0
-          ? myRct_new.rct_cat.map((cat) =>
+          ? myRct_new.rct_cat.map((cat, index) =>
               cat[1] ? (
                 <div
+                  key={"cat2" + index}
                   onClick={(e) => catSelect(e)}
                   className="selected elements_centre gras"
                 >
@@ -122,6 +123,7 @@ function ModifCategorie({
                 </div>
               ) : (
                 <div
+                  key={"cat22" + index}
                   onClick={(e) => catSelect(e)}
                   className="non_selected elements_centre gras"
                 >

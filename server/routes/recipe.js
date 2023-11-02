@@ -116,7 +116,8 @@ router.post("/addRecipe", async (req, res) => {
 router.get("/getRecipesList", async (req, res) => {
   try {
     let myRecipeList = [];
-    let myVerif = false;
+    let myVerifRct = false;
+    let myVerifCat = false;
 
     // Vérification de si la table recettes existe ou non
     myBddList = await pool.query(
@@ -125,32 +126,35 @@ router.get("/getRecipesList", async (req, res) => {
 
     for (i = 0; i < myBddList.rows.length; i++) {
       if (myBddList.rows[i].table_name === "recettes") {
-        myVerif = true;
+        myVerifRct = true;
+      }
+      if (myBddList.rows[i].table_name === "categories") {
+        myVerifCat = true;
       }
     }
 
     // Récupération nom recette
-    if (myVerif) {
+    if (myVerifRct) {
       myRecipeList = await pool.query("SELECT rct_id, rct_name FROM recettes");
+      myRecipeList = myRecipeList.rows;
     }
 
-    myRecipeList = myRecipeList.rows;
-
-    /*for (let i = 0; i < myRecipeList.length; i++) {
-      let myLine = await pool.query(
-        "SELECT * FROM table_categories where rct_id = $1",
-        [myRecipeList[i].rct_id]
-      );
+    for (let i = 0; i < myRecipeList.length; i++) {
       let myCatList = [];
-      for (j = 0; j < myLine.fields.length; j++) {
-        console.log(myLine.fields[j].name);
-        if (myLine.rows[0][myLine.fields[j].name] === true) {
-          myCatList.push(myLine.fields[j].name);
+
+      if (myVerifCat) {
+        let myLine = await pool.query(
+          "SELECT * FROM table_categories where rct_id = $1",
+          [myRecipeList[i].rct_id]
+        );
+        for (j = 0; j < myLine.fields.length; j++) {
+          if (myLine.rows[0][myLine.fields[j].name] === true) {
+            myCatList.push(myLine.fields[j].name);
+          }
         }
       }
       myRecipeList[i].cat = myCatList;
-    }*/
-
+    }
     res.json({ myRecipeList });
   } catch (err) {
     console.log(err.message);
@@ -386,11 +390,13 @@ router.post("/addCategory", authorizationAdmin, async (req, res) => {
       "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL)"
     );
 
+    await pool.query(
+      "CREATE TABLE IF NOT EXISTS table_categories(table_cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL)"
+    );
+
     const cat_name =
       req.body.cat_name.slice(0, 1).toUpperCase() +
       req.body.cat_name.slice(1, req.body.cat_name.length).toLowerCase();
-
-    console.log(cat_name);
 
     // Si le nom est non défini, ça dégage
     if (cat_name === "") {
@@ -431,10 +437,25 @@ router.post("/addCategory", authorizationAdmin, async (req, res) => {
 
 router.get("/getAllCategories", async (req, res) => {
   try {
-    const myCat = await pool.query("SELECT * FROM categories");
     let myList = [];
-    for (let i = 0; i < myCat.rows.length; i++) {
-      myList.push(myCat.rows[i].cat_name);
+    let myVerif = false;
+
+    // Vérification de si la table recettes existe ou non
+    let myBddList = await pool.query(
+      "SELECT * FROM information_schema.tables WHERE table_type='BASE TABLE'"
+    );
+
+    for (i = 0; i < myBddList.rows.length; i++) {
+      if (myBddList.rows[i].table_name === "categories") {
+        myVerif = true;
+      }
+    }
+
+    if (myVerif) {
+      const myCat = await pool.query("SELECT * FROM categories");
+      for (let i = 0; i < myCat.rows.length; i++) {
+        myList.push(myCat.rows[i].cat_name);
+      }
     }
     res.json(myList.sort());
   } catch (err) {

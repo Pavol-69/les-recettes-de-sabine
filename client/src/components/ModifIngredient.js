@@ -157,7 +157,7 @@ function ModifIngredient({
   // Fonctions onChange
   const myOnChange_section_ing = (e) => {
     setMyRct_new((prevState) => {
-      let mySectionIngList = [...myRct_new.rct_section_ing];
+      let mySectionIngList = prevState.rct_section_ing;
       const mySplit = e.target.name.split("_");
       let myPosition = mySplit[mySplit.length - 1];
       for (let i = 0; i < mySectionIngList.length; i++) {
@@ -165,7 +165,6 @@ function ModifIngredient({
           myPosition = i;
         }
       }
-      console.log(myPosition);
       mySectionIngList[myPosition - 1][0] = e.target.value;
       return {
         ...prevState,
@@ -176,7 +175,7 @@ function ModifIngredient({
 
   function myOnChange_ing(e) {
     let myIngList = [];
-    myIngList = myRct_new.rct_ing;
+    myIngList = [...myRct_new.rct_ing];
     const mySplit = e.target.name.split("_");
     let myPosition = Number(mySplit[mySplit.length - 2]);
     let myColumn = Number(mySplit[mySplit.length - 1]);
@@ -494,8 +493,8 @@ function ModifIngredient({
       </div>
       <div id="field_sections">
         {myRct_new.rct_section_ing.length > 0
-          ? myRct_new.rct_section_ing.map((section_ing) => (
-              <div className="case">
+          ? myRct_new.rct_section_ing.map((section_ing, index) => (
+              <div key={"modif_section_ing" + index} className="case">
                 {section_ing[0] !== "no_section" ? (
                   <div className="ligne_section">
                     <div className="case_icone_4_fleches elements_centre">
@@ -523,9 +522,9 @@ function ModifIngredient({
 
                 <div className="paquet_ligne_ing">
                   {myRct_new.rct_ing.length > 0
-                    ? myRct_new.rct_ing.map((ing) =>
+                    ? myRct_new.rct_ing.map((ing, index) =>
                         ing[3] === section_ing[1] ? (
-                          <div className="case">
+                          <div key={"modif_ing" + index} className="case">
                             <div className="ligne_ingredient">
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon

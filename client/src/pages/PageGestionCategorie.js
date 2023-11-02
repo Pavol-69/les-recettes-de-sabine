@@ -177,8 +177,8 @@ function PageGestionCategorie({
           </div>
           <div className="paquet_cat elements_centre">
             {catList.length > 0
-              ? catList.map((cat) => (
-                  <div className="categorie elements_centre gras">
+              ? catList.map((cat, index) => (
+                  <div key={index} className="categorie elements_centre gras">
                     <div
                       className="categorie_nom_admin"
                       onClick={(e) => changeCatName(e)}

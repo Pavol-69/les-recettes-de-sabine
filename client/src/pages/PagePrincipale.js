@@ -222,8 +222,9 @@ function PagePrincipale({
               </form>
               <div id="plage_resultat">
                 {mySearchList.length > 0
-                  ? mySearchList.map((myRct) => (
+                  ? mySearchList.map((myRct, index) => (
                       <VignetteRecette
+                        key={"search" + index}
                         myId={myRct.rct_id}
                         myName={myRct.rct_name}
                       />
@@ -233,8 +234,9 @@ function PagePrincipale({
             </div>
             <div id="all_recipes">
               {myRctList.length > 0
-                ? myRctList.map((myRct) => (
+                ? myRctList.map((myRct, index) => (
                     <VignetteRecette
+                      key={"list" + index}
                       myId={myRct.rct_id}
                       myName={myRct.rct_name}
                     />

@@ -6,19 +6,25 @@ import "../styles/ModifNbPersonne.css";
 
 // Autre
 import { toast } from "react-toastify";
+import React, { useState } from "react";
 
 function ModifNbPersonne({
   rct_id,
   myRct,
   setMyRct,
-  myRct_new,
-  setMyRct_new,
+  defaultValue_nb,
+  defaultValue_type,
   setChangingNbPersonne,
   myBoard,
 }) {
+  const [myInfo, setMyInfo] = useState({
+    rct_nb: defaultValue_nb,
+    rct_nb_type: defaultValue_type,
+  });
+
   // Fonctions onChange
   function myOnChange(e) {
-    setMyRct_new({ ...myRct_new, [e.target.name]: e.target.value });
+    setMyInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   const annuler = (e) => {
@@ -31,7 +37,11 @@ function ModifNbPersonne({
     e.preventDefault();
     ouvertureModif(false);
     if (updateRecipeDb()) {
-      setMyRct({ ...myRct, ...myRct_new });
+      setMyRct((prev) => ({
+        ...prev,
+        rct_nb: myInfo.rct_nb,
+        rct_nb_type: myInfo.rct_nb_type,
+      }));
     }
     setChangingNbPersonne(false);
   };
@@ -54,9 +64,9 @@ function ModifNbPersonne({
 
           body: JSON.stringify({
             rct_id: rct_id,
-            rct_name: myRct_new.rct_name,
-            rct_nb: myRct_new.rct_nb,
-            rct_nb_type: myRct_new.rct_nb_type,
+            rct_name: myRct.rct_name,
+            rct_nb: myInfo.rct_nb,
+            rct_nb_type: myInfo.rct_nb_type,
           }),
         }
       );
@@ -92,7 +102,7 @@ function ModifNbPersonne({
           className="input_modif texte_centre"
           type="number"
           name="rct_nb"
-          value={myRct_new.rct_nb}
+          value={myInfo.rct_nb}
         ></input>
         <input
           onChange={myOnChange}
@@ -100,7 +110,7 @@ function ModifNbPersonne({
           className="input_modif"
           type="text"
           name="rct_nb_type"
-          value={myRct_new.rct_nb_type}
+          value={myInfo.rct_nb_type}
         ></input>
       </div>
       <div className="paquet_boutons">

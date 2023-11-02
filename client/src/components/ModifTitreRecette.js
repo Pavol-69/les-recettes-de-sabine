@@ -6,19 +6,21 @@ import "../styles/ModifTitreRecette.css";
 
 // Autre
 import { toast } from "react-toastify";
+import React, { useState } from "react";
 
 function ModifTitreRecette({
   rct_id,
+  defaultValue,
   myRct,
   setMyRct,
-  myRct_new,
-  setMyRct_new,
   setChangingName,
   myBoard,
 }) {
+  const [myName, setMyName] = useState(defaultValue);
+
   // Fonctions onChange
   function myOnChange(e) {
-    setMyRct_new({ ...myRct_new, [e.target.name]: e.target.value });
+    setMyName(e.target.value);
   }
 
   const annuler = (e) => {
@@ -33,7 +35,7 @@ function ModifTitreRecette({
     if (updateRecipeDb()) {
       ouvertureModif(false);
       setChangingName(false);
-      setMyRct({ ...myRct, ...myRct_new });
+      setMyRct((prev) => ({ ...prev, rct_name: myName }));
     }
   };
 
@@ -55,9 +57,9 @@ function ModifTitreRecette({
 
           body: JSON.stringify({
             rct_id: rct_id,
-            rct_name: myRct_new.rct_name,
-            rct_nb: myRct_new.rct_nb,
-            rct_nb_type: myRct_new.rct_nb_type,
+            rct_name: myName,
+            rct_nb: myRct.rct_nb,
+            rct_nb_type: myRct.rct_nb_type,
           }),
         }
       );
@@ -91,7 +93,7 @@ function ModifTitreRecette({
         type="text"
         name="rct_name"
         placeholder="Veuillez renseigner un titre pour cette recette"
-        value={myRct_new.rct_name}
+        value={myName}
       ></input>
       <div className="paquet_boutons">
         <button

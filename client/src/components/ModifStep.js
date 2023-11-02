@@ -137,8 +137,6 @@ function ModifStep({
   function ajoutStep(e) {
     e.preventDefault();
     setMyRct_new((prevState) => {
-      console.log("toto");
-      console.log(prevState.rct_step);
       return {
         ...prevState,
         rct_step: prevState.rct_step.concat([
@@ -178,7 +176,6 @@ function ModifStep({
     myStepList = myRct_new.rct_step;
     const mySplit = e.target.name.split("_");
     let myPosition = Number(mySplit[mySplit.length - 1]);
-    console.log(myPosition);
     myStepList[myPosition - 1][0] = e.target.value;
     setMyRct_new((prevState) => ({
       ...prevState,
@@ -493,8 +490,8 @@ function ModifStep({
       </div>
       <div id="field_sections">
         {myRct_new.rct_section_step.length > 0
-          ? myRct_new.rct_section_step.map((section_step) => (
-              <div className="case">
+          ? myRct_new.rct_section_step.map((section_step, index) => (
+              <div key={"modif_section_step" + index} className="case">
                 {section_step[0] !== "no_section" ? (
                   <div className="ligne_section">
                     <div className="case_icone_4_fleches elements_centre">
@@ -522,9 +519,9 @@ function ModifStep({
 
                 <div className="paquet_ligne_step">
                   {myRct_new.rct_step.length > 0
-                    ? myRct_new.rct_step.map((step) =>
+                    ? myRct_new.rct_step.map((step, index) =>
                         step[1] === section_step[1] ? (
-                          <div className="case">
+                          <div key={"modif_step" + index} className="case">
                             <div className="ligne_step">
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon

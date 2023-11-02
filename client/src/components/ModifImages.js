@@ -15,11 +15,12 @@ function ModifImages({
   rct_id,
   myRct,
   setMyRct,
-  myRct_new,
-  setMyRct_new,
+  defaultValue,
   setChangingImg,
   myBoard,
 }) {
+  let [value, setValue] = useState(["", "", "", "", ""]);
+
   function ouvertureModif(myBool) {
     if (myBool) {
       myBoard.style.left = "0px";
@@ -36,8 +37,17 @@ function ModifImages({
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-    //console.log(myRct.rct_img);
+    console.log(value);
   };
+
+  useEffect(() => {
+    console.log("toto");
+  }, []);
+
+  useEffect(() => {
+    console.log("page modif");
+    console.log(myRct);
+  }, [myRct]);
 
   return (
     <div>
@@ -51,11 +61,13 @@ function ModifImages({
           maximum)
         </div>
         <div id="plage_insersion_image" className="ligne elements_centre">
-          {myRct_new.rct_img.map((imgUrl, index) =>
-            myRct_new.rct_img[index - 1] !== "" ? (
+          {value.map((imgUrl, index) =>
+            value[index - 1] !== "" ? (
               <UploadImage
-                myRct_new={myRct_new}
-                setMyRct_new={setMyRct_new}
+                key={"img" + index}
+                myRct={myRct}
+                value={value}
+                setValue={setValue}
                 i={index}
               />
             ) : null

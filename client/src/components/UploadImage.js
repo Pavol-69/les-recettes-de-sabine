@@ -2,17 +2,22 @@
 import "../styles/UploadImage.css";
 
 // Autre
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import request from "superagent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "font-awesome/css/font-awesome.min.css";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Dropzone from "react-dropzone";
 
-function UploadImage({ myRct_new, setMyRct_new, i }) {
+function UploadImage({ myRct, value, setValue, i }) {
   const CLOUDINARY_UPLOAD_PRESET = "LesRecettesDeSabine";
   const CLOUDINARY_UPLOAD_URL =
     "https://api.cloudinary.com/v1_1/lesrecettesdesabine/upload";
+
+  useEffect(() => {
+    console.log("page upload");
+    console.log(myRct);
+  }, [myRct]);
 
   const onImageDrop = (e) => {
     let upload = request
@@ -24,29 +29,23 @@ function UploadImage({ myRct_new, setMyRct_new, i }) {
         console.error(err);
       }
       if (response.body.secure_url !== "") {
-        let myList = myRct_new.rct_img;
+        let myList = value;
         myList[i] = response.body.secure_url;
-        setMyRct_new({
-          ...myRct_new,
-          rct_img: myList,
-        });
+        setValue(myList);
       }
     });
   };
 
   const deleteImg = (e) => {
-    let myList = myRct_new.rct_img;
+    let myList = value;
     for (let j = i; j < myList.length - 1; j++) {
       myList[j] = myList[j + 1];
     }
     myList[4] = "";
-    setMyRct_new({
-      ...myRct_new,
-      rct_img: myList,
-    });
+    setValue(myList);
   };
 
-  return myRct_new.rct_img[i] === "" ? (
+  return value[i] === "" ? (
     <div key={i + "withoutImg"} className="paquet_drop">
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps }) => (
@@ -71,7 +70,7 @@ function UploadImage({ myRct_new, setMyRct_new, i }) {
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps }) => (
           <div className="drop_img elements_centre" {...getRootProps()}>
-            <img src={myRct_new.rct_img[i]} />
+            <img src={value[i]} />
             <input {...getInputProps()} />
           </div>
         )}

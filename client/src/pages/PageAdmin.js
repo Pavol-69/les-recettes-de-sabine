@@ -87,24 +87,13 @@ function PageAdmin({ isAuth, setIsAuth, pseudo, role, toShow, setToShow }) {
             <div className="nom_user">Nom</div>
             <div className="role_user">Rôle</div>
           </div>
-          {myUsers.map((user) => (
-            <div className="ligne_user">
-              <div
-                className="prenom_user"
-                key={`${user.user_name}-${user.user_id}`}
-              >
-                {user.user_name}
-              </div>
-              <div
-                className="nom_user"
-                key={`${user.user_family_name}-${user.user_id}`}
-              >
-                {user.user_family_name}
-              </div>
+          {myUsers.map((user, index) => (
+            <div className="ligne_user" key={index}>
+              <div className="prenom_user">{user.user_name}</div>
+              <div className="nom_user">{user.user_family_name}</div>
               <select
                 onChange={(e) => handleChange(e, user.user_id)}
                 defaultValue={user.user_role}
-                key={`${user.user_pseudo}-${user.user_id}`}
               >
                 <option value="to_define">A Définir</option>
                 <option value="rejected">Rejeté</option>

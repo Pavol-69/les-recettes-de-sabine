@@ -72,9 +72,10 @@ function MenuFiltreRecherche({
       <div className="titre_modif texte_centre">Filtrer par catégorie</div>
       <div className="elements_centre">
         {myFilterList.length > 0
-          ? myFilterList.map((cat) =>
+          ? myFilterList.map((cat, index) =>
               cat[1] ? (
                 <div
+                  key={"menu" + index}
                   onClick={(e) => catSelect(e)}
                   className="selected elements_centre gras"
                 >
@@ -82,6 +83,7 @@ function MenuFiltreRecherche({
                 </div>
               ) : (
                 <div
+                  key={"menu" + index}
                   onClick={(e) => catSelect(e)}
                   className="non_selected elements_centre gras"
                 >
