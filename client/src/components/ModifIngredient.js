@@ -18,11 +18,15 @@ function ModifIngredient({
   rct_id,
   myRct,
   setMyRct,
-  myRct_new,
-  setMyRct_new,
+  defaultValue_ing,
+  defaultValue_section,
   setChangingIngredients,
   myBoard,
 }) {
+  const [myInfo, setMyInfo] = useState({
+    rct_ing: defaultValue_ing,
+    rct_section_ing: defaultValue_section,
+  });
   const [mySupprBool, setMySupprBool] = useState(false);
 
   function ouvertureModif(myBool) {
@@ -106,18 +110,18 @@ function ModifIngredient({
       }
     }
 
-    setMyRct_new({
-      ...myRct_new,
-      rct_section_ing: mySectionIngList,
+    setMyInfo((prev) => ({
+      ...prev,
       rct_ing: myIngList,
-    });
+      rct_section_ing: mySectionIngList,
+    }));
 
     if (updateRecipeDb(mySectionIngList, myIngList)) {
-      setMyRct({
-        ...myRct,
+      setMyRct((prev) => ({
+        ...prev,
         rct_section_ing: mySectionIngList,
         rct_ing: myIngList,
-      });
+      }));
       ouvertureModif(false);
       setChangingIngredients(false);
     }
@@ -125,63 +129,58 @@ function ModifIngredient({
 
   function ajoutSection(e) {
     e.preventDefault();
-    setMyRct_new((prevState) => {
-      let mySectionIngList = [...myRct_new.rct_section_ing];
-      mySectionIngList.push(["", prevState.rct_section_ing.length + 1]);
+    let mySectionIngList = [...myInfo.rct_section_ing];
+    mySectionIngList.push(["", myInfo.rct_section_ing.length + 1]);
 
-      return {
-        ...prevState,
-        rct_section_ing: mySectionIngList,
-      };
-    });
+    setMyInfo((prev) => ({
+      ...prev,
+      rct_section_ing: mySectionIngList,
+    }));
   }
 
   function ajoutIngredient(e) {
     e.preventDefault();
-    setMyRct_new((prevState) => {
-      return {
-        ...prevState,
-        rct_ing: prevState.rct_ing.concat([
-          [
-            0,
-            "",
-            "",
-            prevState.rct_section_ing[prevState.rct_section_ing.length - 1][1],
-            prevState.rct_ing.length + 1,
-          ],
-        ]),
-      };
-    });
+    let myIngList = [...myInfo.rct_ing];
+    myIngList.concat([
+      [
+        0,
+        "",
+        "",
+        myInfo.rct_section_ing[myInfo.rct_section_ing.length - 1][1],
+        myIngList.length + 1,
+      ],
+    ]);
+    setMyInfo((prev) => ({
+      ...prev,
+      rct_ing: myIngList,
+    }));
   }
 
   // Fonctions onChange
-  const myOnChange_section_ing = (e) => {
-    setMyRct_new((prevState) => {
-      let mySectionIngList = prevState.rct_section_ing;
-      const mySplit = e.target.name.split("_");
-      let myPosition = mySplit[mySplit.length - 1];
-      for (let i = 0; i < mySectionIngList.length; i++) {
-        if (mySectionIngList[i][1] === myPosition) {
-          myPosition = i;
-        }
+  function myOnChange_section_ing(e) {
+    let mySectionIngList = [...myInfo.rct_section_ing];
+    const mySplit = e.target.name.split("_");
+    let myPosition = mySplit[mySplit.length - 1];
+    for (let i = 0; i < mySectionIngList.length; i++) {
+      if (mySectionIngList[i][1] === myPosition) {
+        myPosition = i;
       }
-      mySectionIngList[myPosition - 1][0] = e.target.value;
-      return {
-        ...prevState,
-        rct_section_ing: mySectionIngList,
-      };
-    });
-  };
+    }
+    mySectionIngList[myPosition][0] = e.target.value;
+    setMyInfo((prev) => ({
+      ...prev,
+      rct_section_ing: mySectionIngList,
+    }));
+  }
 
   function myOnChange_ing(e) {
-    let myIngList = [];
-    myIngList = [...myRct_new.rct_ing];
+    let myIngList = [...myInfo.rct_ing];
     const mySplit = e.target.name.split("_");
     let myPosition = Number(mySplit[mySplit.length - 2]);
     let myColumn = Number(mySplit[mySplit.length - 1]);
     myIngList[myPosition - 1][myColumn] = e.target.value;
-    setMyRct_new((prevState) => ({
-      ...prevState,
+    setMyInfo((prev) => ({
+      ...prev,
       rct_ing: myIngList,
     }));
   }
@@ -462,7 +461,7 @@ function ModifIngredient({
   }
 
   return (
-    <form
+    <div
       className="menu_modif elements_centre"
       //onSubmit={(e) => onSubmitValider(e)}
     >
@@ -492,8 +491,8 @@ function ModifIngredient({
         </div>
       </div>
       <div id="field_sections">
-        {myRct_new.rct_section_ing.length > 0
-          ? myRct_new.rct_section_ing.map((section_ing, index) => (
+        {myInfo.rct_section_ing.length > 0
+          ? myInfo.rct_section_ing.map((section_ing, index) => (
               <div key={"modif_section_ing" + index} className="case">
                 {section_ing[0] !== "no_section" ? (
                   <div className="ligne_section">
@@ -510,7 +509,7 @@ function ModifIngredient({
                     ></div>
                     <div className="non_select">Section : </div>
                     <input
-                      onChange={myOnChange_section_ing}
+                      onChange={(e) => myOnChange_section_ing(e)}
                       className="input_section_ing non_select"
                       name={"input_section_ing_" + section_ing[1]}
                       value={section_ing[0]}
@@ -521,8 +520,8 @@ function ModifIngredient({
                 ) : null}
 
                 <div className="paquet_ligne_ing">
-                  {myRct_new.rct_ing.length > 0
-                    ? myRct_new.rct_ing.map((ing, index) =>
+                  {myInfo.rct_ing.length > 0
+                    ? myInfo.rct_ing.map((ing, index) =>
                         ing[3] === section_ing[1] ? (
                           <div key={"modif_ing" + index} className="case">
                             <div className="ligne_ingredient">
@@ -542,14 +541,14 @@ function ModifIngredient({
                                 Ingrédient :
                               </div>
                               <input
-                                onChange={myOnChange_ing}
+                                onChange={(e) => myOnChange_ing(e)}
                                 className="input_ing_qty non_select"
                                 name={"input_ing_qty_" + ing[4] + "_0"}
                                 type="number"
                                 value={ing[0]}
                               ></input>
                               <input
-                                onChange={myOnChange_ing}
+                                onChange={(e) => myOnChange_ing(e)}
                                 className="input_ing_unit non_select"
                                 name={"input_ing_unit_" + ing[4] + "_1"}
                                 type="text"
@@ -557,7 +556,7 @@ function ModifIngredient({
                                 placeholder="Unité..."
                               ></input>
                               <input
-                                onChange={myOnChange_ing}
+                                onChange={(e) => myOnChange_ing(e)}
                                 className="input_ing_what non_select"
                                 name={"input_ing_what_" + ing[4] + "_2"}
                                 type="text"
@@ -590,7 +589,7 @@ function ModifIngredient({
           Annuler
         </button>
       </div>
-    </form>
+    </div>
   );
 }
 

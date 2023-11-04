@@ -5,6 +5,7 @@
   /*Dimensions*/
   width: 400px;
   height: 300px;
+  margin: 25px;
 }
 
 .drop_img {
@@ -53,9 +54,4 @@
 
   /*Style*/
   cursor: pointer;
-}
-
-.paquet_drop {
-  /*Dimensions*/
-  margin: 25px;
 }

@@ -38,20 +38,16 @@ function MenuFiltreRecherche({
   const catSelect = (e) => {
     e.preventDefault();
 
-    let myBool = false;
-
     if (e.target.className.indexOf("selected") === 0) {
       e.target.className = e.target.className.replace(
         "selected",
         "non_selected"
       );
-      myBool = false;
     } else if (e.target.className.indexOf("non_selected") === 0) {
       e.target.className = e.target.className.replace(
         "non_selected",
         "selected"
       );
-      myBool = true;
     }
   };
 

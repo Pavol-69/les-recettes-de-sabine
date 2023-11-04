@@ -16,13 +16,16 @@ import {
 
 function ModifStep({
   rct_id,
-  myRct,
   setMyRct,
-  myRct_new,
-  setMyRct_new,
+  defaultValue_step,
+  defaultValue_section,
   setChangingSteps,
   myBoard,
 }) {
+  const [myInfo, setMyInfo] = useState({
+    rct_step: defaultValue_step,
+    rct_section_step: defaultValue_section,
+  });
   const [mySupprBool, setMySupprBool] = useState(false);
 
   function ouvertureModif(myBool) {
@@ -104,18 +107,18 @@ function ModifStep({
       }
     }
 
-    setMyRct_new({
-      ...myRct_new,
-      rct_section_step: mySectionStepList,
+    setMyInfo((prev) => ({
+      ...prev,
       rct_step: myStepList,
-    });
+      rct_section_step: mySectionStepList,
+    }));
 
     if (updateRecipeDb(mySectionStepList, myStepList)) {
-      setMyRct({
-        ...myRct,
-        rct_section_step: mySectionStepList,
+      setMyRct((prev) => ({
+        ...prev,
         rct_step: myStepList,
-      });
+        rct_section_step: mySectionStepList,
+      }));
       ouvertureModif(false);
       setChangingSteps(false);
     }
@@ -123,62 +126,60 @@ function ModifStep({
 
   function ajoutSection(e) {
     e.preventDefault();
-    setMyRct_new((prevState) => {
-      let mySectionStepList = [...myRct_new.rct_section_step];
-      mySectionStepList.push(["", prevState.rct_section_step.length + 1]);
 
-      return {
-        ...prevState,
-        rct_section_step: mySectionStepList,
-      };
-    });
+    let mySectionStepList = [...myInfo.rct_section_step];
+    mySectionStepList.push(["", myInfo.rct_section_step.length + 1]);
+
+    setMyInfo((prev) => ({
+      ...prev,
+      rct_section_step: mySectionStepList,
+    }));
   }
 
   function ajoutStep(e) {
     e.preventDefault();
-    setMyRct_new((prevState) => {
-      return {
-        ...prevState,
-        rct_step: prevState.rct_step.concat([
-          [
-            "",
-            prevState.rct_section_step[
-              prevState.rct_section_step.length - 1
-            ][1],
-            prevState.rct_step.length + 1,
-          ],
-        ]),
-      };
-    });
+
+    let mySectionStepList = [...myInfo.rct_section_step];
+    mySectionStepList.concat([
+      [
+        "",
+        myInfo.rct_section_step[myInfo.rct_section_step.length - 1][1],
+        myInfo.rct_section_step.length + 1,
+      ],
+    ]);
+    setMyInfo((prev) => ({
+      ...prev,
+      rct_section_step: mySectionStepList,
+    }));
   }
 
   // Fonctions onChange
   const myOnChange_section_step = (e) => {
-    setMyRct_new((prevState) => {
-      let mySectionStepList = [...myRct_new.rct_section_step];
-      const mySplit = e.target.name.split("_");
-      let myPosition = mySplit[mySplit.length - 1];
-      for (let i = 0; i < mySectionStepList.length; i++) {
-        if (mySectionStepList[i][1] === myPosition) {
-          myPosition = i;
-        }
+    let mySectionStepList = [...myInfo.rct_section_step];
+    const mySplit = e.target.name.split("_");
+    let myPosition = mySplit[mySplit.length - 1];
+    for (let i = 0; i < mySectionStepList.length; i++) {
+      if (mySectionStepList[i][1] === myPosition) {
+        myPosition = i;
       }
-      mySectionStepList[myPosition - 1][0] = e.target.value;
-      return {
-        ...prevState,
-        rct_section_step: mySectionStepList,
-      };
-    });
+    }
+    mySectionStepList[myPosition][0] = e.target.value;
+
+    setMyInfo((prev) => ({
+      ...prev,
+
+      rct_section_step: mySectionStepList,
+    }));
   };
 
   function myOnChange_step(e) {
-    let myStepList = [];
-    myStepList = myRct_new.rct_step;
+    let myStepList = [...myInfo.rct_step];
     const mySplit = e.target.name.split("_");
     let myPosition = Number(mySplit[mySplit.length - 1]);
     myStepList[myPosition - 1][0] = e.target.value;
-    setMyRct_new((prevState) => ({
-      ...prevState,
+
+    setMyInfo((prev) => ({
+      ...prev,
       rct_step: myStepList,
     }));
   }
@@ -489,8 +490,8 @@ function ModifStep({
         </div>
       </div>
       <div id="field_sections">
-        {myRct_new.rct_section_step.length > 0
-          ? myRct_new.rct_section_step.map((section_step, index) => (
+        {myInfo.rct_section_step.length > 0
+          ? myInfo.rct_section_step.map((section_step, index) => (
               <div key={"modif_section_step" + index} className="case">
                 {section_step[0] !== "no_section" ? (
                   <div className="ligne_section">
@@ -518,8 +519,8 @@ function ModifStep({
                 ) : null}
 
                 <div className="paquet_ligne_step">
-                  {myRct_new.rct_step.length > 0
-                    ? myRct_new.rct_step.map((step, index) =>
+                  {myInfo.rct_step.length > 0
+                    ? myInfo.rct_step.map((step, index) =>
                         step[1] === section_step[1] ? (
                           <div key={"modif_step" + index} className="case">
                             <div className="ligne_step">

@@ -6,16 +6,17 @@ import "../styles/ModifCategorie.css";
 
 // Autre
 import { toast } from "react-toastify";
+import React, { useState } from "react";
 
 function ModifCategorie({
   rct_id,
-  myRct,
   setMyRct,
-  myRct_new,
-  setMyRct_new,
+  defaultValue,
   setChangingCat,
   myBoard,
 }) {
+  const [myInfo, setMyInfo] = useState(defaultValue);
+
   const annuler = (e) => {
     e.preventDefault();
     ouvertureModif(false);
@@ -27,7 +28,10 @@ function ModifCategorie({
 
     if (updateRecipeCat()) {
       ouvertureModif(false);
-      setMyRct({ ...myRct, ...myRct_new });
+      setMyRct((prev) => ({
+        ...prev,
+        rct_cat: myInfo,
+      }));
       setChangingCat(false);
     }
   };
@@ -51,7 +55,7 @@ function ModifCategorie({
       myBool = true;
     }
 
-    let myList = myRct_new.rct_cat;
+    let myList = [...myInfo];
 
     for (let i = 0; i < myList.length; i++) {
       if (myList[i][0] === e.target.innerHTML) {
@@ -59,10 +63,7 @@ function ModifCategorie({
       }
     }
 
-    setMyRct_new({
-      ...myRct_new,
-      rct_cat: myList,
-    });
+    setMyInfo(myList);
   };
 
   function ouvertureModif(myBool) {
@@ -82,7 +83,7 @@ function ModifCategorie({
           headers: { rct_id: rct_id, "content-type": "application/json" },
 
           body: JSON.stringify({
-            rct_cat: myRct_new.rct_cat,
+            rct_cat: myInfo,
           }),
         }
       );
@@ -111,8 +112,8 @@ function ModifCategorie({
         Choisissez les catégories associées à votre recette
       </div>
       <div className="elements_centre">
-        {myRct_new.rct_cat.length > 0
-          ? myRct_new.rct_cat.map((cat, index) =>
+        {myInfo.length > 0
+          ? myInfo.map((cat, index) =>
               cat[1] ? (
                 <div
                   key={"cat2" + index}

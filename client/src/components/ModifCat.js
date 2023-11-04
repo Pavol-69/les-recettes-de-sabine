@@ -28,10 +28,6 @@ function ModifCat({
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-
-    /*console.log("Ancien nom : " + oldName);
-    console.log("Nouveau nom : " + newName);*/
-
     if (updateCatName()) {
       ouvertureModif(false);
       setNewName("");

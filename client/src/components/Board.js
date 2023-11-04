@@ -1,10 +1,8 @@
 // CSS
-import "../styles/Board.css"
+import "../styles/Board.css";
 
 function Board() {
-	return (
-		<div className="board"></div>
-	)
+  return <div className="board"></div>;
 }
 
-export default Board
+export default Board;

@@ -8,7 +8,7 @@ import "../styles/BoutonBoard.css";
 import "../styles/ModifImages.css";
 
 // Autre
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import UploadImage from "./UploadImage";
 
 function ModifImages({
@@ -19,7 +19,7 @@ function ModifImages({
   setChangingImg,
   myBoard,
 }) {
-  let [value, setValue] = useState(["", "", "", "", ""]);
+  let [imgList, setImgList] = useState(defaultValue);
 
   function ouvertureModif(myBool) {
     if (myBool) {
@@ -37,21 +37,13 @@ function ModifImages({
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-    console.log(value);
-  };
-
-  useEffect(() => {
-    console.log("toto");
-  }, []);
-
-  useEffect(() => {
-    console.log("page modif");
+    console.log(imgList);
     console.log(myRct);
-  }, [myRct]);
+  };
 
   return (
     <div>
-      <form
+      <div
         id="menu_modif_images"
         className="menu_modif elements_centre"
         onSubmit={(e) => onSubmitValider(e)}
@@ -61,13 +53,12 @@ function ModifImages({
           maximum)
         </div>
         <div id="plage_insersion_image" className="ligne elements_centre">
-          {value.map((imgUrl, index) =>
-            value[index - 1] !== "" ? (
+          {imgList.map((imgUrl, index) =>
+            imgList[index - 1] !== "" ? (
               <UploadImage
-                key={"img" + index}
-                myRct={myRct}
-                value={value}
-                setValue={setValue}
+                key={imgUrl + index}
+                imgList={imgList}
+                setImgList={setImgList}
                 i={index}
               />
             ) : null
@@ -89,7 +80,7 @@ function ModifImages({
             Annuler
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

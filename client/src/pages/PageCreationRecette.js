@@ -46,20 +46,6 @@ function PageCreationRecette({
     rct_img: ["", "", "", "", ""],
   });
 
-  // Application des modif qu'au moment de valider
-  const [myRct_new, setMyRct_new] = useState({
-    rct_name: "",
-    user_pseudo: "",
-    rct_nb: 0,
-    rct_nb_type: "",
-    rct_section_ing: [],
-    rct_ing: [],
-    rct_section_step: [],
-    rct_step: [],
-    rct_cat: [],
-    rct_img: ["", "", "", "", ""],
-  });
-
   // Mes variables
   let { rct_id } = useParams();
   const [changingName, setChangingName] = useState(false);
@@ -107,7 +93,7 @@ function PageCreationRecette({
 
   useEffect(() => {
     getRecipeInfos();
-  }, []);
+  });
 
   // Fonctions Modifier
 
@@ -122,7 +108,6 @@ function PageCreationRecette({
   function modifButton(e) {
     e.preventDefault();
     ouvertureModif(true);
-    setMyRct_new(myRct);
     if (e.target.id === "icone_modifier_titre") {
       setChangingName(true);
     }
@@ -162,6 +147,7 @@ function PageCreationRecette({
               : "Pour " + myRct.rct_nb + " " + myRct.rct_nb_type}
             <img
               id="icone_modifier_nb_personne"
+              alt="bouton modifier nb personne"
               className="icone_modifier"
               src={iconeModifier}
               onClick={(e) => modifButton(e)}
@@ -171,6 +157,7 @@ function PageCreationRecette({
             Liste ingrédients
             <img
               id="icone_modifier_ingredient"
+              alt="bouton modifier ingredient"
               className="icone_modifier"
               src={iconeModifier}
               onClick={(e) => modifButton(e)}
@@ -178,41 +165,43 @@ function PageCreationRecette({
           </div>
           <div id="liste_ingredient">
             {myRct.rct_section_ing.length > 0
-              ? myRct.rct_section_ing.map((section_ing, index_section_ing) => (
-                  <ul key={"section_ing" + index_section_ing}>
-                    {section_ing[0] !== "no_section" ? (
-                      <p className="gras souligne texte_ingredient">
-                        {section_ing[0]}
-                      </p>
-                    ) : null}
-                    {myRct.rct_ing.length > 0
-                      ? myRct.rct_ing.map((ing, index_ing) =>
-                          ing[3] === section_ing[1] ? (
-                            <li
-                              key={"ing" + index_ing}
-                              className="point_ingredient"
-                            >
-                              {ing[0] > 0 ? (
-                                <span className="gras texte_ingredient">
-                                  {ing[0] + " "}
-                                </span>
-                              ) : null}
-                              {ing[1] !== "" ? (
-                                <span className="gras texte_ingredient">
-                                  {ing[1] + " "}
-                                </span>
-                              ) : null}
-                              {ing[2] !== "" ? (
-                                <span className="texte_ingredient">
-                                  {ing[2]}
-                                </span>
-                              ) : null}
-                            </li>
-                          ) : null
-                        )
-                      : null}
-                  </ul>
-                ))
+              ? myRct.rct_section_ing.map((section_ing, index_section_ing) => {
+                  return (
+                    <ul key={"section_ing" + index_section_ing}>
+                      {section_ing[0] !== "no_section" ? (
+                        <p className="gras souligne texte_ingredient">
+                          {section_ing[0]}
+                        </p>
+                      ) : null}
+                      {myRct.rct_ing.length > 0
+                        ? myRct.rct_ing.map((ing, index_ing) =>
+                            ing[3] === section_ing[1] ? (
+                              <li
+                                key={"ing" + index_ing}
+                                className="point_ingredient"
+                              >
+                                {ing[0] > 0 ? (
+                                  <span className="gras texte_ingredient">
+                                    {ing[0] + " "}
+                                  </span>
+                                ) : null}
+                                {ing[1] !== "" ? (
+                                  <span className="gras texte_ingredient">
+                                    {ing[1] + " "}
+                                  </span>
+                                ) : null}
+                                {ing[2] !== "" ? (
+                                  <span className="texte_ingredient">
+                                    {ing[2]}
+                                  </span>
+                                ) : null}
+                              </li>
+                            ) : null
+                          )
+                        : null}
+                    </ul>
+                  );
+                })
               : null}
           </div>
         </div>
@@ -223,6 +212,7 @@ function PageCreationRecette({
               {myRct.rct_name}
               <img
                 id="icone_modifier_titre"
+                alt="bouton modifier titre"
                 className="icone_modifier"
                 src={iconeModifier}
                 onClick={(e) => modifButton(e)}
@@ -236,6 +226,7 @@ function PageCreationRecette({
               Catégories
               <img
                 id="icone_modifier_categorie"
+                alt="bouton modifier categories"
                 className="icone_modifier"
                 src={iconeModifier}
                 onClick={(e) => modifButton(e)}
@@ -262,6 +253,7 @@ function PageCreationRecette({
                 La recette
                 <img
                   id="icone_modifier_step"
+                  alt="bouton modifier step"
                   className="icone_modifier"
                   src={iconeModifier}
                   onClick={(e) => modifButton(e)}
@@ -302,6 +294,7 @@ function PageCreationRecette({
             <div id="image_board">
               <img
                 id="icone_modifier_img"
+                alt="bouton modifier images"
                 className="icone_modifier"
                 src={iconeModifier}
                 onClick={(e) => modifButton(e)}
@@ -336,10 +329,10 @@ function PageCreationRecette({
         {!!changingIngredients && (
           <ModifIngredient
             rct_id={rct_id}
-            myRct={myRct}
             setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
+            myRct={myRct}
+            defaultValue_ing={myRct.rct_ing}
+            defaultValue_section={myRct.rct_section_ing}
             setChangingIngredients={setChangingIngredients}
             myBoard={myBoard}
           />
@@ -347,10 +340,9 @@ function PageCreationRecette({
         {!!changingSteps && (
           <ModifStep
             rct_id={rct_id}
-            myRct={myRct}
             setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
+            defaultValue_step={myRct.rct_step}
+            defaultValue_section={myRct.rct_section_step}
             setChangingSteps={setChangingSteps}
             myBoard={myBoard}
           />
@@ -358,10 +350,8 @@ function PageCreationRecette({
         {!!changingCat && (
           <ModifCategorie
             rct_id={rct_id}
-            myRct={myRct}
             setMyRct={setMyRct}
-            myRct_new={myRct_new}
-            setMyRct_new={setMyRct_new}
+            defaultValue={myRct.rct_cat}
             setChangingCat={setChangingCat}
             myBoard={myBoard}
           />
@@ -369,9 +359,9 @@ function PageCreationRecette({
         {!!changingImg && (
           <ModifImages
             rct_id={rct_id}
-            defaultValue={myRct.rct_img}
             myRct={myRct}
             setMyRct={setMyRct}
+            defaultValue={myRct.rct_img}
             setChangingImg={setChangingImg}
             myBoard={myBoard}
           />

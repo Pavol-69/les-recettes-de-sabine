@@ -99,7 +99,7 @@ function PagePrincipale({
       setMyRctList([]);
       setMyFilterList([]);
     }
-  }, []);
+  }, [isAuth]);
 
   function menuFiltre(e) {
     ouvertureModif(true);

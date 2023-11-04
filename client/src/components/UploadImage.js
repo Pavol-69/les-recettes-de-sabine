@@ -2,22 +2,16 @@
 import "../styles/UploadImage.css";
 
 // Autre
-import { useState, useEffect } from "react";
 import request from "superagent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "font-awesome/css/font-awesome.min.css";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Dropzone from "react-dropzone";
 
-function UploadImage({ myRct, value, setValue, i }) {
+function UploadImage({ imgList, setImgList, i }) {
   const CLOUDINARY_UPLOAD_PRESET = "LesRecettesDeSabine";
   const CLOUDINARY_UPLOAD_URL =
     "https://api.cloudinary.com/v1_1/lesrecettesdesabine/upload";
-
-  useEffect(() => {
-    console.log("page upload");
-    console.log(myRct);
-  }, [myRct]);
 
   const onImageDrop = (e) => {
     let upload = request
@@ -29,24 +23,24 @@ function UploadImage({ myRct, value, setValue, i }) {
         console.error(err);
       }
       if (response.body.secure_url !== "") {
-        let myList = value;
+        let myList = [...imgList];
         myList[i] = response.body.secure_url;
-        setValue(myList);
+        setImgList(myList);
       }
     });
   };
 
   const deleteImg = (e) => {
-    let myList = value;
+    let myList = [...imgList];
     for (let j = i; j < myList.length - 1; j++) {
       myList[j] = myList[j + 1];
     }
     myList[4] = "";
-    setValue(myList);
+    setImgList(myList);
   };
 
-  return value[i] === "" ? (
-    <div key={i + "withoutImg"} className="paquet_drop">
+  return imgList[i] === "" ? (
+    <div className="paquet_drop">
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps }) => (
           <div className="drop_img elements_centre colonne" {...getRootProps()}>
@@ -66,17 +60,17 @@ function UploadImage({ myRct, value, setValue, i }) {
       </Dropzone>
     </div>
   ) : (
-    <div key={i + "withImg"} className="paquet_drop">
+    <div className="paquet_drop">
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps }) => (
           <div className="drop_img elements_centre" {...getRootProps()}>
-            <img src={value[i]} />
+            <img alt={imgList[i]} src={imgList[i]} />
             <input {...getInputProps()} />
           </div>
         )}
       </Dropzone>
       <div
-        class="drop_img_delete texte_taille_2 elements_centre gras"
+        className="drop_img_delete texte_taille_2 elements_centre gras"
         onClick={deleteImg}
       >
         X
