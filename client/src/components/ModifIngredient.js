@@ -130,7 +130,7 @@ function ModifIngredient({
   function ajoutSection(e) {
     e.preventDefault();
     let mySectionIngList = [...myInfo.rct_section_ing];
-    mySectionIngList.push(["", myInfo.rct_section_ing.length + 1]);
+    mySectionIngList.push(["", myInfo.rct_section_ing.length]);
 
     setMyInfo((prev) => ({
       ...prev,
@@ -141,14 +141,12 @@ function ModifIngredient({
   function ajoutIngredient(e) {
     e.preventDefault();
     let myIngList = [...myInfo.rct_ing];
-    myIngList.concat([
-      [
-        0,
-        "",
-        "",
-        myInfo.rct_section_ing[myInfo.rct_section_ing.length - 1][1],
-        myIngList.length + 1,
-      ],
+    myIngList.push([
+      0,
+      "",
+      "",
+      myInfo.rct_section_ing[myInfo.rct_section_ing.length - 1][1],
+      myIngList.length + 1,
     ]);
     setMyInfo((prev) => ({
       ...prev,

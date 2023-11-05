@@ -221,16 +221,6 @@
   box-shadow: 5px 5px 10px var(--color-shadow);
 }
 
-#image_board {
-  /*Position*/
-  margin-right: 40px;
-
-  /*Dimensions*/
-  height: 400px;
-
-  background-color: green;
-}
-
 .intitule_recette {
   /*Position*/
   margin: 10px;
@@ -290,4 +280,125 @@
 .liste_categorie {
   /*Flex*/
   display: flex;
+}
+
+#image_board {
+  /*Position*/
+  position: relative;
+  margin-right: 40px;
+
+  /*Dimensions*/
+  height: 500px;
+
+  /*Autre*/
+  overflow: hidden;
+}
+
+#carrousel {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+
+  /*Dimensions*/
+  width: 500%;
+
+  /*Flex*/
+  display: flex;
+  flex-direction: row;
+
+  /*Autre*/
+  transition: 1s;
+}
+
+.cadre_image_recette {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 20%;
+  height: 100%;
+
+  /*Style
+  background-color: black;*/
+}
+
+.image_recette {
+  /*Position*/
+  z-index: -1;
+
+  /*Dimensions*/
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.message_aucune_image {
+  /*Position*/
+  position: absolute;
+
+  /*Dimensions*/
+  padding: 20px;
+  margin: 20px;
+
+  /*Style*/
+  background-color: rgb(255, 255, 255, 0.6);
+  border-radius: 10px;
+}
+
+.carrousel_left,
+.carrousel_right {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+
+  /*Dimensions*/
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 100%;
+}
+
+.carrousel_left {
+  /*Position*/
+  left: 0px;
+}
+
+.carrousel_right {
+  /*Position*/
+  right: 0px;
+}
+
+.fond_bouton {
+  /*Dimensions*/
+  border-radius: 40px;
+  /*hover*/
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+#points_carrousel {
+  /*Position*/
+  position: absolute;
+  bottom: 40px;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 20px;
+}
+
+.rond_carrousel {
+  /*Dimensions*/
+  width: 20px;
+  height: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 10px;
+  border: solid;
+  border-width: 1px;
+
+  /*Style*/
+  background-color: rgb(255, 255, 255, 0.8);
+
+  /*Autre*/
+  transition: 1s;
+  cursor: pointer;
 }

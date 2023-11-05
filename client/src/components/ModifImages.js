@@ -1,5 +1,5 @@
 // Components
-import "./UploadImage";
+import UploadImage from "./UploadImage";
 
 // CCS
 import "../styles/CSSGeneral.css";
@@ -9,17 +9,46 @@ import "../styles/ModifImages.css";
 
 // Autre
 import React, { useState } from "react";
-import UploadImage from "./UploadImage";
+import { toast } from "react-toastify";
 
 function ModifImages({
   rct_id,
-  myRct,
   setMyRct,
   defaultValue,
   setChangingImg,
   myBoard,
+  setLeftCarrousel,
 }) {
   let [imgList, setImgList] = useState(defaultValue);
+
+  async function updateRecipeImg() {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/recipe/updateRecipeImages",
+        {
+          method: "Post",
+          headers: { rct_id: rct_id, "content-type": "application/json" },
+
+          body: JSON.stringify({
+            rct_id: rct_id,
+            rct_img: imgList,
+          }),
+        }
+      );
+
+      const parseRes = await response.json();
+
+      if (parseRes) {
+        toast.success("Recette mise à jour avec succès");
+        return true;
+      } else {
+        toast.error(parseRes);
+        return false;
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
   function ouvertureModif(myBool) {
     if (myBool) {
@@ -37,8 +66,12 @@ function ModifImages({
 
   const onSubmitValider = async (e) => {
     e.preventDefault();
-    console.log(imgList);
-    console.log(myRct);
+    if (updateRecipeImg()) {
+      ouvertureModif(false);
+      setChangingImg(false);
+      setLeftCarrousel(0);
+      setMyRct((prev) => ({ ...prev, rct_img: imgList }));
+    }
   };
 
   return (

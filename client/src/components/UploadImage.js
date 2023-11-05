@@ -3,6 +3,7 @@ import "../styles/UploadImage.css";
 
 // Autre
 import request from "superagent";
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "font-awesome/css/font-awesome.min.css";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
@@ -14,20 +15,30 @@ function UploadImage({ imgList, setImgList, i }) {
     "https://api.cloudinary.com/v1_1/lesrecettesdesabine/upload";
 
   const onImageDrop = (e) => {
-    let upload = request
-      .post(CLOUDINARY_UPLOAD_URL)
-      .field("upload_preset", CLOUDINARY_UPLOAD_PRESET)
-      .field("file", e[0]);
-    upload.end((err, response) => {
-      if (err) {
-        console.error(err);
-      }
-      if (response.body.secure_url !== "") {
-        let myList = [...imgList];
-        myList[i] = response.body.secure_url;
-        setImgList(myList);
-      }
-    });
+    if (e.length > 1) {
+      toast.error("1 seule image à la fois");
+    } else if (
+      e[0].type !== "image/jpeg" &&
+      e[0].type !== "image/jpg" &&
+      e[0].type !== "image/png"
+    ) {
+      toast.error("Uniquement les .jpeg, .jpg, .png sont acceptés");
+    } else {
+      let upload = request
+        .post(CLOUDINARY_UPLOAD_URL)
+        .field("upload_preset", CLOUDINARY_UPLOAD_PRESET)
+        .field("file", e[0]);
+      upload.end((err, response) => {
+        if (err) {
+          console.error(err);
+        }
+        if (response.body.secure_url !== "") {
+          let myList = [...imgList];
+          myList[i] = response.body.secure_url;
+          setImgList(myList);
+        }
+      });
+    }
   };
 
   const deleteImg = (e) => {
@@ -42,7 +53,7 @@ function UploadImage({ imgList, setImgList, i }) {
   return imgList[i] === "" ? (
     <div className="paquet_drop">
       <Dropzone onDrop={(e) => onImageDrop(e)}>
-        {({ getRootProps, getInputProps }) => (
+        {({ getRootProps, getInputProps, isDragActive }) => (
           <div className="drop_img elements_centre colonne" {...getRootProps()}>
             <FontAwesomeIcon
               icon={faImage}
@@ -53,7 +64,9 @@ function UploadImage({ imgList, setImgList, i }) {
             />
             <input {...getInputProps()} />
             <div className="gras elements_centre texte_taille_3">
-              Ajouter/Déposer une image
+              {isDragActive
+                ? "Lâcher pour ajouter"
+                : "Ajouter/Déposer une image"}
             </div>
           </div>
         )}

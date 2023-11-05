@@ -63,7 +63,7 @@ router.post("/addRecipe", async (req, res) => {
       "CREATE TABLE IF NOT EXISTS steps(step_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, section_step_id VARCHAR(255) NOT NULL, step_content TEXT NOT NULL, step_position INT NOT NULL)"
     );
     await pool.query(
-      "CREATE TABLE IF NOT EXISTS images(img_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, img_1 VARCHAR(255) NOT NULL, img_2 VARCHAR(255) NOT NULL, img_3 VARCHAR(255) NOT NULL, img_4 VARCHAR(255) NOT NULL, img_5 VARCHAR(255) NOT NULL)"
+      "CREATE TABLE IF NOT EXISTS images(img_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL, img_1 VARCHAR(255), img_2 VARCHAR(255), img_3 VARCHAR(255), img_4 VARCHAR(255), img_5 VARCHAR(255))"
     );
     await pool.query(
       "CREATE TABLE IF NOT EXISTS categories(cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), cat_name VARCHAR(255) NOT NULL)"
@@ -85,10 +85,9 @@ router.post("/addRecipe", async (req, res) => {
     );
 
     // Initialisation Images
-    /*await pool.query(
-      "INSERT INTO images (rct_id, img_1, img_2, img_3, img_4, img_5) VALUES ($1, $2, $3, $4, $5, $6)",
-      [rct_id, "", "", "", "", ""]
-    );*/
+    await pool.query("INSERT INTO images (rct_id) VALUES ($1)", [
+      rct_id.rows[0].rct_id,
+    ]);
 
     // Ajout de la section de base pour ingredients et steps
     await pool.query(
@@ -144,7 +143,7 @@ router.get("/getRecipesList", async (req, res) => {
 
       if (myVerifCat) {
         let myLine = await pool.query(
-          "SELECT * FROM table_categories where rct_id = $1",
+          "SELECT * FROM table_categories WHERE rct_id = $1",
           [myRecipeList[i].rct_id]
         );
         for (j = 0; j < myLine.fields.length; j++) {
@@ -192,6 +191,11 @@ router.get("/getRecipeInfos", async (req, res) => {
       [rct_id]
     );
 
+    const myInfoImg = await pool.query(
+      "SELECT img_1, img_2, img_3, img_4, img_5 FROM images WHERE rct_id = $1",
+      [rct_id]
+    );
+
     const myInfoCat = await pool.query("SELECT cat_name FROM categories");
 
     let mySectionIngList = [];
@@ -199,6 +203,7 @@ router.get("/getRecipeInfos", async (req, res) => {
     let mySectionStepList = [];
     let myStepList = [];
     let myCatList = [];
+    let myImgList = [];
 
     for (i = 0; i < myInfoSectionIng.rows.length; i++) {
       mySectionIngList.push([
@@ -253,6 +258,14 @@ router.get("/getRecipeInfos", async (req, res) => {
       }
     }
 
+    for (i = 0; i < myInfoImg.fields.length; i++) {
+      if (myInfoImg.rows[0][myInfoImg.fields[i].name] === null) {
+        myImgList.push("");
+      } else {
+        myImgList.push(myInfoImg.rows[0][myInfoImg.fields[i].name]);
+      }
+    }
+
     res.json({
       myInfo,
       mySectionIngList,
@@ -260,6 +273,7 @@ router.get("/getRecipeInfos", async (req, res) => {
       mySectionStepList,
       myStepList,
       myCatList,
+      myImgList,
     });
   } catch (err) {
     console.log(err.message);
@@ -544,6 +558,21 @@ router.post("/updateRecipeCategories", async (req, res) => {
     }
 
     res.json(true);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
+router.post("/updateRecipeImages", async (req, res) => {
+  try {
+    const rct_id = req.body.rct_id;
+    const rct_img = req.body.rct_img;
+
+    await pool.query(
+      "UPDATE images SET img_1 = $1, img_2 = $2, img_3 = $3, img_4 = $4, img_5 = $5 WHERE rct_id = $6",
+      [rct_img[0], rct_img[1], rct_img[2], rct_img[3], rct_img[4], rct_id]
+    );
   } catch (err) {
     console.log(err.message);
     res.status(500).json("Erreur serveur");

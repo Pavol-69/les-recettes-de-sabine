@@ -13,6 +13,7 @@ import ModifImages from "../components/ModifImages";
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
 import iconeModifier from "../datas/Icones/icone_modifier.png";
+import imgToDefine from "../datas/Image_a_definir.jpg";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -23,6 +24,12 @@ import "../styles/BoutonBoard.css";
 import { toast } from "react-toastify";
 import { useParams } from "react-router";
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "font-awesome/css/font-awesome.min.css";
+import {
+  faCircleChevronLeft,
+  faCircleChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 function PageCreationRecette({
   isAuth,
@@ -56,6 +63,9 @@ function PageCreationRecette({
   const [changingImg, setChangingImg] = useState(false);
   const boardModificationName = "board_modification";
   const myBoard = document.getElementById(boardModificationName);
+  const [leftCarrousel, setLeftCarrousel] = useState(0);
+  const [leftBeat, setLeftBeat] = useState(false);
+  const [rightBeat, setRightBeat] = useState(false);
 
   // Fonctions fetch
   async function getRecipeInfos() {
@@ -82,6 +92,7 @@ function PageCreationRecette({
           rct_section_step: parseRes.mySectionStepList,
           rct_step: parseRes.myStepList,
           rct_cat: parseRes.myCatList,
+          rct_img: parseRes.myImgList,
         });
       } else {
         toast.error(parseRes);
@@ -93,7 +104,7 @@ function PageCreationRecette({
 
   useEffect(() => {
     getRecipeInfos();
-  });
+  }, []);
 
   // Fonctions Modifier
 
@@ -126,6 +137,17 @@ function PageCreationRecette({
     if (e.target.id === "icone_modifier_img") {
       setChangingImg(true);
     }
+  }
+
+  function changeCarrousel(mvt) {
+    let myLeft = leftCarrousel;
+    if (myLeft + mvt <= 0 && myRct.rct_img[-(myLeft + mvt)] !== "") {
+      setLeftCarrousel(myLeft + mvt);
+    }
+  }
+
+  function choixCarrousel(e, index) {
+    setLeftCarrousel(-index);
   }
 
   return (
@@ -292,6 +314,34 @@ function PageCreationRecette({
               </div>
             </div>
             <div id="image_board">
+              <div id="carrousel" style={{ left: leftCarrousel * 100 + "%" }}>
+                {myRct.rct_img[0] === "" ? (
+                  <div className="cadre_image_recette elements_centre">
+                    <img
+                      alt="no_illustration"
+                      className="image_recette"
+                      src={imgToDefine}
+                    ></img>
+                    <div className="message_aucune_image texte_taille_5 gras elements_centre">
+                      Aucune image de définie
+                    </div>
+                  </div>
+                ) : (
+                  myRct.rct_img.map((img, index) => (
+                    <div
+                      key={"image_" + index}
+                      className="cadre_image_recette elements_centre"
+                    >
+                      <img
+                        alt={"illustration_" + index}
+                        className="image_recette"
+                        src={img}
+                      ></img>
+                    </div>
+                  ))
+                )}
+              </div>
+
               <img
                 id="icone_modifier_img"
                 alt="bouton modifier images"
@@ -299,6 +349,68 @@ function PageCreationRecette({
                 src={iconeModifier}
                 onClick={(e) => modifButton(e)}
               />
+              {myRct.rct_img[1] !== "" ? (
+                <div>
+                  <div className="carrousel_left elements_centre">
+                    <div
+                      className="fond_bouton"
+                      onMouseEnter={() => setLeftBeat(true)}
+                      onMouseLeave={() => setLeftBeat(false)}
+                      onClick={(e) => {
+                        changeCarrousel(1);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCircleChevronLeft}
+                        size="4x"
+                        style={{ color: "#000000" }}
+                        beat={leftBeat}
+                      />
+                    </div>
+                  </div>
+                  <div className="carrousel_right elements_centre">
+                    <div
+                      className="fond_bouton"
+                      onMouseEnter={() => setRightBeat(true)}
+                      onMouseLeave={() => setRightBeat(false)}
+                      onClick={(e) => {
+                        changeCarrousel(-1);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCircleChevronRight}
+                        size="4x"
+                        style={{ color: "#000000" }}
+                        beat={rightBeat}
+                      />
+                    </div>
+                  </div>
+                  <div id="points_carrousel" className="elements_centre">
+                    {myRct.rct_img.map((img, index) =>
+                      img !== "" ? (
+                        index === -leftCarrousel ? (
+                          <div
+                            key={"le_bon_rond" + index}
+                            className="rond_carrousel"
+                            style={{
+                              background: "rgb(0, 0, 0)",
+                            }}
+                          ></div>
+                        ) : (
+                          <div
+                            key={"un_autre_rond" + index}
+                            className="rond_carrousel"
+                            style={{
+                              background: "rgb(255, 255, 255, 0.8)",
+                            }}
+                            onClick={(e) => choixCarrousel(e, index)}
+                          ></div>
+                        )
+                      ) : null
+                    )}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -364,6 +476,7 @@ function PageCreationRecette({
             defaultValue={myRct.rct_img}
             setChangingImg={setChangingImg}
             myBoard={myBoard}
+            setLeftCarrousel={setLeftCarrousel}
           />
         )}
       </div>

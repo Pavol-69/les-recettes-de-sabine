@@ -38,7 +38,7 @@ function PageUserInfos({
 
   useEffect(() => {
     getUserInfos();
-  });
+  }, [myInfo]);
 
   async function getUserInfos() {
     try {
