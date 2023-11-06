@@ -22,6 +22,7 @@
 
   /*Dimensions*/
   width: 40px;
+  height: 40px;
   padding: 2px;
   margin: 3px;
   border-radius: 22px;
@@ -38,16 +39,23 @@
 .icone_modifier:hover {
   /*Dimensions*/
   width: 46px;
+  height: 46px;
   margin: 0px;
 
   /*Style*/
   box-shadow: 0px 0px 15px var(--color-shadow);
 }
 
-#icone_modifier_titre {
+.paquet_btn_titre {
   /*Position*/
-  top: -20px;
-  left: 5px;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.bouton_suppr {
+  /*Style*/
+  cursor: pointer;
 }
 
 .titre_modif {
@@ -197,9 +205,9 @@
 
 #signature {
   /*Position*/
-  position: absolute;
-  bottom: 5px;
-  right: 100px;
+  position: relative;
+  top: 70px;
+  left: -200px;
 
   /*Texte*/
   font-size: 0.4em;
@@ -328,8 +336,9 @@
   z-index: -1;
 
   /*Dimensions*/
-  min-width: 100%;
   min-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
 }
 
 .message_aucune_image {

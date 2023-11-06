@@ -579,4 +579,23 @@ router.post("/updateRecipeImages", async (req, res) => {
   }
 });
 
+router.post("/deleteRecipe", async (req, res) => {
+  try {
+    const rct_id = req.body.rct_id;
+
+    await pool.query("DELETE FROM recettes WHERE rct_id = $1", [rct_id]);
+    await pool.query("DELETE FROM ingredients WHERE rct_id = $1", [rct_id]);
+    await pool.query("DELETE FROM section_ing WHERE rct_id = $1", [rct_id]);
+    await pool.query("DELETE FROM steps WHERE rct_id = $1", [rct_id]);
+    await pool.query("DELETE FROM section_step WHERE rct_id = $1", [rct_id]);
+    await pool.query("DELETE FROM images WHERE rct_id = $1", [rct_id]);
+    await pool.query("DELETE FROM table_categories WHERE rct_id = $1", [
+      rct_id,
+    ]);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json("Erreur serveur");
+  }
+});
+
 module.exports = router;

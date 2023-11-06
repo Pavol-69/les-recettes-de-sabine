@@ -9,6 +9,7 @@ import ModifIngredient from "../components/ModifIngredient";
 import ModifStep from "../components/ModifStep";
 import ModifCategorie from "../components/ModifCategorie";
 import ModifImages from "../components/ModifImages";
+import SupprRecette from "../components/SupprRecette";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
@@ -29,6 +30,7 @@ import "font-awesome/css/font-awesome.min.css";
 import {
   faCircleChevronLeft,
   faCircleChevronRight,
+  faEraser,
 } from "@fortawesome/free-solid-svg-icons";
 
 function PageCreationRecette({
@@ -61,11 +63,14 @@ function PageCreationRecette({
   const [changingSteps, setChangingSteps] = useState(false);
   const [changingCat, setChangingCat] = useState(false);
   const [changingImg, setChangingImg] = useState(false);
+  const [changingDelete, setChangingDelete] = useState(false);
   const boardModificationName = "board_modification";
   const myBoard = document.getElementById(boardModificationName);
   const [leftCarrousel, setLeftCarrousel] = useState(0);
   const [leftBeat, setLeftBeat] = useState(false);
   const [rightBeat, setRightBeat] = useState(false);
+  const [allowToModify, setAllowToModify] = useState(false);
+  const [deleteAnim, setDeleteAnim] = useState(false);
 
   // Fonctions fetch
   async function getRecipeInfos() {
@@ -94,6 +99,13 @@ function PageCreationRecette({
           rct_cat: parseRes.myCatList,
           rct_img: parseRes.myImgList,
         });
+        if (
+          (parseRes.myInfo.rows[0].user_pseudo === pseudo &&
+            role === "writer") ||
+          role === "admin"
+        ) {
+          setAllowToModify(true);
+        }
       } else {
         toast.error(parseRes);
       }
@@ -150,6 +162,12 @@ function PageCreationRecette({
     setLeftCarrousel(-index);
   }
 
+  function SuppressionRecette(e) {
+    e.preventDefault();
+    ouvertureModif(true);
+    setChangingDelete(true);
+  }
+
   return (
     <div className="relatif">
       <FondSite myFondSite={myFondSite} />
@@ -167,23 +185,27 @@ function PageCreationRecette({
             {myRct.rct_nb === 0
               ? "Pour..."
               : "Pour " + myRct.rct_nb + " " + myRct.rct_nb_type}
-            <img
-              id="icone_modifier_nb_personne"
-              alt="bouton modifier nb personne"
-              className="icone_modifier"
-              src={iconeModifier}
-              onClick={(e) => modifButton(e)}
-            />
+            {allowToModify ? (
+              <img
+                id="icone_modifier_nb_personne"
+                alt="bouton modifier nb personne"
+                className="icone_modifier"
+                src={iconeModifier}
+                onClick={(e) => modifButton(e)}
+              />
+            ) : null}
           </div>
           <div id="titre_liste_ingredient" className="texte_centre">
             Liste ingrédients
-            <img
-              id="icone_modifier_ingredient"
-              alt="bouton modifier ingredient"
-              className="icone_modifier"
-              src={iconeModifier}
-              onClick={(e) => modifButton(e)}
-            />
+            {allowToModify ? (
+              <img
+                id="icone_modifier_ingredient"
+                alt="bouton modifier ingredient"
+                className="icone_modifier"
+                src={iconeModifier}
+                onClick={(e) => modifButton(e)}
+              />
+            ) : null}
           </div>
           <div id="liste_ingredient">
             {myRct.rct_section_ing.length > 0
@@ -230,15 +252,32 @@ function PageCreationRecette({
 
         <div id="main_board">
           <div className="titre_recette elements_centre">
-            <div>
+            <div className="ligne">
               {myRct.rct_name}
-              <img
-                id="icone_modifier_titre"
-                alt="bouton modifier titre"
-                className="icone_modifier"
-                src={iconeModifier}
-                onClick={(e) => modifButton(e)}
-              />
+              {allowToModify ? (
+                <div className="paquet_btn_titre ligne">
+                  <img
+                    id="icone_modifier_titre"
+                    alt="bouton modifier titre"
+                    className="icone_modifier"
+                    src={iconeModifier}
+                    onClick={(e) => modifButton(e)}
+                  />
+                  <div
+                    onMouseEnter={() => setDeleteAnim(true)}
+                    onMouseLeave={() => setDeleteAnim(false)}
+                    onClick={(e) => SuppressionRecette(e)}
+                    className="bouton_suppr"
+                  >
+                    <FontAwesomeIcon
+                      icon={faEraser}
+                      shake={deleteAnim}
+                      size="xs"
+                      style={{ color: "#af0000" }}
+                    />
+                  </div>
+                </div>
+              ) : null}
               <div id="signature">Créée par {myRct.user_pseudo}</div>
             </div>
           </div>
@@ -246,13 +285,15 @@ function PageCreationRecette({
           <div className="liste_categories">
             <div className="titre_liste_categories elements_centre">
               Catégories
-              <img
-                id="icone_modifier_categorie"
-                alt="bouton modifier categories"
-                className="icone_modifier"
-                src={iconeModifier}
-                onClick={(e) => modifButton(e)}
-              />
+              {allowToModify ? (
+                <img
+                  id="icone_modifier_categorie"
+                  alt="bouton modifier categories"
+                  className="icone_modifier"
+                  src={iconeModifier}
+                  onClick={(e) => modifButton(e)}
+                />
+              ) : null}
             </div>
             <div className="liste_categorie">
               {myRct.rct_cat.length > 0
@@ -273,13 +314,15 @@ function PageCreationRecette({
             <div id="recette_board">
               <div className="intitule_recette">
                 La recette
-                <img
-                  id="icone_modifier_step"
-                  alt="bouton modifier step"
-                  className="icone_modifier"
-                  src={iconeModifier}
-                  onClick={(e) => modifButton(e)}
-                />
+                {allowToModify ? (
+                  <img
+                    id="icone_modifier_step"
+                    alt="bouton modifier step"
+                    className="icone_modifier"
+                    src={iconeModifier}
+                    onClick={(e) => modifButton(e)}
+                  />
+                ) : null}
               </div>
               <div id="liste_step">
                 {myRct.rct_section_step.length > 0
@@ -342,13 +385,15 @@ function PageCreationRecette({
                 )}
               </div>
 
-              <img
-                id="icone_modifier_img"
-                alt="bouton modifier images"
-                className="icone_modifier"
-                src={iconeModifier}
-                onClick={(e) => modifButton(e)}
-              />
+              {allowToModify ? (
+                <img
+                  id="icone_modifier_img"
+                  alt="bouton modifier images"
+                  className="icone_modifier"
+                  src={iconeModifier}
+                  onClick={(e) => modifButton(e)}
+                />
+              ) : null}
               {myRct.rct_img[1] !== "" ? (
                 <div>
                   <div className="carrousel_left elements_centre">
@@ -477,6 +522,13 @@ function PageCreationRecette({
             setChangingImg={setChangingImg}
             myBoard={myBoard}
             setLeftCarrousel={setLeftCarrousel}
+          />
+        )}
+        {!!changingDelete && (
+          <SupprRecette
+            rct_id={rct_id}
+            setChangingDelete={setChangingDelete}
+            myBoard={myBoard}
           />
         )}
       </div>
