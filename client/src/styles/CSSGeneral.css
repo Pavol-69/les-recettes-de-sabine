@@ -212,3 +212,9 @@ html {
   /*Texte*/
   font-size: 2.2em;
 }
+
+.texte_centre {
+  /*Position*/
+  text-align: center;
+  justify-content: center;
+}

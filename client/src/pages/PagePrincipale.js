@@ -227,6 +227,7 @@ function PagePrincipale({
                         key={"search" + index}
                         myId={myRct.rct_id}
                         myName={myRct.rct_name}
+                        myImg={myRct.rct_img}
                       />
                     ))
                   : null}
@@ -239,6 +240,7 @@ function PagePrincipale({
                       key={"list" + index}
                       myId={myRct.rct_id}
                       myName={myRct.rct_name}
+                      myImg={myRct.rct_img}
                     />
                   ))
                 : null}

@@ -117,6 +117,7 @@ router.get("/getRecipesList", async (req, res) => {
     let myRecipeList = [];
     let myVerifRct = false;
     let myVerifCat = false;
+    let myVerifImg = false;
 
     // Vérification de si la table recettes existe ou non
     myBddList = await pool.query(
@@ -130,6 +131,9 @@ router.get("/getRecipesList", async (req, res) => {
       if (myBddList.rows[i].table_name === "categories") {
         myVerifCat = true;
       }
+      if (myBddList.rows[i].table_name === "images") {
+        myVerifImg = true;
+      }
     }
 
     // Récupération nom recette
@@ -139,8 +143,8 @@ router.get("/getRecipesList", async (req, res) => {
     }
 
     for (let i = 0; i < myRecipeList.length; i++) {
+      // Récupération des Catégories
       let myCatList = [];
-
       if (myVerifCat) {
         let myLine = await pool.query(
           "SELECT * FROM table_categories WHERE rct_id = $1",
@@ -152,8 +156,24 @@ router.get("/getRecipesList", async (req, res) => {
           }
         }
       }
+
+      //  Récupération de l'image
+      let myImg = "";
+      if (myVerifImg) {
+        myImg = await pool.query("SELECT img_1 FROM images WHERE rct_id = $1", [
+          myRecipeList[i].rct_id,
+        ]);
+      }
+
+      if (myImg.rows[0].img_1 === null) {
+        myRecipeList[i].rct_img = "";
+      } else {
+        myRecipeList[i].rct_img = myImg.rows[0].img_1;
+      }
+
       myRecipeList[i].cat = myCatList;
     }
+
     res.json({ myRecipeList });
   } catch (err) {
     console.log(err.message);

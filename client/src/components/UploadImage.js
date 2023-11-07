@@ -41,13 +41,20 @@ function UploadImage({ imgList, setImgList, i }) {
     }
   };
 
-  const deleteImg = (e) => {
+  function deleteImg() {
     let myList = [...imgList];
     for (let j = i; j < myList.length - 1; j++) {
       myList[j] = myList[j + 1];
     }
     myList[4] = "";
     setImgList(myList);
+  }
+
+  const regex = /\/v\d+\/([^/]+)\.\w{3,4}$/;
+
+  const getPublicIdFromUrl = (url) => {
+    const match = url.match(regex);
+    return match ? match[1] : null;
   };
 
   return imgList[i] === "" ? (
