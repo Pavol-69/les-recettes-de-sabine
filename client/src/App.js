@@ -8,9 +8,12 @@ import PageUserInfos from "./pages/PageUserInfos";
 import PrivateRoute from "./auth/PrivateRoute";
 import PublicRoute from "./auth/PublicRoute";
 import AdminRoute from "./auth/AdminRoute";
+import OnGoingRoute from "./auth/OnGoingRoute";
+import OnGoingRouteReverse from "./auth/OnGoingRouteReverse";
 import PageMdpOublie from "./pages/PageMdpOublie";
 import PageResetPassword from "./pages/PageResetPassword";
 import PageGestionCategorie from "./pages/PageGestionCategorie";
+import PageNonAccepte from "./pages/PageNonAccepte";
 
 //CSS
 import "./styles/CSSGeneral.css";
@@ -21,6 +24,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function App() {
   const [role, setRole] = useState("");
@@ -29,6 +33,8 @@ function App() {
   const [isLoadedAuth, setIsLoadedAuth] = useState(false);
   const [pseudo, setPseudo] = useState("");
   const [toShow, setToShow] = useState(false);
+
+  const [nbNotif, setNbNotif] = useState(0);
 
   async function getUserInfos() {
     try {
@@ -66,9 +72,32 @@ function App() {
     }
   }
 
+  async function notifCalcul() {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/dashboard/getNbNotif",
+        {
+          method: "GET",
+          headers: { token: localStorage.token },
+        }
+      );
+
+      const parseRes = await response.json();
+
+      if (!isNaN(parseRes)) {
+        setNbNotif(parseRes);
+      } else {
+        toast.error(parseRes);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   useEffect(() => {
     getUserInfos();
     isVerify();
+    notifCalcul();
   }, []);
 
   if (isLoadedInfo && isLoadedAuth) {
@@ -78,17 +107,23 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={
-                <PagePrincipale
-                  isAuth={isAuth}
-                  setIsAuth={setIsAuth}
-                  pseudo={pseudo}
-                  role={role}
-                  toShow={toShow}
-                  setToShow={setToShow}
-                />
-              }
-            />
+              element={<OnGoingRoute isAuth={isAuth} role={role} />}
+            >
+              <Route
+                path="/"
+                element={
+                  <PagePrincipale
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    pseudo={pseudo}
+                    role={role}
+                    toShow={toShow}
+                    setToShow={setToShow}
+                    nbNotif={nbNotif}
+                  />
+                }
+              />
+            </Route>
             <Route
               path="/inscription"
               element={<PublicRoute isAuth={isAuth} />}
@@ -131,6 +166,7 @@ function App() {
                     role={role}
                     toShow={toShow}
                     setToShow={setToShow}
+                    nbNotif={nbNotif}
                   />
                 }
               />
@@ -149,6 +185,7 @@ function App() {
                     role={role}
                     toShow={toShow}
                     setToShow={setToShow}
+                    nbNotif={nbNotif}
                   />
                 }
               />
@@ -167,6 +204,7 @@ function App() {
                     role={role}
                     toShow={toShow}
                     setToShow={setToShow}
+                    nbNotif={nbNotif}
                   />
                 }
               />
@@ -180,6 +218,25 @@ function App() {
                     setIsAuth={setIsAuth}
                     MyPseudo={pseudo}
                     setPseudo={setPseudo}
+                    role={role}
+                    toShow={toShow}
+                    setToShow={setToShow}
+                    nbNotif={nbNotif}
+                  />
+                }
+              />
+            </Route>
+            <Route
+              path="/non_accepte"
+              element={<OnGoingRouteReverse isAuth={isAuth} role={role} />}
+            >
+              <Route
+                path="/non_accepte"
+                element={
+                  <PageNonAccepte
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    pseudo={pseudo}
                     role={role}
                     toShow={toShow}
                     setToShow={setToShow}

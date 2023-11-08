@@ -23,6 +23,7 @@ function PageGestionCategorie({
   role,
   toShow,
   setToShow,
+  nbNotif,
 }) {
   const [myName, setMyName] = useState("");
   const [oldName, setOldName] = useState("");
@@ -150,6 +151,7 @@ function PageGestionCategorie({
         role={role}
         toShow={toShow}
         setToShow={setToShow}
+        nbNotif={nbNotif}
       />
       <div className="board">
         <form

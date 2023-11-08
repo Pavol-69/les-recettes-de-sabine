@@ -13,7 +13,15 @@ import "../styles_pages/Admin.css";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-function PageAdmin({ isAuth, setIsAuth, pseudo, role, toShow, setToShow }) {
+function PageAdmin({
+  isAuth,
+  setIsAuth,
+  pseudo,
+  role,
+  toShow,
+  setToShow,
+  nbNotif,
+}) {
   const [myUsers, setMyUsers] = useState([]);
 
   async function getAllUsersInfos() {
@@ -79,6 +87,7 @@ function PageAdmin({ isAuth, setIsAuth, pseudo, role, toShow, setToShow }) {
         role={role}
         toShow={toShow}
         setToShow={setToShow}
+        nbNotif={nbNotif}
       />
       <div className="board">
         <div id="fond_menu_admin" className="fond_menu">

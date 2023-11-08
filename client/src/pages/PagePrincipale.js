@@ -26,6 +26,7 @@ function PagePrincipale({
   role,
   toShow,
   setToShow,
+  nbNotif,
 }) {
   const [myRctList, setMyRctList] = useState([]);
   const [myFilterList, setMyFilterList] = useState([]);
@@ -174,6 +175,7 @@ function PagePrincipale({
         role={role}
         toShow={toShow}
         setToShow={setToShow}
+        nbNotif={nbNotif}
       />
       <div className="board">
         <div id="titre_site" className="non_selectionnable">

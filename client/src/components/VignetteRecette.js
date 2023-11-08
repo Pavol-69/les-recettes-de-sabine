@@ -9,8 +9,6 @@ import imgToDefine from "../datas/Image_a_definir.jpg";
 import { Link } from "react-router-dom";
 
 function VignetteRecette({ myId, myName, myImg }) {
-  console.log(myImg);
-
   return (
     <Link id={myId} className="vignette_recette" to={"/recette/" + myId}>
       {myImg === "" ? (

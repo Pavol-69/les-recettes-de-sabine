@@ -26,12 +26,35 @@ router.get("/allUsersInfos", authorization, async (req, res) => {
   }
 });
 
+router.get("/getNbNotif", authorization, async (req, res) => {
+  try {
+    const nbNotif = await pool.query(
+      "SELECT * FROM users where user_role = $1",
+      ["to_define"]
+    );
+    res.json(nbNotif.rows.length);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Erreur serveur.");
+  }
+});
+
 router.post("/changeRole", authorizationAdmin, async (req, res) => {
   try {
     const user = await pool.query(
       "UPDATE users SET user_role = $1 WHERE user_id = $2",
       [req.body.role, req.body.user_id]
     );
+    res.json(true);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Erreur serveur.");
+  }
+});
+
+router.post("/deleteUser", authorization, async (req, res) => {
+  try {
+    await pool.query("DELETE FROM users WHERE user_id = $1", [req.user]);
     res.json(true);
   } catch (err) {
     console.error(err.message);

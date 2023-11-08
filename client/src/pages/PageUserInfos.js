@@ -23,6 +23,7 @@ function PageUserInfos({
   role,
   toShow,
   setToShow,
+  nbNotif,
 }) {
   const [myInfo, setMyInfo] = useState({
     name: "",
@@ -59,6 +60,30 @@ function PageUserInfos({
         pseudo: parseRes.user_pseudo,
         mail: parseRes.user_mail,
       });
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  async function deleteUser() {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/dashboard/deleteUser",
+        {
+          method: "POST",
+          headers: { token: localStorage.token },
+        }
+      );
+
+      const parseRes = await response.json();
+
+      if (parseRes.token) {
+        localStorage.setItem("token", parseRes.token);
+        setIsAuth(true);
+        toast.success("Connexion réussie");
+      } else {
+        toast.error(parseRes);
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -107,16 +132,26 @@ function PageUserInfos({
     setMyInfo({ ...myInfo, [e.target.name]: e.target.value });
   }
 
+  function desinscription(e) {
+    e.preventDefault();
+    if (deleteUser()) {
+      localStorage.removeItem("token");
+      setIsAuth(false);
+      toast.info("Désinscrit(e).");
+    }
+  }
+
   return (
     <div className="relatif">
       <FondSite myFondSite={myFondSite} />
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
-        pseudo={myPseudo}
+        pseudo={myInfo.pseudo}
         role={role}
         toShow={toShow}
         setToShow={setToShow}
+        nbNotif={nbNotif}
       />
       <div className="board">
         <div id="fond_menu_inscription" className="fond_menu">
@@ -184,13 +219,20 @@ function PageUserInfos({
                 placeholder="Veuillez renseigner votre mot de passe à nouveau"
               ></input>
             </div>
-
-            <button
-              className="bouton_board non_selectionnable"
-              id="bouton_validation"
-            >
-              Valider
-            </button>
+            <div className="ligne">
+              <button
+                className="bouton_board non_selectionnable"
+                id="bouton_validation"
+              >
+                Valider
+              </button>
+              <button
+                className="bouton_board non_selectionnable"
+                onClick={(e) => desinscription(e)}
+              >
+                Désinscription
+              </button>
+            </div>
           </form>
         </div>
       </div>

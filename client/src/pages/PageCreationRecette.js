@@ -40,6 +40,7 @@ function PageCreationRecette({
   role,
   toShow,
   setToShow,
+  nbNotif,
 }) {
   // Infos recette
   const [myRct, setMyRct] = useState({
@@ -178,6 +179,7 @@ function PageCreationRecette({
         role={role}
         toShow={toShow}
         setToShow={setToShow}
+        nbNotif={nbNotif}
       />
       <div id="board_creation_recette" className="board">
         <div className="bandeau_gauche">

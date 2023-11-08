@@ -16,6 +16,7 @@ function BarreNavigation({
   role,
   toShow,
   setToShow,
+  nbNotif,
 }) {
   const logout = (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ function BarreNavigation({
     setToShow(true);
   };
 
-  return isAuth ? (
+  return isAuth && role !== "rejected" && role !== "to_define" ? (
     <header>
       <BoutonLien myLink={"/"} myTitle={"Page de Garde"} />
       <div className="bouton_menu" onClick={(e) => newRecipe(e)}>
@@ -37,7 +38,10 @@ function BarreNavigation({
       </div>
       <BoutonLien myLink={"/mes-infos"} myTitle={"Mes Informations"} />
       {role === "admin" ? (
-        <BoutonLien myLink={"/admin"} myTitle={"Admin"} />
+        <div className="paquet_btn_admin">
+          <BoutonLien myLink={"/admin"} myTitle={"Admin"} />
+          {nbNotif > 0 ? <div className="notif gras">{nbNotif}</div> : null}
+        </div>
       ) : null}
       {role === "admin" ? (
         <BoutonLien myLink={"/categorie"} myTitle={"Gestion des Catégories"} />
