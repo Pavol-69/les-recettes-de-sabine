@@ -1,56 +1,52 @@
 .bouton_menu {
-    /*Position*/
-    position: relative;
-    
-    /*Centrage*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  /*Position*/
+  position: relative;
 
-    /*Dimensions*/
-    height: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 
-    /*Style*/
-    color: var(--color-text);
-    text-decoration:none;
+  /*Dimensions*/
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
 
-    /*Hover*/
-    transition: 0.5s;
+  /*Style*/
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
 
-    /*Texte*/
-    font-family: "Roboto";
-    font-size: 1.5em;
-    font-weight: bold;
-}
+  /*Hover*/
+  transition: 0.5s;
 
-.bouton_menu:hover {
-    /*Style*/
-    cursor: pointer;
+  /*Texte*/
+  font-family: "Roboto";
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
 .bouton_menu::after {
-    /*Position*/
-    position: absolute;
-    top: 42px;
+  /*Position*/
+  position: absolute;
+  top: 42px;
 
-    /*Dimensions*/
-    height: 2px;
-    width: 0px;
+  /*Dimensions*/
+  height: 2px;
+  width: 0px;
 
-    /*Style*/
-    background-color: var(--color-text);
+  /*Style*/
+  background-color: var(--color-text);
 
-    /*Gégéral*/
-    content: "";
+  /*Gégéral*/
+  content: "";
 
-    /*Hover*/
-    transition: 0.3s;
+  /*Hover*/
+  transition: 0.3s;
 }
 
 .bouton_menu:hover:after {
-    width: 100%;
-    content: "";
+  width: 100%;
+  content: "";
 }

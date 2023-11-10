@@ -10,5 +10,4 @@ footer {
   /*Style*/
   background-color: var(--main-color-transparent);
   columns: var(---color-text);
-  box-shadow: 0px -5px 10px var(--color-shadow);
 }

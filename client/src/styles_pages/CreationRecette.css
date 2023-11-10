@@ -17,9 +17,6 @@
 }
 
 .icone_modifier {
-  /*Position*/
-  position: relative;
-
   /*Dimensions*/
   width: 40px;
   height: 40px;
@@ -46,11 +43,25 @@
   box-shadow: 0px 0px 15px var(--color-shadow);
 }
 
+#icone_modifier_categorie {
+  /*Position*/
+  position: absolute;
+  right: -30px;
+  top: 0px;
+}
+
+#icone_modifier_img {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+  left: 5px;
+}
+
 .paquet_btn_titre {
   /*Position*/
-  position: relative;
-  top: 10px;
-  left: 10px;
+  position: absolute;
+
+  right: -120px;
 }
 
 .bouton_suppr {
@@ -93,52 +104,61 @@
 #board_modification {
   /*Position*/
   left: 100vw;
+  z-index: 3;
 }
 
 .bandeau_gauche {
   /*Position*/
+  position: absolute;
   z-index: 0;
+  top: 230px;
+  bottom: 50px;
 
   /*Dimensions*/
-  width: 420px;
-  margin: 30px;
+  width: 350px;
 
   /*Style*/
-  background-color: rgb(255, 255, 255, 0.8);
-  box-shadow: 5px 5px 10px var(--color-shadow);
+  background-color: rgb(200, 200, 200, 0.5);
+
+  /*Autre*/
+  overflow: auto;
 }
 
 .nb_personne {
   /*Position*/
-  position: relative;
-  margin-top: 20px;
+  position: absolute;
+  left: 10px;
+  top: 175px;
 
   /*Dimensions*/
-  width: 100%;
+  width: 330px;
   height: 50px;
 
   /*Texte*/
-  color: var(--main-color);
+  color: var(--color-text);
   font-weight: bold;
   font-size: 2em;
 }
 
 #icone_modifier_nb_personne {
   /*Position*/
-  top: -15px;
-  left: 5px;
+  position: absolute;
+  right: -5px;
+  top: -10px;
 }
 
 #icone_modifier_ingredient {
   /*Position*/
-  top: -5x;
-  left: 10px;
+  position: absolute;
+  top: -10px;
+  right: 5px;
 }
 
 #icone_modifier_step {
   /*Position*/
-  top: -5x;
-  left: 10px;
+  position: absolute;
+  top: 0px;
+  left: 155px;
 }
 
 #titre_liste_ingredient {
@@ -165,26 +185,20 @@
 
 #liste_ingredient {
   /*Position*/
-  padding-left: 15px;
+  position: relative;
+  padding-left: 20px;
 
   /*Dimensions*/
-  width: 100%;
-}
-
-#board_creation_recette {
-  /*Position*/
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  width: 330px;
 }
 
 #main_board {
   /*Position*/
-  position: relative;
-  margin-right: 20px;
-
-  /*Dimensions*/
-  width: 100%;
+  position: absolute;
+  top: 230px;
+  bottom: 50px;
+  left: 350px;
+  right: 0px;
 }
 
 .titre_recette {
@@ -193,21 +207,45 @@
 
   /*Dimensions*/
   height: 100px;
-  width: 100%;
 
   /*Texte*/
   font-family: Cookie;
-  color: var(--main-color);
-  font-weight: bold;
+  color: var(--color-text);
   font-size: 4em;
-  text-shadow: var(--color-text) 1px 1px 0px;
+}
+
+.btn_modify {
+  /*Position*/
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+
+  /*Dimensions*/
+  padding: 10px;
+
+  /*Style*/
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: sans-serif;
+  border: solid;
+  border-width: 1px;
+  border-radius: 7px;
+
+  /*Transition*/
+  transition: 0.5s;
+}
+
+.btn_modify:hover {
+  color: var(--main-color);
+  background-color: var(--color-text);
 }
 
 #signature {
   /*Position*/
-  position: relative;
-  top: 70px;
-  left: -200px;
+  position: absolute;
+  top: 75px;
+  right: 50px;
 
   /*Texte*/
   font-size: 0.4em;
@@ -222,11 +260,14 @@
 
 #recette_board {
   /*Position*/
-  margin-left: 20px;
+  position: absolute;
+  left: 0px;
+  right: 600px;
+  top: 0px;
+  bottom: 0px;
 
-  /*Style*/
-  background-color: rgb(255, 255, 255, 0.8);
-  box-shadow: 5px 5px 10px var(--color-shadow);
+  /*Autre*/
+  overflow: auto;
 }
 
 .intitule_recette {
@@ -251,21 +292,6 @@
   margin: 10px;
 }
 
-.titre_liste_categories {
-  /*Position*/
-  margin: 10px;
-
-  /*Dimensions*/
-  width: 200px;
-
-  /*Texte*/
-  font-family: Cookie;
-  color: var(--main-color);
-  font-weight: bold;
-  font-size: 3em;
-  text-shadow: var(--color-text) 1px 1px 0px;
-}
-
 .categorie_rct {
   /*Position*/
   position: relative;
@@ -273,30 +299,35 @@
   /*Dimensions*/
   padding-left: 20px;
   padding-right: 20px;
-  height: 50px;
-  margin: 10px;
+  height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
 
   /*Style*/
   border-radius: 5px;
-  background-color: var(--main-color);
   color: var(--color-text);
 
   /*Texte*/
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 .liste_categorie {
-  /*Flex*/
-  display: flex;
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  height: 80px;
 }
 
 #image_board {
   /*Position*/
-  position: relative;
-  margin-right: 40px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
 
   /*Dimensions*/
-  height: 500px;
+  width: 600px;
 
   /*Autre*/
   overflow: hidden;
@@ -358,12 +389,12 @@
 .carrousel_right {
   /*Position*/
   position: absolute;
-  top: 0px;
+  top: 50px;
+  bottom: 50px;
 
   /*Dimensions*/
   margin-left: 20px;
   margin-right: 20px;
-  height: 100%;
 }
 
 .carrousel_left {

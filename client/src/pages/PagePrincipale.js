@@ -5,6 +5,7 @@ import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
 import VignetteRecette from "../components/VignetteRecette";
 import MenuFiltreRecherche from "../components/MenuFiltreRecherche";
+import Bandeau from "../components/Bandeau";
 
 // Datas
 import myFondSite from "../datas/FondSiteSabine.jpg";
@@ -177,6 +178,8 @@ function PagePrincipale({
         setToShow={setToShow}
         nbNotif={nbNotif}
       />
+      <Bandeau mySize="big" />
+      <div className="degrade"></div>
       <div className="board">
         <div id="titre_site" className="non_selectionnable">
           Les Recettes de Sabine

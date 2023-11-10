@@ -11,21 +11,97 @@ header {
   /*Dimensions*/
   height: 50px;
   width: 100%;
+}
+
+.paquet_user {
+  /*Position*/
+  position: absolute;
+  right: 20px;
+}
+
+.info_user {
+  /*Position*/
+  margin-right: 5px;
 
   /*Style*/
-  background-color: var(--main-color-transparent);
-  box-shadow: 0px 5px 10px var(--color-shadow);
+  color: var(--color-text);
+}
+
+.fleche_menu_user {
+  /*Style*/
+  cursor: pointer;
+}
+
+.menu_user {
+  /*Position*/
+  position: absolute;
+  top: 30px;
+
+  /*Dimensions*/
+  width: 100%;
+
+  animation: open_menu_user 0.3s linear;
+}
+
+@keyframes open_menu_user {
+  0% {
+    top: 0px;
+    opacity: 0;
+  }
+  80% {
+    top: 32px;
+    opacity: 0.8;
+  }
+  100% {
+    top: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes close_menu_user {
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0px;
+    opacity: 0;
+  }
+}
+
+.bouton_menu_user {
+  /*Dimensions*/
+  width: 70%;
+  height: 40px;
+  margin-bottom: 2px;
+
+  /*Style*/
+  color: var(--color-text);
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 10px;
+  border: solid 1px;
+
+  /*Hover*/
+  transition: 0.5s;
+}
+
+.bouton_menu_user:hover {
+  /*Style*/
+  background-color: var(--color-text);
+  color: var(--main-color);
 }
 
 .paquet_btn_admin {
   /*Position*/
   position: relative;
+  height: 100%;
 }
 
 .notif {
   /*Position*/
   position: absolute;
-  top: 0px;
+  top: 8px;
   right: 0px;
   justify-content: center;
   text-align: center;

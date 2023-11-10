@@ -16,7 +16,6 @@
   background-color: var(--main-color);
   color: var(--color-text);
   text-decoration: none;
-  border: solid 3px;
   border-radius: 10px;
 
   /*hoover*/
@@ -30,7 +29,8 @@
 
 .bouton_board:hover {
   /*Style*/
-  background-color: var(--color-hover);
+  background-color: var(--color-text);
+  color: var(--main-color);
   cursor: pointer;
 }
 

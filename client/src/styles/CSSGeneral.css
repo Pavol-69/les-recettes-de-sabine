@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cookie&family=Manrope:wght@200&family=Montserrat:wght@100&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Caveat&family=Cookie&family=Manrope:wght@200&family=Montserrat:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap");
 
 html {
   /*Variables Générales*/
@@ -9,7 +10,7 @@ html {
   --main-color-transparent: rgb(30, 30, 30, 0.7);
   --color-text: rgb(220, 220, 220);
   --color-background: rgb(255, 135, 135, 0.2);
-  --color-hover: rgb(255, 135, 135);
+  --color-hover: rgb(150, 150, 150);
   --color-shadow: rgb(100, 100, 100);
 }
 
@@ -35,8 +36,8 @@ html {
 .board {
   /*Position*/
   z-index: -1;
-  padding-top: 70px;
-  padding-bottom: 70px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 
   /*Dimensions*/
   width: 100%;
