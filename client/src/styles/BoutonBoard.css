@@ -1,4 +1,5 @@
-.bouton_board {
+.bouton_board,
+.bouton_board_empty {
   /*Centrage*/
   display: flex;
   justify-content: center;
@@ -6,20 +7,21 @@
 
   /*Dimensions*/
   height: 60px;
-  min-width: 200px;
+  width: 200px;
   margin-left: 20px;
   margin-right: 20px;
   padding-left: 20px;
   padding-right: 20px;
 
   /*Style*/
-  background-color: var(--main-color);
+
   color: var(--color-text);
   text-decoration: none;
   border-radius: 10px;
 
   /*hoover*/
   transition: 0.5s;
+  cursor: pointer;
 
   /*Texte*/
   font-family: "Roboto";
@@ -27,11 +29,19 @@
   font-weight: bold;
 }
 
-.bouton_board:hover {
+.bouton_board {
+  background-color: var(--main-color);
+}
+
+.bouton_board_empty {
+  border: solid 1px;
+}
+
+.bouton_board:hover,
+.bouton_board_empty:hover {
   /*Style*/
   background-color: var(--color-text);
   color: var(--main-color);
-  cursor: pointer;
 }
 
 .paquet_boutons {

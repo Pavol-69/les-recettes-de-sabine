@@ -81,7 +81,7 @@ function ModifTitreRecette({
   return (
     <form
       id="menu_modif_titre_recette"
-      className="menu_modif elements_centre"
+      className="modif_recette elements_centre colonne"
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">
@@ -96,20 +96,20 @@ function ModifTitreRecette({
         value={myName}
       ></input>
       <div className="paquet_boutons">
-        <button
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
+        </div>
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </form>
   );

@@ -1,16 +1,13 @@
 // Components
 import BarreNavigation from "../components/BarreNavigation";
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
 import "../styles/BoutonBoard.css";
 import "../styles/Form.css";
-import "../styles_pages/Inscription.css";
+import "../styles_pages/Connexion.css";
 
 // Autre
 import React, { useState } from "react";
@@ -28,7 +25,7 @@ function PageInscription({ isAuth, setIsAuth }) {
 
   const { name, family_name, pseudo, mail, password1, password2 } = myInfo;
 
-  const onSubmitForm = async (e) => {
+  async function onSubmitForm(e) {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:5000/auth/inscription", {
@@ -61,87 +58,108 @@ function PageInscription({ isAuth, setIsAuth }) {
     } catch (err) {
       console.error(err.message);
     }
-  };
+  }
 
   function myOnChange(e) {
+    e.preventDefault();
     setMyInfo({ ...myInfo, [e.target.name]: e.target.value });
   }
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
+      <Bandeau mySize="big" />
       <div className="board">
-        <div id="fond_menu_inscription" className="fond_menu">
-          <form onSubmit={onSubmitForm}>
-            <div className="renseignement">
-              <label>Prénom</label>
-              <input
-                onChange={myOnChange}
-                type="text"
-                name="name"
-                placeholder="Prénom à renseigner"
-              ></input>
-            </div>
+        <form
+          className="form_renseignement elements_centre colonne"
+          onSubmit={(e) => onSubmitForm(e)}
+        >
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Prénom
+            </label>
+            <input
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="name"
+              placeholder="Prénom à renseigner"
+              className="input_connexion texte_taille_2"
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Nom</label>
-              <input
-                onChange={myOnChange}
-                type="text"
-                name="family_name"
-                placeholder="Nom à renseigner"
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Nom
+            </label>
+            <input
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="family_name"
+              placeholder="Nom à renseigner"
+              className="input_connexion texte_taille_2"
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Pseudo</label>
-              <input
-                onChange={myOnChange}
-                type="text"
-                name="pseudo"
-                placeholder="Pseudo à renseigner"
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Pseudo
+            </label>
+            <input
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="pseudo"
+              placeholder="Pseudo à renseigner"
+              className="input_connexion texte_taille_2"
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Adresse Mail</label>
-              <input
-                onChange={myOnChange}
-                type="mail"
-                name="mail"
-                placeholder="Adresse mail à renseigner"
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Adresse Mail
+            </label>
+            <input
+              onChange={(e) => myOnChange(e)}
+              type="mail"
+              name="mail"
+              placeholder="Adresse mail à renseigner"
+              className="input_connexion texte_taille_2"
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Mot de passe, première saisie</label>
-              <input
-                onChange={myOnChange}
-                type="password"
-                name="password1"
-                placeholder="Mot de passe"
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Mot de passe, première saisie
+            </label>
+            <input
+              onChange={(e) => myOnChange(e)}
+              type="password"
+              name="password1"
+              placeholder="Mot de passe"
+              className="input_connexion texte_taille_2"
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Mot de passe, seconde saisie</label>
-              <input
-                onChange={myOnChange}
-                type="password"
-                name="password2"
-                placeholder="Veuillez renseigner votre mot de passe à nouveau"
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Mot de passe, seconde saisie
+            </label>
+            <input
+              onChange={(e) => myOnChange(e)}
+              type="password"
+              name="password2"
+              placeholder="Veuillez renseigner votre mot de passe à nouveau"
+              className="input_connexion texte_taille_2"
+            ></input>
+          </div>
 
-            <button
-              className="bouton_board non_selectionnable"
-              id="bouton_inscription"
-            >
-              Inscription
-            </button>
-          </form>
-        </div>
+          <div
+            className="btn_connexion bouton_board non_selectionnable"
+            id="bouton_inscription"
+            onClick={(e) => onSubmitForm(e)}
+          >
+            Inscription
+          </div>
+        </form>
       </div>
 
       <PiedDePage />

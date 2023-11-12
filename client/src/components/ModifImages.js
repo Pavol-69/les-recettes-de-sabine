@@ -77,8 +77,7 @@ function ModifImages({
   return (
     <div>
       <div
-        id="menu_modif_images"
-        className="menu_modif elements_centre"
+        className="modif_recette elements_centre colonne"
         onSubmit={(e) => onSubmitValider(e)}
       >
         <div className="titre_modif texte_centre">
@@ -98,20 +97,20 @@ function ModifImages({
           )}
         </div>
         <div className="paquet_boutons">
-          <button
+          <div
             className="bouton_board non_selectionnable"
             id="bouton_valider"
             onClick={(e) => onSubmitValider(e)}
           >
             Valider
-          </button>
-          <button
+          </div>
+          <div
             className="bouton_board non_selectionnable"
             id="bouton_annuler"
             onClick={(e) => annuler(e)}
           >
             Annuler
-          </button>
+          </div>
         </div>
       </div>
     </div>

@@ -79,10 +79,10 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
     >
       {toShow ? (
         <form
-          className="menu_ajout_recette"
+          className="elements_centre colonne"
           onSubmit={(e) => onSubmitValider(e)}
         >
-          <div className="titre_ajout_recette">
+          <div className="texte_taille_4 gras">
             Veuillez donner un nom à votre nouvelle recette
           </div>
           <input
@@ -94,20 +94,20 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
             value={myName}
           ></input>
           <div className="paquet_boutons">
-            <button
+            <div
               className="bouton_board non_selectionnable"
               id="bouton_valider"
               onClick={(e) => onSubmitValider(e)}
             >
               Valider
-            </button>
-            <button
+            </div>
+            <div
               className="bouton_board non_selectionnable"
               id="bouton_annuler"
               onClick={(e) => annuler(e)}
             >
               Annuler
-            </button>
+            </div>
           </div>
         </form>
       ) : null}

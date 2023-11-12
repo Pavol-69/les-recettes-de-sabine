@@ -65,8 +65,7 @@ router.post("/deleteUser", authorization, async (req, res) => {
 router.post("/updateInfos", authorization, async (req, res) => {
   try {
     // Récupérationd des variables
-    const { name, family_name, pseudo, mail, password, password2, user_id } =
-      req.body;
+    const { name, family_name, pseudo, mail, password, password2 } = req.body;
 
     // Vérification de si les deux mdp sont identiques
     if (password !== "" || password2 !== "") {
@@ -95,13 +94,13 @@ router.post("/updateInfos", authorization, async (req, res) => {
     );
 
     if (user_pseudo.rows.length !== 0) {
-      if (user_pseudo.rows[0].user_id !== user_id) {
+      if (user_pseudo.rows[0].user_id !== req.user) {
         return res.status(401).json("Pseudo déjà utilisé.");
       }
     }
 
     if (user_mail.rows.length !== 0) {
-      if (user_mail.rows[0].user_id !== user_id) {
+      if (user_mail.rows[0].user_id !== req.user) {
         return res.status(401).json("Adresse mail déjà utilisée.");
       }
     }
@@ -110,28 +109,28 @@ router.post("/updateInfos", authorization, async (req, res) => {
     if (name !== "") {
       await pool.query("UPDATE users SET user_name=$1 where user_id=$2", [
         name,
-        user_id,
+        req.user,
       ]);
     }
 
     if (family_name !== "") {
       await pool.query(
         "UPDATE users SET user_family_name=$1 where user_id=$2",
-        [family_name, user_id]
+        [family_name, req.user]
       );
     }
 
     if (pseudo !== "") {
       await pool.query("UPDATE users SET user_pseudo=$1 where user_id=$2", [
         pseudo,
-        user_id,
+        req.user,
       ]);
     }
 
     if (mail !== "") {
       await pool.query("UPDATE users SET user_mail=$1 where user_id=$2", [
         mail,
-        user_id,
+        req.user,
       ]);
     }
 

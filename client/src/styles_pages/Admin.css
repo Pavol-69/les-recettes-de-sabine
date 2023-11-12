@@ -1,36 +1,23 @@
 #fond_menu_admin {
-    /*Position*/
-    position: relative;
-    
-    /*Dimensions*/
-    width: 1000px;
-
-    /*Alignement*/
-    display: flex;
-    flex-direction: column;
-
-    /*Styles*/
-    background-color: rgb(255, 255, 255, 0.7);
-    border-radius: 5px;
-
-    border: solid;
+  /*Position*/
+  position: relative;
+  top: 100px;
 }
 
 .ligne_user {
-    /*Position*/
-    position: relative;
-    padding: 10px;
-    margin-left: 70px;
-
-    /*Alignement*/
-    display: flex;
-    flex-direction: row;
+  /*Position*/
+  position: relative;
+  padding: 10px;
+  margin-left: 70px;
 }
 
-.prenom_user, .nom_user, .role_user {
-    /*Position*/
-    position: relative;
+.prenom_user,
+.nom_user,
+.role_user,
+.pseudo_user {
+  /*Position*/
+  position: relative;
 
-    /*Dimensions*/
-    min-width: 100px;
+  /*Dimensions*/
+  width: 200px;
 }

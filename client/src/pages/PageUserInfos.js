@@ -1,11 +1,8 @@
 // Components
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import BarreNavigation from "../components/BarreNavigation";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -34,12 +31,11 @@ function PageUserInfos({
     password2: "",
   });
 
-  const { user_id, name, family_name, pseudo, mail, password1, password2 } =
-    myInfo;
+  const { name, family_name, pseudo, mail, password1, password2 } = myInfo;
 
   useEffect(() => {
     getUserInfos();
-  }, [myInfo]);
+  }, []);
 
   async function getUserInfos() {
     try {
@@ -102,7 +98,6 @@ function PageUserInfos({
           },
 
           body: JSON.stringify({
-            user_id: user_id,
             name: name,
             family_name: family_name,
             pseudo: pseudo,
@@ -143,7 +138,6 @@ function PageUserInfos({
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -153,88 +147,110 @@ function PageUserInfos({
         setToShow={setToShow}
         nbNotif={nbNotif}
       />
+      <Bandeau mySize="big" />
       <div className="board">
-        <div id="fond_menu_inscription" className="fond_menu">
-          <form onSubmit={onSubmitForm}>
-            <div className="renseignement">
-              <label>Prénom</label>
-              <input
-                onChange={myOnChange}
-                type="text"
-                name="name"
-                placeholder="Prénom"
-                value={name}
-              ></input>
-            </div>
+        <form onSubmit={(e) => onSubmitForm(e)}>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Prénom
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="name"
+              placeholder="Prénom"
+              value={name}
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Nom de Famille</label>
-              <input
-                onChange={myOnChange}
-                type="text"
-                name="family_name"
-                placeholder="Nom"
-                value={family_name}
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Nom de Famille
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="family_name"
+              placeholder="Nom"
+              value={family_name}
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Pseudo</label>
-              <input
-                onChange={myOnChange}
-                type="text"
-                name="pseudo"
-                placeholder="Pseudo"
-                value={pseudo}
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Pseudo
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="pseudo"
+              placeholder="Pseudo"
+              value={pseudo}
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Adresse Mail</label>
-              <input
-                onChange={myOnChange}
-                type="mail"
-                name="mail"
-                placeholder="Adresse Mail"
-                value={mail}
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Adresse Mail
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              onChange={(e) => myOnChange(e)}
+              type="mail"
+              name="mail"
+              placeholder="Adresse Mail"
+              value={mail}
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Mot de passe, première saisie</label>
-              <input
-                onChange={myOnChange}
-                type="password"
-                name="password1"
-                placeholder="Mot de passe"
-              ></input>
-            </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Mot de passe, première saisie
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              onChange={(e) => myOnChange(e)}
+              type="password"
+              name="password1"
+              placeholder="Mot de passe"
+            ></input>
+          </div>
 
-            <div className="renseignement">
-              <label>Mot de passe, seconde saisie</label>
-              <input
-                onChange={myOnChange}
-                type="password"
-                name="password2"
-                placeholder="Veuillez renseigner votre mot de passe à nouveau"
-              ></input>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Mot de passe, seconde saisie
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              onChange={(e) => myOnChange(e)}
+              type="password"
+              name="password2"
+              placeholder="Veuillez renseigner votre mot de passe à nouveau"
+            ></input>
+          </div>
+          <div className="pqt_bouton_connexion ligne">
+            <div
+              className="bouton_board non_selectionnable"
+              id="bouton_validation"
+              onClick={(e) => onSubmitForm(e)}
+            >
+              Valider
             </div>
-            <div className="ligne">
-              <button
-                className="bouton_board non_selectionnable"
-                id="bouton_validation"
-              >
-                Valider
-              </button>
-              <button
-                className="bouton_board non_selectionnable"
-                onClick={(e) => desinscription(e)}
-              >
-                Désinscription
-              </button>
+            <div
+              className="bouton_board non_selectionnable"
+              onClick={(e) => desinscription(e)}
+            >
+              Désinscription
             </div>
-          </form>
-        </div>
+          </div>
+          <button
+            onClick={(e) => onSubmitForm(e)}
+            style={{ visibility: "hidden" }}
+          ></button>
+        </form>
       </div>
       <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
       <PiedDePage />

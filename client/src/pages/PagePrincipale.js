@@ -1,14 +1,10 @@
 // Components
 import BarreNavigation from "../components/BarreNavigation";
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
 import VignetteRecette from "../components/VignetteRecette";
 import MenuFiltreRecherche from "../components/MenuFiltreRecherche";
 import Bandeau from "../components/Bandeau";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -168,7 +164,6 @@ function PagePrincipale({
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -179,17 +174,22 @@ function PagePrincipale({
         nbNotif={nbNotif}
       />
       <Bandeau mySize="big" />
-      <div className="degrade"></div>
       <div className="board">
         <div id="titre_site" className="non_selectionnable">
           Les Recettes de Sabine
         </div>
         {!isAuth ? (
           <div className="paquet_boutons">
-            <Link className="bouton_board non_selectionnable" to="/connexion">
+            <Link
+              className="bouton_board_empty non_selectionnable"
+              to="/connexion"
+            >
               Connexion
             </Link>
-            <Link className="bouton_board non_selectionnable" to="/inscription">
+            <Link
+              className="bouton_board_empty non_selectionnable"
+              to="/inscription"
+            >
               Inscription
             </Link>
           </div>
@@ -199,33 +199,32 @@ function PagePrincipale({
               <form id="groupe_recherche" onSubmit={(e) => rechercher(e)}>
                 <input
                   id="input_recherche"
-                  className="elt_recherche"
                   placeholder="Rechercher une recette..."
                   onChange={(e) => myOnChange(e)}
                   value={mySearch}
                 ></input>
-                <div className="elements_centre">
-                  <button
-                    className="elt_recherche bouton_board"
+                <div className="btn_recherche elements_centre">
+                  <div
+                    className="bouton_board_empty"
                     onClick={(e) => rechercher(e)}
                   >
                     Rechercher
-                  </button>
-                  <button
-                    className="elt_recherche bouton_board"
+                  </div>
+                  <div
+                    className="bouton_board_empty"
                     onClick={(e) => menuFiltre(e)}
                   >
                     Filtre
-                  </button>
-                  <button
-                    className="elt_recherche bouton_board"
+                  </div>
+                  <div
+                    className="bouton_board_empty"
                     onClick={(e) => reinitialisation(e)}
                   >
                     Réinitialisation
-                  </button>
+                  </div>
                 </div>
               </form>
-              <div id="plage_resultat">
+              <div className="plage_vignette elements_centre">
                 {mySearchList.length > 0
                   ? mySearchList.map((myRct, index) => (
                       <VignetteRecette
@@ -238,18 +237,23 @@ function PagePrincipale({
                   : null}
               </div>
             </div>
-            <div id="all_recipes">
-              {myRctList.length > 0
-                ? myRctList.map((myRct, index) => (
+            {myRctList.length > 0 ? (
+              <div>
+                <div className="titre_pqt_vignette elements_centre texte_taille_5">
+                  Toute les recettes
+                </div>
+                <div className="plage_vignette elements_centre">
+                  {myRctList.map((myRct, index) => (
                     <VignetteRecette
                       key={"list" + index}
                       myId={myRct.rct_id}
                       myName={myRct.rct_name}
                       myImg={myRct.rct_img}
                     />
-                  ))
-                : null}
-            </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
       </div>

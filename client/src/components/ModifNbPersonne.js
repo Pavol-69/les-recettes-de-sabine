@@ -87,8 +87,7 @@ function ModifNbPersonne({
 
   return (
     <form
-      id="menu_modif_nb_personne"
-      className="menu_modif elements_centre"
+      className="modif_recette colonne elements_centre"
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">
@@ -114,20 +113,20 @@ function ModifNbPersonne({
         ></input>
       </div>
       <div className="paquet_boutons">
-        <button
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
+        </div>
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </form>
   );

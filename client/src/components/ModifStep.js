@@ -467,19 +467,19 @@ function ModifStep({
       <div className="titre_modif texte_centre decalage_bandeau">
         Liste étapes
       </div>
-      <div className="elements_centre">
-        <button
+      <div className="paquet_btn_step elements_centre">
+        <div
           className="bouton_board non_selectionnable"
           onClick={(e) => ajoutSection(e)}
         >
           Ajouter une section
-        </button>
-        <button
+        </div>
+        <div
           className="bouton_board non_selectionnable"
           onClick={(e) => ajoutStep(e)}
         >
           Ajouter une étape
-        </button>
+        </div>
         <div id="icone_poubelle">
           <FontAwesomeIcon
             id="icone_poubelle_img"
@@ -494,7 +494,7 @@ function ModifStep({
           ? myInfo.rct_section_step.map((section_step, index) => (
               <div key={"modif_section_step" + index} className="case">
                 {section_step[0] !== "no_section" ? (
-                  <div className="ligne_section">
+                  <div className="ligne_section_step elements_centre">
                     <div className="case_icone_4_fleches elements_centre">
                       <FontAwesomeIcon
                         size="2x"
@@ -557,20 +557,20 @@ function ModifStep({
           : null}
       </div>
       <div className="paquet_boutons">
-        <button
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
+        </div>
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </form>
   );

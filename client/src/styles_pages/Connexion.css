@@ -1,14 +1,47 @@
-#fond_menu_connexion {
-    /*Position*/
-    position: relative;
-    
-    /*Dimensions*/
-    width: 1000px;
-    height: 1000px;
+.form_renseignement {
+  /*Position*/
+  position: relative;
+  width: 550px;
+}
 
-    /*Styles*/
-    background-color: rgb(255, 255, 255, 0.7);
-    border-radius: 5px;
+.renseignement_connexion {
+  /*Position*/
+  position: relative;
+  margin-bottom: 10px;
 
-    border: solid;
+  /*Dimensions*/
+  width: 100%;
+}
+
+.label_connexion {
+  /*Position*/
+  margin-top: 20px;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 40px;
+
+  /*Style*/
+  text-shadow: 1px 1px 2px var(--main-color);
+}
+
+.btn_connexion {
+  /*Position*/
+  margin-top: 30px;
+}
+
+.input_connexion {
+  /*Dimensions*/
+  height: 30px;
+  width: 100%;
+}
+
+#bouton_reset_password {
+  /*Position*/
+  margin-top: 20px;
+}
+
+.pqt_bouton_connexion {
+  /*Position*/
+  margin-top: 30px;
 }

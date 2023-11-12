@@ -1,10 +1,7 @@
 // Components
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import BarreNavigation from "../components/BarreNavigation";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -54,41 +51,41 @@ function PageNonAccepte({ role, isAuth, setIsAuth }) {
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation role={role} isAuth={isAuth} setIsAuth={setIsAuth} />
+      <Bandeau mySize="big" />
       <div className="board elements_centre">
         {role === "to_define" ? (
           <div className="ensemble_to_define elements_centre colonne texte_en_attente">
-            <div className="texte_taille_5 texte_en_attente gras">
+            <div className="couleur_texte texte_taille_5 texte_en_attente gras">
               Votre demande d'inscription est en attente.
             </div>
             <div className="paquet_bouton ligne">
-              <button
+              <div
                 onClick={(e) => logout(e)}
-                className="bouton_board non_selectionnable"
+                className="bouton_board_empty non_selectionnable"
               >
                 Déconnexion
-              </button>
-              <button
+              </div>
+              <div
                 onClick={(e) => desinscription(e)}
-                className="bouton_board non_selectionnable"
+                className="bouton_board_empty non_selectionnable"
               >
                 Se désinscrire
-              </button>
+              </div>
             </div>
           </div>
         ) : (
           <div className="ensemble_to_define elements_centre colonne texte_en_attente">
-            <div className="texte_taille_5 texte_en_attente gras">
+            <div className="couleur_texte texte_taille_5 texte_en_attente gras">
               Désolé, votre demande d'inscription a été rejetée.
             </div>
             <div className="paquet_bouton ligne">
-              <button
+              <div
                 onClick={(e) => logout(e)}
-                className="bouton_board non_selectionnable"
+                className="bouton_board_empty non_selectionnable"
               >
                 Déconnexion
-              </button>
+              </div>
             </div>
           </div>
         )}

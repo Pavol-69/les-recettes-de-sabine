@@ -109,42 +109,43 @@
 
 .bandeau_gauche {
   /*Position*/
-  position: absolute;
+  position: relative;
   z-index: 0;
-  top: 230px;
-  bottom: 50px;
 
   /*Dimensions*/
   width: 350px;
+  padding-top: 20px;
+  margin: 15px;
 
   /*Style*/
-  background-color: rgb(200, 200, 200, 0.5);
+  background-color: var(--main-color);
+  border-radius: 10px;
+}
 
-  /*Autre*/
-  overflow: auto;
+#recette_board {
+  /*Position*/
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  /*Dimensions*/
+  height: 100%;
+  width: 100%;
 }
 
 .nb_personne {
-  /*Position*/
-  position: absolute;
-  left: 10px;
-  top: 175px;
-
   /*Dimensions*/
-  width: 330px;
   height: 50px;
 
   /*Texte*/
-  color: var(--color-text);
-  font-weight: bold;
   font-size: 2em;
 }
 
 #icone_modifier_nb_personne {
   /*Position*/
   position: absolute;
-  right: -5px;
-  top: -10px;
+  right: 18px;
+  top: 3px;
 }
 
 #icone_modifier_ingredient {
@@ -172,10 +173,8 @@
 
   /*Texte*/
   font-family: Cookie;
-  color: var(--main-color);
-  font-weight: bold;
+  color: var(--color-text);
   font-size: 3em;
-  text-shadow: var(--color-text) 1px 1px 0px;
 }
 
 .texte_ingredient {
@@ -190,15 +189,6 @@
 
   /*Dimensions*/
   width: 330px;
-}
-
-#main_board {
-  /*Position*/
-  position: absolute;
-  top: 230px;
-  bottom: 50px;
-  left: 350px;
-  right: 0px;
 }
 
 .titre_recette {
@@ -244,10 +234,14 @@
 #signature {
   /*Position*/
   position: absolute;
-  top: 75px;
+  top: 85px;
   right: 50px;
 
+  /*Dimensions*/
+  width: 300px;
+
   /*Texte*/
+  text-align: right;
   font-size: 0.4em;
 }
 
@@ -256,18 +250,6 @@
   display: grid;
   grid-template-columns: 60% 40%;
   gap: 20px;
-}
-
-#recette_board {
-  /*Position*/
-  position: absolute;
-  left: 0px;
-  right: 600px;
-  top: 0px;
-  bottom: 0px;
-
-  /*Autre*/
-  overflow: auto;
 }
 
 .intitule_recette {
@@ -306,6 +288,7 @@
   /*Style*/
   border-radius: 5px;
   color: var(--color-text);
+  text-shadow: 1px 1px 2px var(--main-color);
 
   /*Texte*/
   font-size: 1.2em;
@@ -321,16 +304,18 @@
 
 #image_board {
   /*Position*/
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
+  position: relative;
 
   /*Dimensions*/
-  width: 600px;
+  width: 800px;
+  height: 500px;
+  margin: 50px;
 
-  /*Autre*/
   overflow: hidden;
+  border-radius: 30px;
+
+  /*Style*/
+  filter: drop-shadow(0 0 2rem);
 }
 
 #carrousel {
@@ -441,4 +426,25 @@
   /*Autre*/
   transition: 1s;
   cursor: pointer;
+}
+
+#main_board {
+  /*Position*/
+  margin-top: 30px;
+  display: flex;
+}
+
+.limite {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  height: 100%;
+  width: 100%;
+
+  /*Autre*/
+  overflow: hidden;
+
+  /*Style*/
+  filter: drop-shadow(0 0 0.75rem);
 }

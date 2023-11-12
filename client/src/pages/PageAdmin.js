@@ -1,11 +1,8 @@
 // Components
 import BarreNavigation from "../components/BarreNavigation";
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -79,7 +76,6 @@ function PageAdmin({
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -89,17 +85,20 @@ function PageAdmin({
         setToShow={setToShow}
         nbNotif={nbNotif}
       />
+      <Bandeau mySize="small" />
       <div className="board">
         <div id="fond_menu_admin" className="fond_menu">
-          <div className="ligne_user">
+          <div className="ligne_user ligne souligne gras texte_taille_3">
             <div className="prenom_user">Prenom</div>
             <div className="nom_user">Nom</div>
+            <div className="pseudo_user">Pseudo</div>
             <div className="role_user">Rôle</div>
           </div>
           {myUsers.map((user, index) => (
-            <div className="ligne_user" key={index}>
-              <div className="prenom_user">{user.user_name}</div>
+            <div className="ligne_user ligne gras texte_taille_2" key={index}>
+              <div className="prenom_user ">{user.user_name}</div>
               <div className="nom_user">{user.user_family_name}</div>
+              <div className="pseudo_user">{user.user_pseudo}</div>
               <select
                 onChange={(e) => handleChange(e, user.user_id)}
                 defaultValue={user.user_role}

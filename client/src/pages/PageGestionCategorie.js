@@ -1,16 +1,13 @@
 // Components
 import BarreNavigation from "../components/BarreNavigation";
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
 import ModifCat from "../components/ModifCat";
 
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
-
 // CSS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/GestionCategorie.css";
+import Bandeau from "../components/Bandeau";
 
 // Autre
 import React, { useState, useEffect } from "react";
@@ -143,7 +140,6 @@ function PageGestionCategorie({
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -153,14 +149,14 @@ function PageGestionCategorie({
         setToShow={setToShow}
         nbNotif={nbNotif}
       />
+      <Bandeau mySize="medium" />
       <div className="board">
         <form
-          id="fond_menu_categorie"
-          className="elements_centre"
+          className="form_categorie elements_centre colonne couleur_texte"
           onSubmit={(e) => onSubmitAjouter(e)}
         >
           <div className="titre_modif texte_centre">Gestion des Catégories</div>
-          <div className="ligne">
+          <div className="ligne ligne_info_cat">
             <input
               onChange={(e) => myOnChange(e)}
               className="input_modif"
@@ -169,13 +165,13 @@ function PageGestionCategorie({
               placeholder="Veuillez renseigner le nom d'une nouvelle catégorie"
               value={myName}
             ></input>
-            <button
-              className="bouton_board non_selectionnable"
+            <div
+              className="bouton_board_empty non_selectionnable"
               id="bouton_valider"
               onClick={(e) => onSubmitAjouter(e)}
             >
               Ajouter
-            </button>
+            </div>
           </div>
           <div className="paquet_cat elements_centre">
             {catList.length > 0

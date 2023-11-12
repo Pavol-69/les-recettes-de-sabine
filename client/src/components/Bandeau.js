@@ -9,20 +9,38 @@ import bandeau from "../datas/Bandeau.jpg";
 import React, { useState, useEffect } from "react";
 
 function Bandeau({ mySize }) {
-  const [myHeight, setMyHeight] = useState("230px");
+  const [myHeightImg, setMyHeightImg] = useState("");
+  const [myTopDegrade, setMyTopDegrade] = useState("");
+  const [myHeightDegrade, setMyHeightDegrade] = useState("");
 
   useEffect(() => {
     if (mySize === "small") {
-      setMyHeight("100px");
+      setMyHeightImg("150px");
+      setMyTopDegrade("100px");
+      setMyHeightDegrade("50px");
     } else if (mySize === "medium") {
-      setMyHeight("230px");
+      setMyHeightImg("350px");
+      setMyTopDegrade("250px");
+      setMyHeightDegrade("100px");
     } else if (mySize === "big") {
-      setMyHeight("600px");
+      setMyHeightImg("800px");
+      setMyTopDegrade("450px");
+      setMyHeightDegrade("350px");
     }
   }, []);
 
   return (
-    <img className="img_bandeau" src={bandeau} style={{ height: myHeight }} />
+    <div>
+      <img
+        className="img_bandeau"
+        src={bandeau}
+        style={{ height: myHeightImg }}
+      />
+      <div
+        className="degrade"
+        style={{ height: myTopDegrade, top: myHeightDegrade }}
+      ></div>
+    </div>
   );
 }
 

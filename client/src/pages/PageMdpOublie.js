@@ -1,10 +1,7 @@
 // Components
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import BarreNavigation from "../components/BarreNavigation";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
@@ -47,32 +44,37 @@ function PageMdpOublie({ isAuth, setIsAuth }) {
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
+      <Bandeau mySize={"big"} />
+
       <div className="board">
-        <div id="fond_menu_inscription" className="fond_menu">
-          <form onSubmit={onSubmitForm}>
-            <div>
-              Renseignez votre adresse mail afin que nous vous envoyions un mail
-              pour réinitialiser votre mot de passe
-            </div>
-            <div className="renseignement">
-              <label>Adresse Mail</label>
-              <input
-                type="mail"
-                name="mail"
-                placeholder="Adresse mail"
-                onChange={myOnChange}
-              ></input>
-            </div>
-            <button
-              className="bouton_board non_selectionnable"
-              id="bouton_mdp_oublie"
-            >
-              Envoyer Mail
-            </button>
-          </form>
-        </div>
+        <form
+          className="form_renseignement elements_centre colonne"
+          onSubmit={onSubmitForm}
+        >
+          <div className="couleur_texte gras texte_taille_2 texte_centre">
+            Renseignez votre adresse mail afin que nous vous envoyions un mail
+            pour réinitialiser votre mot de passe
+          </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Adresse Mail
+            </label>
+            <input
+              className="input_connexion texte_taille_2"
+              type="mail"
+              name="mail"
+              placeholder="Adresse mail"
+              onChange={myOnChange}
+            ></input>
+          </div>
+          <div
+            onClick={onSubmitForm}
+            className="btn_connexion bouton_board_empty non_selectionnable"
+          >
+            Envoyer Mail
+          </div>
+        </form>
       </div>
 
       <PiedDePage />

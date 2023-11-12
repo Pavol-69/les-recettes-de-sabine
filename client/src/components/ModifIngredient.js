@@ -467,18 +467,18 @@ function ModifIngredient({
         Liste ingrédients
       </div>
       <div className="elements_centre">
-        <button
-          className="bouton_board non_selectionnable"
+        <div
+          className="paquet_btn_ing bouton_board texte_centre non_selectionnable"
           onClick={(e) => ajoutSection(e)}
         >
           Ajouter une section
-        </button>
-        <button
-          className="bouton_board non_selectionnable"
+        </div>
+        <div
+          className="bouton_board texte_centre non_selectionnable"
           onClick={(e) => ajoutIngredient(e)}
         >
           Ajouter un ingrédient
-        </button>
+        </div>
         <div id="icone_poubelle">
           <FontAwesomeIcon
             id="icone_poubelle_img"
@@ -493,7 +493,7 @@ function ModifIngredient({
           ? myInfo.rct_section_ing.map((section_ing, index) => (
               <div key={"modif_section_ing" + index} className="case">
                 {section_ing[0] !== "no_section" ? (
-                  <div className="ligne_section">
+                  <div className="ligne_section_ing gras elements_centre">
                     <div className="case_icone_4_fleches elements_centre">
                       <FontAwesomeIcon
                         size="2x"
@@ -572,20 +572,20 @@ function ModifIngredient({
           : null}
       </div>
       <div className="paquet_boutons">
-        <button
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
+        </div>
+        <div
           className="bouton_board non_selectionnable"
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </div>
   );

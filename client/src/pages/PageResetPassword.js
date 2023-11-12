@@ -1,14 +1,11 @@
 // Components
-import FondSite from "../components/FondSite";
 import PiedDePage from "../components/PiedDePage";
 import BarreNavigation from "../components/BarreNavigation";
-
-// Datas
-import myFondSite from "../datas/FondSiteSabine.jpg";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
-import "../styles_pages/ResetPassword.css";
+import "../styles_pages/Connexion.css";
 
 // Autre
 import React, { useState } from "react";
@@ -64,37 +61,45 @@ function PageResetPassword({ isAuth, setIsAuth }) {
 
   return (
     <div className="relatif">
-      <FondSite myFondSite={myFondSite} />
       <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
+      <Bandeau mySize="big" />
       <div className="board">
-        <div id="fond_menu_inscription" className="fond_menu">
-          <form onSubmit={onSubmitForm}>
-            <div className="renseignement">
-              <label>Mot de Passe, première saisie</label>
-              <input
-                type="password"
-                name="password1"
-                placeholder="Veuillez renseigner votre nouveau Mot de passe une première fois"
-                onChange={myOnChange}
-              ></input>
-            </div>
-            <div className="renseignement">
-              <label>Mot de Passe, seconde saisie</label>
-              <input
-                type="password"
-                name="password2"
-                placeholder="Veuillez renseigner votre nouveau Mot de passe une nouvelle fois"
-                onChange={myOnChange}
-              ></input>
-            </div>
-            <button
-              className="bouton_board non_selectionnable"
-              id="bouton_reset_password"
-            >
-              Réinitialisation Mot de passe
-            </button>
-          </form>
-        </div>
+        <form
+          className="form_renseignement elements_centre colonne"
+          onSubmit={onSubmitForm}
+        >
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Mot de Passe, première saisie
+            </label>
+            <input
+              type="password"
+              className="input_connexion texte_taille_2"
+              name="password1"
+              placeholder="Mot de passe, première saisie..."
+              onChange={myOnChange}
+            ></input>
+          </div>
+          <div className="renseignement_connexion">
+            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
+              Mot de Passe, seconde saisie
+            </label>
+            <input
+              type="password"
+              className="input_connexion texte_taille_2"
+              name="password2"
+              placeholder="Mot de passe, seconde saisie..."
+              onChange={myOnChange}
+            ></input>
+          </div>
+          <div
+            className="bouton_board_empty non_selectionnable texte_centre"
+            id="bouton_reset_password"
+            onClick={onSubmitForm}
+          >
+            Réinitialisation Mot de passe
+          </div>
+        </form>
       </div>
 
       <PiedDePage />
