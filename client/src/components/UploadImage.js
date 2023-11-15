@@ -9,7 +9,7 @@ import "font-awesome/css/font-awesome.min.css";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Dropzone from "react-dropzone";
 
-function UploadImage({ imgList, setImgList, i }) {
+function UploadImage({ imgList, setImgList, i, tailleTel }) {
   const CLOUDINARY_UPLOAD_PRESET = "LesRecettesDeSabine";
   const CLOUDINARY_UPLOAD_URL =
     "https://api.cloudinary.com/v1_1/lesrecettesdesabine/upload";
@@ -58,13 +58,15 @@ function UploadImage({ imgList, setImgList, i }) {
   };
 
   return imgList[i] === "" ? (
-    <div className="paquet_drop">
+    <div
+      className="paquet_drop"
+      style={{ width: tailleTel ? "350px" : "400px" }}
+    >
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div className="drop_img elements_centre colonne" {...getRootProps()}>
             <FontAwesomeIcon
               icon={faImage}
-              className="no_img"
               size={"9x"}
               style={{ color: "#000000" }}
               onChange={onImageDrop}
@@ -80,7 +82,10 @@ function UploadImage({ imgList, setImgList, i }) {
       </Dropzone>
     </div>
   ) : (
-    <div className="paquet_drop">
+    <div
+      className="paquet_drop"
+      style={{ width: tailleTel ? "350px" : "400px" }}
+    >
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps }) => (
           <div className="drop_img elements_centre" {...getRootProps()}>

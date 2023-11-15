@@ -37,7 +37,7 @@ html {
   /*Position*/
   position: static;
   z-index: -1;
-  padding-top: 50px;
+  padding-top: 110px;
   padding-bottom: 25px;
 
   /*Dimensions*/
@@ -84,6 +84,13 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.align_gauche {
+  /*Centrage*/
+  display: flex;
+  justify-content: left;
+  align-items: left;
 }
 
 .texte_centre {

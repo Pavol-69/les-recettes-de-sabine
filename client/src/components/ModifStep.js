@@ -21,6 +21,7 @@ function ModifStep({
   defaultValue_section,
   setChangingSteps,
   myBoard,
+  tailleTel,
 }) {
   const [myInfo, setMyInfo] = useState({
     rct_step: defaultValue_step,
@@ -191,10 +192,10 @@ function ModifStep({
       let isSection = false;
       let isStep = false;
 
-      if (e.target.parentNode.className === "ligne_section") {
+      if (e.target.parentNode.className.indexOf("ligne_section") > -1) {
         isSection = true;
       }
-      if (e.target.parentNode.className === "ligne_step") {
+      if (e.target.parentNode.className.indexOf("ligne_step") > -1) {
         isStep = true;
       }
 
@@ -303,7 +304,11 @@ function ModifStep({
           } else {
             myDrag.style.left = myX - 31 + "px";
           }
-          myDrag.style.top = myY - 31 + myBoard.scrollTop + "px";
+          myDrag.style.top =
+            myY - 31 + myBoard.scrollTop - window.scrollY + "px";
+
+          //On ajuste myY selon le scroll
+          myY = myY - window.scrollY;
 
           // Changement de l'animation de la poubelle quand on passe dessus
           if (
@@ -462,20 +467,20 @@ function ModifStep({
   return (
     <form
       className="menu_modif elements_centre"
-      //onSubmit={(e) => onSubmitValider(e)}
+      style={{ width: tailleTel ? "800px" : null }}
     >
       <div className="titre_modif texte_centre decalage_bandeau">
         Liste étapes
       </div>
       <div className="paquet_btn_step elements_centre">
         <div
-          className="bouton_board non_selectionnable"
+          className="bouton_board_tel non_selectionnable"
           onClick={(e) => ajoutSection(e)}
         >
           Ajouter une section
         </div>
         <div
-          className="bouton_board non_selectionnable"
+          className="bouton_board_tel non_selectionnable"
           onClick={(e) => ajoutStep(e)}
         >
           Ajouter une étape
@@ -489,7 +494,7 @@ function ModifStep({
           />
         </div>
       </div>
-      <div id="field_sections">
+      <div id="field_sections" style={{ width: tailleTel ? "400px" : null }}>
         {myInfo.rct_section_step.length > 0
           ? myInfo.rct_section_step.map((section_step, index) => (
               <div key={"modif_section_step" + index} className="case">
@@ -499,20 +504,21 @@ function ModifStep({
                       <FontAwesomeIcon
                         size="2x"
                         icon={faArrowsUpDownLeftRight}
-                        style={{ color: "#000000" }}
+                        style={{ color: "var(--color-text)" }}
                       />
                     </div>
                     <div
                       className="saisie"
                       onMouseDown={(e) => dragDrop(e)}
                     ></div>
-                    <div className="non_select">Section : </div>
+                    <div className="non_select gras">Section : </div>
                     <input
                       onChange={myOnChange_section_step}
                       className="input_section_step non_select"
                       name={"input_section_step_" + section_step[1]}
                       value={section_step[0]}
                       type="text"
+                      style={{ width: tailleTel ? "250px" : "500px" }}
                       placeholder="Veuillez renseigner un nom de section"
                     ></input>
                   </div>
@@ -523,7 +529,7 @@ function ModifStep({
                     ? myInfo.rct_step.map((step, index) =>
                         step[1] === section_step[1] ? (
                           <div key={"modif_step" + index} className="case">
-                            <div className="ligne_step">
+                            <div className="ligne_step elements_centre">
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon
                                   size="2x"
@@ -536,7 +542,7 @@ function ModifStep({
                                 onMouseDown={(e) => dragDrop(e)}
                               ></div>
 
-                              <div className="non_select elements_centre">
+                              <div className="non_select gras elements_centre">
                                 Etape :
                               </div>
                               <textarea
@@ -544,6 +550,7 @@ function ModifStep({
                                 className="input_step non_select"
                                 name={"input_step_" + step[2]}
                                 value={step[0]}
+                                style={{ width: tailleTel ? "230px" : "500px" }}
                                 placeholder=" Contenu de votre étape..."
                               ></textarea>
                             </div>
@@ -558,14 +565,14 @@ function ModifStep({
       </div>
       <div className="paquet_boutons">
         <div
-          className="bouton_board non_selectionnable"
+          className="bouton_board_tel non_selectionnable"
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
         </div>
         <div
-          className="bouton_board non_selectionnable"
+          className="bouton_board_tel non_selectionnable"
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >

@@ -25,6 +25,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { useMediaQuery } from "react-responsive";
 
 function App() {
   const [role, setRole] = useState("");
@@ -33,6 +34,14 @@ function App() {
   const [isLoadedAuth, setIsLoadedAuth] = useState(false);
   const [pseudo, setPseudo] = useState("");
   const [toShow, setToShow] = useState(false);
+  const tailleOrdi = useMediaQuery({ query: "(min-width: 1475px)" });
+  const tailleInt1 = useMediaQuery({
+    query: "(min-width: 1275px)",
+  });
+  const tailleInt2 = useMediaQuery({
+    query: "(min-width: 851px)",
+  });
+  const tailleTel = useMediaQuery({ query: "(max-width: 850px)" });
 
   const [nbNotif, setNbNotif] = useState(0);
 
@@ -120,6 +129,10 @@ function App() {
                     toShow={toShow}
                     setToShow={setToShow}
                     nbNotif={nbNotif}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
                   />
                 }
               />
@@ -131,7 +144,14 @@ function App() {
               <Route
                 path="/inscription"
                 element={
-                  <PageInscription isAuth={isAuth} setIsAuth={setIsAuth} />
+                  <PageInscription
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
+                  />
                 }
               />
             </Route>
@@ -139,19 +159,40 @@ function App() {
               <Route
                 path="/connexion"
                 element={
-                  <PageConnexion isAuth={isAuth} setIsAuth={setIsAuth} />
+                  <PageConnexion
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
+                  />
                 }
               />
               <Route
                 path="/connexion/mot-de-passe-oublie"
                 element={
-                  <PageMdpOublie isAuth={isAuth} setIsAuth={setIsAuth} />
+                  <PageMdpOublie
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
+                  />
                 }
               />
               <Route
                 path="/connexion/reinitialisation-mot-de-passe/:resetKey"
                 element={
-                  <PageResetPassword isAuth={isAuth} setIsAuth={setIsAuth} />
+                  <PageResetPassword
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
+                  />
                 }
               />
             </Route>
@@ -167,6 +208,10 @@ function App() {
                     toShow={toShow}
                     setToShow={setToShow}
                     nbNotif={nbNotif}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
                   />
                 }
               />
@@ -186,6 +231,10 @@ function App() {
                     toShow={toShow}
                     setToShow={setToShow}
                     nbNotif={nbNotif}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
                   />
                 }
               />
@@ -205,6 +254,10 @@ function App() {
                     toShow={toShow}
                     setToShow={setToShow}
                     nbNotif={nbNotif}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
                   />
                 }
               />
@@ -222,6 +275,10 @@ function App() {
                     toShow={toShow}
                     setToShow={setToShow}
                     nbNotif={nbNotif}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
                   />
                 }
               />
@@ -240,6 +297,10 @@ function App() {
                     role={role}
                     toShow={toShow}
                     setToShow={setToShow}
+                    tailleOrdi={tailleOrdi}
+                    tailleTel={tailleTel}
+                    tailleInt1={tailleInt1}
+                    tailleInt2={tailleInt2}
                   />
                 }
               />

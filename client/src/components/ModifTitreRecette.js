@@ -15,6 +15,7 @@ function ModifTitreRecette({
   setMyRct,
   setChangingName,
   myBoard,
+  tailleTel,
 }) {
   const [myName, setMyName] = useState(defaultValue);
 
@@ -81,7 +82,11 @@ function ModifTitreRecette({
   return (
     <form
       id="menu_modif_titre_recette"
-      className="modif_recette elements_centre colonne"
+      className={
+        tailleTel
+          ? "modif_recette_tel elements_centre colonne"
+          : "modif_recette elements_centre colonne"
+      }
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">
@@ -89,7 +94,7 @@ function ModifTitreRecette({
       </div>
       <input
         onChange={myOnChange}
-        className="input_modif"
+        className={tailleTel ? "input_modif_tel" : "input_modif"}
         type="text"
         name="rct_name"
         placeholder="Veuillez renseigner un titre pour cette recette"
@@ -97,14 +102,22 @@ function ModifTitreRecette({
       ></input>
       <div className="paquet_boutons">
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
         </div>
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >

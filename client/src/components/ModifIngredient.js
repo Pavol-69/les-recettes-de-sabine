@@ -16,12 +16,12 @@ import {
 
 function ModifIngredient({
   rct_id,
-  myRct,
   setMyRct,
   defaultValue_ing,
   defaultValue_section,
   setChangingIngredients,
   myBoard,
+  tailleTel,
 }) {
   const [myInfo, setMyInfo] = useState({
     rct_ing: defaultValue_ing,
@@ -186,14 +186,15 @@ function ModifIngredient({
   // Fonction drag&drop pour les sections
   function dragDrop(e) {
     // Vérification de si on prend bien le bon élément kl
+
     if (e.target.className === "saisie") {
       let isSection = false;
       let isIngredient = false;
 
-      if (e.target.parentNode.className === "ligne_section") {
+      if (e.target.parentNode.className.indexOf("ligne_section") > -1) {
         isSection = true;
       }
-      if (e.target.parentNode.className === "ligne_ingredient") {
+      if (e.target.parentNode.className.indexOf("ligne_ingredient") > -1) {
         isIngredient = true;
       }
 
@@ -302,15 +303,16 @@ function ModifIngredient({
           } else {
             myDrag.style.left = myX - 31 + "px";
           }
-          myDrag.style.top = myY - 31 + myBoard.scrollTop + "px";
+          myDrag.style.top =
+            myY - 31 + myBoard.scrollTop - window.scrollY + "px";
+
+          //On ajuste myY selon le scroll
+          myY = myY - window.scrollY;
 
           // Changement de l'animation de la poubelle quand on passe dessus
           if (
-            myY > maPoubelle.offsetTop - myBoard.scrollTop &&
-            myY <
-              maPoubelle.offsetTop +
-                maPoubelle.offsetHeight -
-                myBoard.scrollTop &&
+            myY > maPoubelle.offsetTop &&
+            myY < maPoubelle.offsetTop + maPoubelle.offsetHeight &&
             myX > maPoubelle.offsetLeft &&
             myX < maPoubelle.offsetLeft + maPoubelle.offsetWidth
           ) {
@@ -461,6 +463,7 @@ function ModifIngredient({
   return (
     <div
       className="menu_modif elements_centre"
+      style={{ width: tailleTel ? "400px" : null }}
       //onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre decalage_bandeau">
@@ -468,13 +471,21 @@ function ModifIngredient({
       </div>
       <div className="elements_centre">
         <div
-          className="paquet_btn_ing bouton_board texte_centre non_selectionnable"
+          className={
+            tailleTel
+              ? "paquet_btn_ing bouton_board_tel texte_centre non_selectionnable"
+              : "paquet_btn_ing bouton_board texte_centre non_selectionnable"
+          }
           onClick={(e) => ajoutSection(e)}
         >
           Ajouter une section
         </div>
         <div
-          className="bouton_board texte_centre non_selectionnable"
+          className={
+            tailleTel
+              ? "paquet_btn_ing bouton_board_tel texte_centre non_selectionnable"
+              : "paquet_btn_ing bouton_board texte_centre non_selectionnable"
+          }
           onClick={(e) => ajoutIngredient(e)}
         >
           Ajouter un ingrédient
@@ -488,7 +499,7 @@ function ModifIngredient({
           />
         </div>
       </div>
-      <div id="field_sections">
+      <div id="field_sections" style={{ width: tailleTel ? "400px" : null }}>
         {myInfo.rct_section_ing.length > 0
           ? myInfo.rct_section_ing.map((section_ing, index) => (
               <div key={"modif_section_ing" + index} className="case">
@@ -498,7 +509,7 @@ function ModifIngredient({
                       <FontAwesomeIcon
                         size="2x"
                         icon={faArrowsUpDownLeftRight}
-                        style={{ color: "#000000" }}
+                        style={{ color: "var(--color-text" }}
                       />
                     </div>
                     <div
@@ -508,7 +519,11 @@ function ModifIngredient({
                     <div className="non_select">Section : </div>
                     <input
                       onChange={(e) => myOnChange_section_ing(e)}
-                      className="input_section_ing non_select"
+                      className={
+                        tailleTel
+                          ? "input_section_ing_tel non_select"
+                          : "input_section_ing non_select"
+                      }
                       name={"input_section_ing_" + section_ing[1]}
                       value={section_ing[0]}
                       type="text"
@@ -522,7 +537,7 @@ function ModifIngredient({
                     ? myInfo.rct_ing.map((ing, index) =>
                         ing[3] === section_ing[1] ? (
                           <div key={"modif_ing" + index} className="case">
-                            <div className="ligne_ingredient">
+                            <div className="ligne_ingredient elements_centre">
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon
                                   size="2x"
@@ -535,30 +550,35 @@ function ModifIngredient({
                                 onMouseDown={(e) => dragDrop(e)}
                               ></div>
 
-                              <div className="non_select elements_centre">
-                                Ingrédient :
+                              <div className="non_select gras elements_centre">
+                                {tailleTel ? "Ing :" : "Ingrédient :"}
                               </div>
                               <input
                                 onChange={(e) => myOnChange_ing(e)}
-                                className="input_ing_qty non_select"
+                                className="input_ing non_select"
                                 name={"input_ing_qty_" + ing[4] + "_0"}
                                 type="number"
                                 value={ing[0]}
+                                style={{ width: tailleTel ? "30px" : "50px" }}
                               ></input>
                               <input
                                 onChange={(e) => myOnChange_ing(e)}
-                                className="input_ing_unit non_select"
+                                className="input_ing non_select"
                                 name={"input_ing_unit_" + ing[4] + "_1"}
                                 type="text"
                                 value={ing[1]}
+                                style={{ width: tailleTel ? "30px" : "100px" }}
                                 placeholder="Unité..."
                               ></input>
                               <input
                                 onChange={(e) => myOnChange_ing(e)}
-                                className="input_ing_what non_select"
+                                className="input_ing non_select"
                                 name={"input_ing_what_" + ing[4] + "_2"}
                                 type="text"
                                 value={ing[2]}
+                                style={{
+                                  width: tailleTel ? "150px" : "300px",
+                                }}
                                 placeholder=" Nom de l'ingrédient..."
                               ></input>
                             </div>
@@ -573,14 +593,22 @@ function ModifIngredient({
       </div>
       <div className="paquet_boutons">
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
         </div>
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >

@@ -142,6 +142,12 @@ router.get("/getRecipesList", async (req, res) => {
       myRecipeList = myRecipeList.rows;
     }
 
+    // Classement de myRecipeList par ordre alphabétique
+    const strAscending = [...myRecipeList].sort((a, b) =>
+      a.rct_name.toLowerCase() > b.rct_name.toLowerCase() ? 1 : -1
+    );
+    myRecipeList = strAscending;
+
     for (let i = 0; i < myRecipeList.length; i++) {
       // Récupération des Catégories
       let myCatList = [];

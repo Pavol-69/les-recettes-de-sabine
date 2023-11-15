@@ -24,9 +24,6 @@
 }
 
 .input_section_step {
-  /*Dimensions*/
-  width: 550px;
-
   /*Position*/
   margin: 5px;
 }
@@ -84,7 +81,6 @@
 .case_icone_4_fleches {
   /*Dimensions*/
   width: 30px;
-  height: 30px;
   padding: 5px;
 }
 
@@ -96,7 +92,6 @@
 
   /*Dimensions*/
   width: 30px;
-  height: 30px;
   padding: 5px;
 
   /*Style*/
@@ -109,11 +104,6 @@
   height: 100%;
 }
 
-#field_sections {
-  /*Position*/
-  padding-right: 50px;
-}
-
 .ligne_step {
   /*Position*/
   left: 50px;
@@ -121,7 +111,6 @@
 
 .input_step {
   /*Dimensions*/
-  width: 500px;
   height: 100px;
   margin: 5px;
 

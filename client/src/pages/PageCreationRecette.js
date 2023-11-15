@@ -29,7 +29,6 @@ import "font-awesome/css/font-awesome.min.css";
 import {
   faCircleChevronLeft,
   faCircleChevronRight,
-  faEraser,
 } from "@fortawesome/free-solid-svg-icons";
 
 function PageCreationRecette({
@@ -40,6 +39,10 @@ function PageCreationRecette({
   toShow,
   setToShow,
   nbNotif,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
 }) {
   // Infos recette
   const [myRct, setMyRct] = useState({
@@ -71,9 +74,7 @@ function PageCreationRecette({
   const [rightBeat, setRightBeat] = useState(false);
   const [allowToModify, setAllowToModify] = useState(false);
   const [modify, setModify] = useState(false);
-  const [deleteAnim, setDeleteAnim] = useState(false);
   const [noCat, setNoCat] = useState(true);
-  const [onModif, setOnModif] = useState("fixed");
 
   // Fonctions fetch
   async function getRecipeInfos() {
@@ -175,24 +176,6 @@ function PageCreationRecette({
     setLeftCarrousel(-index);
   }
 
-  function SuppressionRecette(e) {
-    e.preventDefault();
-    ouvertureModif(true);
-    setChangingDelete(true);
-  }
-
-  function modifyButton(e) {
-    if (modify) {
-      setModify(false);
-      e.target.style.color = "var(--color-text)";
-      e.target.style.backgroundColor = "rgb(0,0,0,0)";
-    } else {
-      setModify(true);
-      e.target.style.color = "var(--main-color)";
-      e.target.style.backgroundColor = "var(--color-text)";
-    }
-  }
-
   return (
     <div className="relatif">
       <BarreNavigation
@@ -203,20 +186,26 @@ function PageCreationRecette({
         toShow={toShow}
         setToShow={setToShow}
         nbNotif={nbNotif}
+        tailleOrdi={tailleOrdi}
+        tailleTel={tailleTel}
+        tailleInt1={tailleInt1}
+        tailleInt2={tailleInt2}
+        isRecipePage={true}
+        allowToModify={allowToModify}
+        modify={modify}
+        setModify={setModify}
+        ouvertureModif={ouvertureModif}
+        setChangingDelete={setChangingDelete}
       />
       <Bandeau mySize={"big"} />
-      {allowToModify ? (
-        <div
-          onClick={(e) => modifyButton(e)}
-          className="btn_modify elements_centre texte_taille_2 gras"
-        >
-          Modifier
-        </div>
-      ) : null}
-
       <div id="board_creation_recette" className="board">
         <div className="titre_recette elements_centre">
-          <div className="elements_centre ligne">
+          <div
+            className="elements_centre texte_centre ligne"
+            style={{
+              fontSize: tailleTel ? "2.5em" : tailleOrdi ? "4em" : "3em",
+            }}
+          >
             {myRct.rct_name}
             {modify ? (
               <div className="paquet_btn_titre ligne">
@@ -227,22 +216,11 @@ function PageCreationRecette({
                   src={iconeModifier}
                   onClick={(e) => modifButton(e)}
                 />
-                <div
-                  onMouseEnter={() => setDeleteAnim(true)}
-                  onMouseLeave={() => setDeleteAnim(false)}
-                  onClick={(e) => SuppressionRecette(e)}
-                  className="bouton_suppr"
-                >
-                  <FontAwesomeIcon
-                    icon={faEraser}
-                    shake={deleteAnim}
-                    size="xs"
-                    style={{ color: "#af0000" }}
-                  />
-                </div>
               </div>
             ) : null}
-            <div id="signature">Créée par {myRct.user_pseudo}</div>
+            {tailleOrdi ? (
+              <div id="signature">Créée par {myRct.user_pseudo}</div>
+            ) : null}
           </div>
         </div>
 
@@ -274,7 +252,7 @@ function PageCreationRecette({
           ) : null}
         </div>
 
-        <div id="image_board">
+        <div id="image_board" style={{ width: tailleTel ? "400px" : "800px" }}>
           <div className="limite">
             <div id="carrousel" style={{ left: leftCarrousel * 100 + "%" }}>
               {myRct.rct_img[0] === "" ? (
@@ -377,7 +355,10 @@ function PageCreationRecette({
           </div>
         </div>
 
-        <div id="main_board">
+        <div
+          id="main_board"
+          className={tailleTel ? "elements_centre colonne" : null}
+        >
           <div className="bandeau_gauche">
             <div className="nb_personne gras elements_centre couleur_texte">
               {myRct.rct_nb === 0
@@ -451,7 +432,11 @@ function PageCreationRecette({
           </div>
 
           <div id="recette_board">
-            <div className="intitule_recette">
+            <div
+              className={
+                tailleTel ? "intitule_recette texte_centre" : "intitule_recette"
+              }
+            >
               La recette
               {modify ? (
                 <img
@@ -510,6 +495,7 @@ function PageCreationRecette({
             setMyRct={setMyRct}
             setChangingName={setChangingName}
             myBoard={myBoard}
+            tailleTel={tailleTel}
           />
         )}
         {!!changingNbPersonne && (
@@ -521,6 +507,7 @@ function PageCreationRecette({
             defaultValue_type={myRct.rct_nb_type}
             setChangingNbPersonne={setChangingNbPersonne}
             myBoard={myBoard}
+            tailleTel={tailleTel}
           />
         )}
         {!!changingIngredients && (
@@ -532,6 +519,7 @@ function PageCreationRecette({
             defaultValue_section={myRct.rct_section_ing}
             setChangingIngredients={setChangingIngredients}
             myBoard={myBoard}
+            tailleTel={tailleTel}
           />
         )}
         {!!changingSteps && (
@@ -542,6 +530,7 @@ function PageCreationRecette({
             defaultValue_section={myRct.rct_section_step}
             setChangingSteps={setChangingSteps}
             myBoard={myBoard}
+            tailleTel={tailleTel}
           />
         )}
         {!!changingCat && (
@@ -551,6 +540,7 @@ function PageCreationRecette({
             defaultValue={myRct.rct_cat}
             setChangingCat={setChangingCat}
             myBoard={myBoard}
+            tailleTel={tailleTel}
           />
         )}
         {!!changingImg && (
@@ -562,6 +552,7 @@ function PageCreationRecette({
             setChangingImg={setChangingImg}
             myBoard={myBoard}
             setLeftCarrousel={setLeftCarrousel}
+            tailleTel={tailleTel}
           />
         )}
         {!!changingDelete && (
@@ -569,10 +560,16 @@ function PageCreationRecette({
             rct_id={rct_id}
             setChangingDelete={setChangingDelete}
             myBoard={myBoard}
+            tailleTel={tailleTel}
           />
         )}
       </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
+      <MenuAjoutRecette
+        toShow={toShow}
+        setToShow={setToShow}
+        pseudo={pseudo}
+        tailleTel={tailleTel}
+      />
       <PiedDePage />
     </div>
   );

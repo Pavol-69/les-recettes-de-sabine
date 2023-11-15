@@ -14,6 +14,7 @@ function ModifCategorie({
   defaultValue,
   setChangingCat,
   myBoard,
+  tailleTel,
 }) {
   const [myInfo, setMyInfo] = useState(defaultValue);
 
@@ -105,13 +106,17 @@ function ModifCategorie({
   return (
     <form
       id="menu_modif_categorie"
-      className="modif_recette elements_centre colonne"
+      className={
+        tailleTel
+          ? "modif_recette_tel elements_centre colonne"
+          : "modif_recette elements_centre colonne"
+      }
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">
         Choisissez les catégories associées à votre recette
       </div>
-      <div className="elements_centre">
+      <div className="paquet_modif_cat elements_centre">
         {myInfo.length > 0
           ? myInfo.map((cat, index) =>
               cat[1] ? (
@@ -136,14 +141,22 @@ function ModifCategorie({
       </div>
       <div className="paquet_boutons">
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
         </div>
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >

@@ -18,6 +18,7 @@ function ModifImages({
   setChangingImg,
   myBoard,
   setLeftCarrousel,
+  tailleTel,
 }) {
   let [imgList, setImgList] = useState(defaultValue);
 
@@ -77,7 +78,11 @@ function ModifImages({
   return (
     <div>
       <div
-        className="modif_recette elements_centre colonne"
+        className={
+          tailleTel
+            ? "modif_recette_tel elements_centre colonne"
+            : "modif_recette elements_centre colonne"
+        }
         onSubmit={(e) => onSubmitValider(e)}
       >
         <div className="titre_modif texte_centre">
@@ -92,20 +97,29 @@ function ModifImages({
                 imgList={imgList}
                 setImgList={setImgList}
                 i={index}
+                tailleTel={tailleTel}
               />
             ) : null
           )}
         </div>
         <div className="paquet_boutons">
           <div
-            className="bouton_board non_selectionnable"
+            className={
+              tailleTel
+                ? "bouton_board_tel non_selectionnable"
+                : "bouton_board non_selectionnable"
+            }
             id="bouton_valider"
             onClick={(e) => onSubmitValider(e)}
           >
             Valider
           </div>
           <div
-            className="bouton_board non_selectionnable"
+            className={
+              tailleTel
+                ? "bouton_board_tel non_selectionnable"
+                : "bouton_board non_selectionnable"
+            }
             id="bouton_annuler"
             onClick={(e) => annuler(e)}
           >

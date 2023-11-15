@@ -24,6 +24,10 @@ function PagePrincipale({
   toShow,
   setToShow,
   nbNotif,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
 }) {
   const [myRctList, setMyRctList] = useState([]);
   const [myFilterList, setMyFilterList] = useState([]);
@@ -172,6 +176,11 @@ function PagePrincipale({
         toShow={toShow}
         setToShow={setToShow}
         nbNotif={nbNotif}
+        tailleOrdi={tailleOrdi}
+        tailleTel={tailleTel}
+        tailleInt1={tailleInt1}
+        tailleInt2={tailleInt2}
+        isRecipePage={false}
       />
       <Bandeau mySize="big" />
       <div className="board">

@@ -3,47 +3,49 @@ header {
   position: absolute;
   z-index: 2;
 
-  /*Centrage*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   /*Dimensions*/
   height: 50px;
   width: 100%;
 }
 
+.bandeau_header {
+  /*Dimensions*/
+  height: 100%;
+}
+
 .paquet_user {
   /*Position*/
   position: absolute;
-  right: 20px;
-}
+  top: 0px;
 
-.info_user {
-  /*Position*/
-  margin-right: 5px;
-
-  /*Style*/
-  color: var(--color-text);
+  /*Dimensions*/
+  height: 100%;
 }
 
 .fleche_menu_user {
+  /*Dimensions*/
+  margin-left: 7px;
+
   /*Style*/
   cursor: pointer;
 }
 
-.menu_user {
+.menu_deroulant {
   /*Position*/
   position: absolute;
-  top: 30px;
+  top: 50px;
 
   /*Dimensions*/
-  width: 100%;
+  width: 150px;
 
-  animation: open_menu_user 0.3s linear;
+  /*Style*/
+  background-color: var(--color-text);
+
+  /*Animation*/
+  animation: open_menu_deroulant 0.2s linear;
 }
 
-@keyframes open_menu_user {
+@keyframes open_menu_deroulant {
   0% {
     top: 0px;
     opacity: 0;
@@ -58,7 +60,7 @@ header {
   }
 }
 
-@keyframes close_menu_user {
+@keyframes close_menu_deroulant {
   from {
     top: 30px;
     opacity: 1;
@@ -69,27 +71,25 @@ header {
   }
 }
 
-.bouton_menu_user {
+.bouton_menu_deroulant {
   /*Dimensions*/
   width: 70%;
   height: 40px;
-  margin-bottom: 2px;
+  width: 100%;
 
   /*Style*/
-  color: var(--color-text);
+  color: var(--main-color);
   cursor: pointer;
   text-decoration: none;
-  border-radius: 10px;
-  border: solid 1px;
 
   /*Hover*/
   transition: 0.5s;
 }
 
-.bouton_menu_user:hover {
+.bouton_menu_deroulant:hover {
   /*Style*/
-  background-color: var(--color-text);
-  color: var(--main-color);
+  background-color: var(--main-color);
+  color: var(--color-text);
 }
 
 .paquet_btn_admin {
@@ -102,7 +102,6 @@ header {
   /*Position*/
   position: absolute;
   top: 8px;
-  right: 0px;
   justify-content: center;
   text-align: center;
 
@@ -117,4 +116,38 @@ header {
   /*Texte*/
   font-size: small;
   color: var(--color-text);
+}
+
+#menu_header,
+#btn_plus,
+#btn_icon_modify {
+  /*Dimensions*/
+  height: 34px;
+  width: 34px;
+  padding: 8px;
+
+  /*Style*/
+  color: var(--color-text);
+
+  /*Hover*/
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.icone_user {
+  /*Position*/
+  margin: 8px;
+}
+
+.paquet_user {
+  /*Style*/
+  cursor: pointer;
+}
+
+.centre_mobile {
+  /*Position*/
+  position: absolute;
+  right: 44px;
+  top: 0px;
+  bottom: 0px;
 }

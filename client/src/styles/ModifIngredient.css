@@ -31,6 +31,14 @@
   margin: 5px;
 }
 
+.input_section_ing_tel {
+  /*Dimensions*/
+  width: 250px;
+
+  /*Position*/
+  margin: 5px;
+}
+
 .ligne_section_ing,
 .ligne_ingredient {
   /*Dimensions*/
@@ -106,30 +114,12 @@
   height: 100%;
 }
 
-#field_sections {
-  /*Position*/
-  padding-right: 50px;
-}
-
 .ligne_ingredient {
   /*Position*/
   left: 50px;
 }
 
-.input_ing_qty {
+.input_ing {
   /*Dimensions*/
-  width: 50px;
-  margin: 5px;
-}
-
-.input_ing_unit {
-  /*Dimensions*/
-  width: 100px;
-  margin: 5px;
-}
-
-.input_ing_what {
-  /*Dimensions*/
-  width: 300px;
   margin: 5px;
 }

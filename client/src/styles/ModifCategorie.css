@@ -34,3 +34,8 @@
   /*Style*/
   cursor: pointer;
 }
+
+.paquet_modif_cat {
+  /*Flex*/
+  flex-wrap: wrap;
+}

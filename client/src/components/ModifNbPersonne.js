@@ -16,6 +16,7 @@ function ModifNbPersonne({
   defaultValue_type,
   setChangingNbPersonne,
   myBoard,
+  tailleTel,
 }) {
   const [myInfo, setMyInfo] = useState({
     rct_nb: defaultValue_nb,
@@ -87,7 +88,11 @@ function ModifNbPersonne({
 
   return (
     <form
-      className="modif_recette colonne elements_centre"
+      className={
+        tailleTel
+          ? "modif_recette_tel elements_centre colonne"
+          : "modif_recette elements_centre colonne"
+      }
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">
@@ -101,6 +106,7 @@ function ModifNbPersonne({
           className="input_modif texte_centre"
           type="number"
           name="rct_nb"
+          style={{ width: tailleTel ? "30px" : "50px" }}
           value={myInfo.rct_nb}
         ></input>
         <input
@@ -109,19 +115,28 @@ function ModifNbPersonne({
           className="input_modif"
           type="text"
           name="rct_nb_type"
+          style={{ width: tailleTel ? "250px" : "600px" }}
           value={myInfo.rct_nb_type}
         ></input>
       </div>
       <div className="paquet_boutons">
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
         </div>
         <div
-          className="bouton_board non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
