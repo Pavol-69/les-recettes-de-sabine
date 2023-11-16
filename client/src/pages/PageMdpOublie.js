@@ -11,7 +11,7 @@ import "../styles_pages/Connexion.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function PageMdpOublie({ isAuth, setIsAuth }) {
+function PageMdpOublie({ isAuth, setIsAuth, tailleTel }) {
   const [mail, setMail] = useState("");
 
   const onSubmitForm = async (e) => {
@@ -49,19 +49,27 @@ function PageMdpOublie({ isAuth, setIsAuth }) {
 
       <div className="board">
         <form
-          className="form_renseignement elements_centre colonne"
+          className={
+            tailleTel
+              ? "form_renseignement_tel elements_centre colonne"
+              : "form_renseignement elements_centre colonne"
+          }
           onSubmit={onSubmitForm}
         >
           <div className="couleur_texte gras texte_taille_2 texte_centre">
             Renseignez votre adresse mail afin que nous vous envoyions un mail
             pour réinitialiser votre mot de passe
           </div>
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Adresse Mail
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               type="mail"
               name="mail"
               placeholder="Adresse mail"
@@ -70,7 +78,11 @@ function PageMdpOublie({ isAuth, setIsAuth }) {
           </div>
           <div
             onClick={onSubmitForm}
-            className="btn_connexion bouton_board_empty non_selectionnable"
+            className={
+              tailleTel
+                ? "btn_connexion bouton_board_empty_tel non_selectionnable texte_centre"
+                : "btn_connexion bouton_board_empty non_selectionnable"
+            }
           >
             Envoyer Mail
           </div>

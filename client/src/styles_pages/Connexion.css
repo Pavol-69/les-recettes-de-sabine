@@ -4,6 +4,12 @@
   width: 550px;
 }
 
+.form_renseignement_tel {
+  /*Position*/
+  position: relative;
+  width: 350px;
+}
+
 .renseignement_connexion {
   /*Position*/
   position: relative;
@@ -34,6 +40,12 @@
   /*Dimensions*/
   height: 30px;
   width: 100%;
+}
+
+.input_connexion_tel {
+  /*Dimensions*/
+  height: 30px;
+  width: 350px;
 }
 
 #bouton_reset_password {

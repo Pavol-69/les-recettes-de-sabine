@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-function PageConnexion({ isAuth, setIsAuth }) {
+function PageConnexion({ isAuth, setIsAuth, tailleTel }) {
   const [myInfo, setMyInfo] = useState({
     mail: "",
     password: "",
@@ -62,12 +62,16 @@ function PageConnexion({ isAuth, setIsAuth }) {
           className="form_renseignement elements_centre colonne"
           onSubmit={(e) => onSubmitForm(e)}
         >
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Adresse Mail
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={myOnChange}
               type="mail"
               name="mail"
@@ -75,12 +79,16 @@ function PageConnexion({ isAuth, setIsAuth }) {
             ></input>
           </div>
 
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Mot de passe
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={myOnChange}
               type="password"
               name="password"
@@ -95,7 +103,11 @@ function PageConnexion({ isAuth, setIsAuth }) {
           </Link>
 
           <div
-            className="btn_connexion bouton_board_empty non_selectionnable"
+            className={
+              tailleTel
+                ? "btn_connexion bouton_board_empty_tel non_selectionnable"
+                : "btn_connexion bouton_board_empty non_selectionnable"
+            }
             id="bouton_connexion"
             onSubmit={(e) => onSubmitForm(e)}
           >

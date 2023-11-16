@@ -14,6 +14,7 @@ function ModifCat({
   setNewName,
   myBoard,
   setCatList,
+  tailleTel,
 }) {
   function myOnChange(e) {
     setNewName(e.target.value);
@@ -87,27 +88,35 @@ function ModifCat({
       </div>
       <input
         onChange={myOnChange}
-        className="input_modif"
+        className={tailleTel ? "input_modif_tel" : "input_modif"}
         type="text"
         name="cat_name"
         placeholder="Veuillez renseigner un nom pour cette catégorie"
         value={newName}
       ></input>
       <div className="paquet_boutons">
-        <button
-          className="bouton_board non_selectionnable"
+        <div
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
-          className="bouton_board non_selectionnable"
+        </div>
+        <div
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </form>
   );

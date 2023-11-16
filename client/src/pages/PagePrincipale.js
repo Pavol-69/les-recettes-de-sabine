@@ -180,23 +180,42 @@ function PagePrincipale({
         tailleTel={tailleTel}
         tailleInt1={tailleInt1}
         tailleInt2={tailleInt2}
-        isRecipePage={false}
       />
       <Bandeau mySize="big" />
       <div className="board">
-        <div id="titre_site" className="non_selectionnable">
+        <div
+          id="titre_site"
+          className="non_selectionnable texte_centre"
+          style={{
+            fontSize: tailleTel
+              ? "5em"
+              : tailleInt2 && !tailleInt1 && !tailleOrdi
+              ? "6em"
+              : tailleInt1 && !tailleOrdi
+              ? "8em"
+              : "10em",
+          }}
+        >
           Les Recettes de Sabine
         </div>
         {!isAuth ? (
           <div className="paquet_boutons">
             <Link
-              className="bouton_board_empty non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_empty_tel non_selectionnable"
+                  : "bouton_board_empty non_selectionnable"
+              }
               to="/connexion"
             >
               Connexion
             </Link>
             <Link
-              className="bouton_board_empty non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_empty_tel non_selectionnable"
+                  : "bouton_board_empty non_selectionnable"
+              }
               to="/inscription"
             >
               Inscription
@@ -205,28 +224,54 @@ function PagePrincipale({
         ) : (
           <div className="plage_user_auth">
             <div id="plage_recherche" className="elements_centre">
-              <form id="groupe_recherche" onSubmit={(e) => rechercher(e)}>
+              <form
+                className="elements_centre colonne"
+                id="groupe_recherche"
+                onSubmit={(e) => rechercher(e)}
+              >
                 <input
                   id="input_recherche"
                   placeholder="Rechercher une recette..."
                   onChange={(e) => myOnChange(e)}
                   value={mySearch}
+                  style={{
+                    width: tailleTel
+                      ? "350px"
+                      : tailleInt2 && !tailleInt1
+                      ? "800px"
+                      : "100%",
+                  }}
                 ></input>
-                <div className="btn_recherche elements_centre">
+                <div
+                  className="btn_recherche elements_centre"
+                  style={{ flexWrap: "wrap", rowGap: "30px" }}
+                >
                   <div
-                    className="bouton_board_empty"
+                    className={
+                      tailleTel
+                        ? "bouton_board_empty_tel"
+                        : "bouton_board_empty"
+                    }
                     onClick={(e) => rechercher(e)}
                   >
                     Rechercher
                   </div>
                   <div
-                    className="bouton_board_empty"
+                    className={
+                      tailleTel
+                        ? "bouton_board_empty_tel"
+                        : "bouton_board_empty"
+                    }
                     onClick={(e) => menuFiltre(e)}
                   >
                     Filtre
                   </div>
                   <div
-                    className="bouton_board_empty"
+                    className={
+                      tailleTel
+                        ? "bouton_board_empty_tel"
+                        : "bouton_board_empty"
+                    }
                     onClick={(e) => reinitialisation(e)}
                   >
                     Réinitialisation
@@ -274,6 +319,7 @@ function PagePrincipale({
             myBoard={myBoard}
             myFilterBool={myFilterBool}
             setMyFilterBool={setMyFilterBool}
+            tailleTel={tailleTel}
           />
         ) : null}
       </div>

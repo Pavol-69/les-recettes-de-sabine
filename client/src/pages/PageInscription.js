@@ -13,7 +13,7 @@ import "../styles_pages/Connexion.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function PageInscription({ isAuth, setIsAuth }) {
+function PageInscription({ isAuth, setIsAuth, tailleTel }) {
   const [myInfo, setMyInfo] = useState({
     name: "",
     family_name: "",
@@ -74,7 +74,7 @@ function PageInscription({ isAuth, setIsAuth }) {
           className="form_renseignement elements_centre colonne"
           onSubmit={(e) => onSubmitForm(e)}
         >
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Prénom
             </label>
@@ -83,11 +83,15 @@ function PageInscription({ isAuth, setIsAuth }) {
               type="text"
               name="name"
               placeholder="Prénom à renseigner"
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
             ></input>
           </div>
 
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Nom
             </label>
@@ -96,11 +100,15 @@ function PageInscription({ isAuth, setIsAuth }) {
               type="text"
               name="family_name"
               placeholder="Nom à renseigner"
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
             ></input>
           </div>
 
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Pseudo
             </label>
@@ -109,11 +117,15 @@ function PageInscription({ isAuth, setIsAuth }) {
               type="text"
               name="pseudo"
               placeholder="Pseudo à renseigner"
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
             ></input>
           </div>
 
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Adresse Mail
             </label>
@@ -122,11 +134,15 @@ function PageInscription({ isAuth, setIsAuth }) {
               type="mail"
               name="mail"
               placeholder="Adresse mail à renseigner"
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
             ></input>
           </div>
 
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Mot de passe, première saisie
             </label>
@@ -135,11 +151,15 @@ function PageInscription({ isAuth, setIsAuth }) {
               type="password"
               name="password1"
               placeholder="Mot de passe"
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
             ></input>
           </div>
 
-          <div className="renseignement_connexion">
+          <div className="renseignement_connexion elements_centre colonne">
             <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
               Mot de passe, seconde saisie
             </label>
@@ -147,13 +167,25 @@ function PageInscription({ isAuth, setIsAuth }) {
               onChange={(e) => myOnChange(e)}
               type="password"
               name="password2"
-              placeholder="Veuillez renseigner votre mot de passe à nouveau"
-              className="input_connexion texte_taille_2"
+              placeholder={
+                tailleTel
+                  ? "Mot de passe, seconde saisie"
+                  : "Veuillez renseigner votre mot de passe à nouveau"
+              }
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
             ></input>
           </div>
 
           <div
-            className="btn_connexion bouton_board non_selectionnable"
+            className={
+              tailleTel
+                ? "btn_connexion bouton_board_tel non_selectionnable"
+                : "btn_connexion bouton_board non_selectionnable"
+            }
             id="bouton_inscription"
             onClick={(e) => onSubmitForm(e)}
           >

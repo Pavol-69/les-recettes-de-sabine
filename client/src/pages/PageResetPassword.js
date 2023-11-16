@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 
-function PageResetPassword({ isAuth, setIsAuth }) {
+function PageResetPassword({ isAuth, setIsAuth, tailleTel }) {
   const [myPasswords, setMyPasswords] = useState({
     password1: "",
     password2: "",
@@ -63,9 +63,13 @@ function PageResetPassword({ isAuth, setIsAuth }) {
     <div className="relatif">
       <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
       <Bandeau mySize="big" />
-      <div className="board">
+      <div className="board elements_centre">
         <form
-          className="form_renseignement elements_centre colonne"
+          className={
+            tailleTel
+              ? "form_renseignement_tel elements_centre colonne"
+              : "form_renseignement elements_centre colonne"
+          }
           onSubmit={onSubmitForm}
         >
           <div className="renseignement_connexion">
@@ -93,7 +97,11 @@ function PageResetPassword({ isAuth, setIsAuth }) {
             ></input>
           </div>
           <div
-            className="bouton_board_empty non_selectionnable texte_centre"
+            className={
+              tailleTel
+                ? "btn_connexion bouton_board_empty_tel non_selectionnable texte_centre"
+                : "btn_connexion bouton_board_empty non_selectionnable texte_centre"
+            }
             id="bouton_reset_password"
             onClick={onSubmitForm}
           >

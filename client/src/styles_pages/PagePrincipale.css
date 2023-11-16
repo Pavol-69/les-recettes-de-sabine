@@ -14,8 +14,6 @@
   /*Texte*/
   font-family: Cookie;
   color: var(--color-text);
-
-  font-size: 10em;
 }
 
 .plage_vignette {
@@ -78,7 +76,7 @@
 
   /*Dimensions*/
   height: 2px;
-  width: 500px;
+  width: 400px;
 
   /*Style*/
   background-color: var(--color-text);

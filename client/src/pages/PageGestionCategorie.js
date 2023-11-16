@@ -21,6 +21,10 @@ function PageGestionCategorie({
   toShow,
   setToShow,
   nbNotif,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
 }) {
   const [myName, setMyName] = useState("");
   const [oldName, setOldName] = useState("");
@@ -148,6 +152,10 @@ function PageGestionCategorie({
         toShow={toShow}
         setToShow={setToShow}
         nbNotif={nbNotif}
+        tailleOrdi={tailleOrdi}
+        tailleTel={tailleTel}
+        tailleInt1={tailleInt1}
+        tailleInt2={tailleInt2}
       />
       <Bandeau mySize="medium" />
       <div className="board">
@@ -156,17 +164,32 @@ function PageGestionCategorie({
           onSubmit={(e) => onSubmitAjouter(e)}
         >
           <div className="titre_modif texte_centre">Gestion des Catégories</div>
-          <div className="ligne ligne_info_cat">
+          <div
+            className={
+              tailleTel || (tailleInt2 && !tailleInt1 && !tailleOrdi)
+                ? "colonne ligne_info_cat elements_centre"
+                : "ligne ligne_info_cat"
+            }
+          >
             <input
               onChange={(e) => myOnChange(e)}
-              className="input_modif"
+              className={tailleTel ? "input_modif_tel" : "input_modif"}
+              style={{ marginBottom: "25px" }}
               type="text"
               name="cat_name"
-              placeholder="Veuillez renseigner le nom d'une nouvelle catégorie"
+              placeholder={
+                tailleTel
+                  ? "Nouvelle catégorie..."
+                  : "Veuillez renseigner le nom d'une nouvelle catégorie"
+              }
               value={myName}
             ></input>
             <div
-              className="bouton_board_empty non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_tel non_selectionnable"
+                  : "bouton_board non_selectionnable"
+              }
               id="bouton_valider"
               onClick={(e) => onSubmitAjouter(e)}
             >
@@ -196,7 +219,10 @@ function PageGestionCategorie({
           </div>
         </form>
       </div>
-      <div id={boardModificationName} className="board_menu_suppl">
+      <div
+        id={boardModificationName}
+        className="board_menu_suppl elements_centre"
+      >
         <ModifCat
           oldName={oldName}
           setOldName={setOldName}
@@ -204,6 +230,7 @@ function PageGestionCategorie({
           newName={newName}
           myBoard={myBoard}
           setCatList={setCatList}
+          tailleTel={tailleTel}
         />
       </div>
       <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />

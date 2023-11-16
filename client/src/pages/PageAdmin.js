@@ -18,6 +18,10 @@ function PageAdmin({
   toShow,
   setToShow,
   nbNotif,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
 }) {
   const [myUsers, setMyUsers] = useState([]);
 
@@ -84,21 +88,74 @@ function PageAdmin({
         toShow={toShow}
         setToShow={setToShow}
         nbNotif={nbNotif}
+        tailleOrdi={tailleOrdi}
+        tailleTel={tailleTel}
+        tailleInt1={tailleInt1}
+        tailleInt2={tailleInt2}
       />
       <Bandeau mySize="small" />
       <div className="board">
         <div id="fond_menu_admin" className="fond_menu">
-          <div className="ligne_user ligne souligne gras texte_taille_3">
-            <div className="prenom_user">Prenom</div>
-            <div className="nom_user">Nom</div>
-            <div className="pseudo_user">Pseudo</div>
-            <div className="role_user">Rôle</div>
+          <div
+            className={
+              tailleTel
+                ? "ligne_user_tel ligne souligne gras texte_taille_1"
+                : "ligne_user ligne souligne gras texte_taille_3"
+            }
+          >
+            <div
+              className={
+                tailleTel ? "prenom_user_tel texte_centre" : "prenom_user"
+              }
+            >
+              Prenom
+            </div>
+            <div
+              className={tailleTel ? "nom_user_tel texte_centre" : "nom_user"}
+            >
+              Nom
+            </div>
+            <div
+              className={
+                tailleTel ? "pseudo_user_tel texte_centre" : "pseudo_user"
+              }
+            >
+              Pseudo
+            </div>
+            <div
+              className={tailleTel ? "role_user_tel texte_centre" : "role_user"}
+            >
+              Rôle
+            </div>
           </div>
           {myUsers.map((user, index) => (
-            <div className="ligne_user ligne gras texte_taille_2" key={index}>
-              <div className="prenom_user ">{user.user_name}</div>
-              <div className="nom_user">{user.user_family_name}</div>
-              <div className="pseudo_user">{user.user_pseudo}</div>
+            <div
+              className={
+                tailleTel
+                  ? "ligne_user_tel ligne texte_taille_1"
+                  : "ligne_user ligne gras texte_taille_2"
+              }
+              key={index}
+            >
+              <div
+                className={
+                  tailleTel ? "prenom_user_tel texte_centre" : "prenom_user"
+                }
+              >
+                {user.user_name}
+              </div>
+              <div
+                className={tailleTel ? "nom_user_tel texte_centre" : "nom_user"}
+              >
+                {user.user_family_name}
+              </div>
+              <div
+                className={
+                  tailleTel ? "pseudo_user_tel texte_centre" : "pseudo_user"
+                }
+              >
+                {user.user_pseudo}
+              </div>
               <select
                 onChange={(e) => handleChange(e, user.user_id)}
                 defaultValue={user.user_role}

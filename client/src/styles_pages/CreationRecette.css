@@ -216,6 +216,7 @@
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 25px;
+  margin-top: 25px;
 
   /*Texte*/
   font-family: Cookie;
@@ -225,7 +226,7 @@
 #signature {
   /*Position*/
   position: absolute;
-  top: 85px;
+  top: 65px;
   right: 50px;
 
   /*Dimensions*/

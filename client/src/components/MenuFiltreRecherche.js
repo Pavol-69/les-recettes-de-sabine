@@ -9,6 +9,7 @@ function MenuFiltreRecherche({
   myBoard,
   myFilterBool,
   setMyFilterBool,
+  tailleTel,
 }) {
   const annuler = (e) => {
     e.preventDefault();
@@ -66,7 +67,7 @@ function MenuFiltreRecherche({
       onSubmit={(e) => onSubmitValider(e)}
     >
       <div className="titre_modif texte_centre">Filtrer par catégorie</div>
-      <div className="elements_centre">
+      <div className="elements_centre" style={{ flexWrap: "Wrap" }}>
         {myFilterList.length > 0
           ? myFilterList.map((cat, index) =>
               cat[1] ? (
@@ -90,20 +91,28 @@ function MenuFiltreRecherche({
           : null}
       </div>
       <div className="paquet_boutons">
-        <button
-          className="bouton_board non_selectionnable"
+        <div
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
-          className="bouton_board non_selectionnable"
+        </div>
+        <div
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </form>
   );

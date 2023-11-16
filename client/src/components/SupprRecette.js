@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
 import React, { useState } from "react";
 
-function SupprRecette({ rct_id, setChangingDelete, myBoard }) {
+function SupprRecette({ rct_id, setChangingDelete, myBoard, tailleTel }) {
   const [toDelete, setToDelete] = useState(false);
 
   async function deleteRecipe() {
@@ -74,20 +74,28 @@ function SupprRecette({ rct_id, setChangingDelete, myBoard }) {
       </div>
 
       <div className="paquet_boutons">
-        <button
-          className="bouton_board non_selectionnable"
+        <div
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
-        </button>
-        <button
-          className="bouton_board non_selectionnable"
+        </div>
+        <div
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable"
+              : "bouton_board non_selectionnable"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >
           Annuler
-        </button>
+        </div>
       </div>
     </form>
   );

@@ -32,7 +32,6 @@ function BarreNavigation({
   tailleInt1,
   tailleInt2,
   allowToModify,
-  isRecipePage,
   modify,
   setModify,
   ouvertureModif,
@@ -98,7 +97,7 @@ function BarreNavigation({
     <header>
       {tailleTel ? (
         <div className="bandeau_header align_gauche">
-          {allowToModify ? (
+          {allowToModify || role === "admin" ? (
             <div>
               <FontAwesomeIcon
                 onClick={(e) => {
@@ -107,13 +106,14 @@ function BarreNavigation({
                 id="menu_header"
                 icon={faBars}
               />
-
-              <FontAwesomeIcon
-                onClick={(e) => modifyButton(e)}
-                id="btn_icon_modify"
-                icon={faPenToSquare}
-                style={{ color: "var(--color-text)" }}
-              />
+              {allowToModify ? (
+                <FontAwesomeIcon
+                  onClick={(e) => modifyButton(e)}
+                  id="btn_icon_modify"
+                  icon={faPenToSquare}
+                  style={{ color: "var(--color-text)" }}
+                />
+              ) : null}
 
               {nbNotif > 0 && role === "admin" ? (
                 <div className="notif gras" style={{ left: "34px" }}>
@@ -134,12 +134,15 @@ function BarreNavigation({
                   >
                     Nouvelle Recette
                   </div>
-                  <div
-                    className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                    onClick={(e) => SuppressionRecette(e)}
-                  >
-                    Supprimer Recette
-                  </div>
+                  {allowToModify ? (
+                    <div
+                      className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
+                      onClick={(e) => SuppressionRecette(e)}
+                    >
+                      Supprimer Recette
+                    </div>
+                  ) : null}
+
                   {role === "admin" ? (
                     <div>
                       <Link
@@ -167,17 +170,18 @@ function BarreNavigation({
             />
           ) : null}
           <div
-            className="centre_mobile"
+            className="centre_mobile elements_centre"
             style={{
-              left:
-                role === "admin" || allowToModify
-                  ? "100px"
-                  : role === "writer"
-                  ? "50px"
-                  : "0px",
+              left: allowToModify
+                ? "100px"
+                : role === "writer" || role === "admin"
+                ? "50px"
+                : "0px",
             }}
           >
-            <BoutonLien myLink={"/"} myTitle={"Page Principale"} />
+            <div style={{ height: "100%", width: "170px" }}>
+              <BoutonLien myLink={"/"} myTitle={"Page Principale"} />
+            </div>
           </div>
         </div>
       ) : (
@@ -189,7 +193,7 @@ function BarreNavigation({
           }
         >
           <BoutonLien myLink={"/"} myTitle={"Page Principale"} />
-          {tailleInt2 && !tailleInt1 ? (
+          {tailleInt2 && !tailleInt1 && allowToModify ? (
             <div
               className="ligne elements_centre"
               onMouseEnter={() => setShakingRct(true)}

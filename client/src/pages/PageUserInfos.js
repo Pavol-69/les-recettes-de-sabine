@@ -6,7 +6,7 @@ import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
-import "../styles_pages/UserInfos.css";
+import "../styles_pages/Connexion.css";
 
 // Autre
 import React, { useState, useEffect } from "react";
@@ -21,6 +21,10 @@ function PageUserInfos({
   toShow,
   setToShow,
   nbNotif,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
 }) {
   const [myInfo, setMyInfo] = useState({
     name: "",
@@ -146,6 +150,10 @@ function PageUserInfos({
         toShow={toShow}
         setToShow={setToShow}
         nbNotif={nbNotif}
+        tailleOrdi={tailleOrdi}
+        tailleTel={tailleTel}
+        tailleInt1={tailleInt1}
+        tailleInt2={tailleInt2}
       />
       <Bandeau mySize="big" />
       <div className="board">
@@ -155,7 +163,11 @@ function PageUserInfos({
               Prénom
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={(e) => myOnChange(e)}
               type="text"
               name="name"
@@ -169,7 +181,11 @@ function PageUserInfos({
               Nom de Famille
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={(e) => myOnChange(e)}
               type="text"
               name="family_name"
@@ -183,7 +199,11 @@ function PageUserInfos({
               Pseudo
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={(e) => myOnChange(e)}
               type="text"
               name="pseudo"
@@ -197,7 +217,11 @@ function PageUserInfos({
               Adresse Mail
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={(e) => myOnChange(e)}
               type="mail"
               name="mail"
@@ -211,7 +235,11 @@ function PageUserInfos({
               Mot de passe, première saisie
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={(e) => myOnChange(e)}
               type="password"
               name="password1"
@@ -224,23 +252,39 @@ function PageUserInfos({
               Mot de passe, seconde saisie
             </label>
             <input
-              className="input_connexion texte_taille_2"
+              className={
+                tailleTel
+                  ? "input_connexion_tel texte_taille_2"
+                  : "input_connexion texte_taille_2"
+              }
               onChange={(e) => myOnChange(e)}
               type="password"
               name="password2"
-              placeholder="Veuillez renseigner votre mot de passe à nouveau"
+              placeholder={
+                tailleTel
+                  ? "Mot de passe, seconde saisie"
+                  : "Veuillez renseigner votre mot de passe à nouveau"
+              }
             ></input>
           </div>
           <div className="pqt_bouton_connexion ligne">
             <div
-              className="bouton_board non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_tel non_selectionnable"
+                  : "bouton_board non_selectionnable"
+              }
               id="bouton_validation"
               onClick={(e) => onSubmitForm(e)}
             >
               Valider
             </div>
             <div
-              className="bouton_board non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_tel non_selectionnable"
+                  : "bouton_board non_selectionnable"
+              }
               onClick={(e) => desinscription(e)}
             >
               Désinscription
