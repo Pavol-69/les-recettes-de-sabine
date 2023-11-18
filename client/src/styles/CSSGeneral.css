@@ -63,12 +63,12 @@ html {
 .board_menu_suppl {
   /*Position*/
   position: fixed;
-  top: 0px;
   z-index: 2;
+  top: 0px;
 
   /*Dimensions*/
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 
   /*Style*/
   background-color: rgb(255, 255, 255, 0.5);
@@ -76,7 +76,7 @@ html {
 
   /*Autre*/
   transition: 0.5s;
-  overflow: auto;
+  overflow-y: scroll;
 }
 
 .elements_centre {

@@ -51,13 +51,6 @@ function UploadImage({ imgList, setImgList, i, tailleTel }) {
     setImgList(myList);
   }
 
-  const regex = /\/v\d+\/([^/]+)\.\w{3,4}$/;
-
-  const getPublicIdFromUrl = (url) => {
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  };
-
   return imgList[i] === "" ? (
     <div
       className="paquet_drop"

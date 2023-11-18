@@ -32,6 +32,7 @@ function Bandeau({ mySize }) {
   return (
     <div className="non_selectionnable">
       <img
+        alt="fond"
         className="img_bandeau non_selectionnable"
         src={bandeau}
         style={{ height: myHeightImg }}

@@ -466,9 +466,7 @@ function ModifIngredient({
       style={{ width: tailleTel ? "400px" : null }}
       //onSubmit={(e) => onSubmitValider(e)}
     >
-      <div className="titre_modif texte_centre decalage_bandeau">
-        Liste ingrédients
-      </div>
+      <div className="titre_modif texte_centre">Liste ingrédients</div>
       <div className="elements_centre">
         <div
           className={
@@ -595,7 +593,7 @@ function ModifIngredient({
         <div
           className={
             tailleTel
-              ? "bouton_board_tel non_selectionnable"
+              ? "bouton_board_tel non_selectionnable texte_centre"
               : "bouton_board non_selectionnable"
           }
           id="bouton_valider"
@@ -606,7 +604,7 @@ function ModifIngredient({
         <div
           className={
             tailleTel
-              ? "bouton_board_tel non_selectionnable"
+              ? "bouton_board_tel non_selectionnable texte_centre"
               : "bouton_board non_selectionnable"
           }
           id="bouton_annuler"

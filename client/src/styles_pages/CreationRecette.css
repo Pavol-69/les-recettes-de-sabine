@@ -76,7 +76,6 @@
 .titre_modif {
   /*Dimensions*/
   max-width: 800px;
-
   /*Texte*/
   font-weight: bold;
   font-size: 2em;
@@ -86,6 +85,9 @@
   /*Position*/
   padding-top: 70px;
   padding-bottom: 70px;
+
+  /*Dimensions*/
+  width: 800px;
 
   /*Centrage*/
   flex-direction: column;

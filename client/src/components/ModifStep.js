@@ -469,18 +469,24 @@ function ModifStep({
       className="menu_modif elements_centre"
       style={{ width: tailleTel ? "800px" : null }}
     >
-      <div className="titre_modif texte_centre decalage_bandeau">
-        Liste étapes
-      </div>
-      <div className="paquet_btn_step elements_centre">
+      <div className="titre_modif texte_centre">Liste étapes</div>
+      <div className="paquet_btn_step elements_centre ligne">
         <div
-          className="bouton_board_tel non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable texte_centre"
+              : "bouton_board non_selectionnable texte_centre"
+          }
           onClick={(e) => ajoutSection(e)}
         >
           Ajouter une section
         </div>
         <div
-          className="bouton_board_tel non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable texte_centre"
+              : "bouton_board non_selectionnable texte_centre"
+          }
           onClick={(e) => ajoutStep(e)}
         >
           Ajouter une étape
@@ -565,14 +571,22 @@ function ModifStep({
       </div>
       <div className="paquet_boutons">
         <div
-          className="bouton_board_tel non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable texte_centre"
+              : "bouton_board non_selectionnable texte_centre"
+          }
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
         >
           Valider
         </div>
         <div
-          className="bouton_board_tel non_selectionnable"
+          className={
+            tailleTel
+              ? "bouton_board_tel non_selectionnable texte_centre"
+              : "bouton_board non_selectionnable texte_centre"
+          }
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
         >

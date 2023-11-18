@@ -12,9 +12,9 @@ function VignetteRecette({ myId, myName, myImg }) {
   return (
     <Link id={myId} className="vignette_recette" to={"/recette/" + myId}>
       {myImg === "" ? (
-        <img className="img_vignette" src={imgToDefine}></img>
+        <img alt="non défini" className="img_vignette" src={imgToDefine}></img>
       ) : (
-        <img className="img_vignette" src={myImg}></img>
+        <img alt="défini" className="img_vignette" src={myImg}></img>
       )}
       <div className="titre_vignette texte_centre texte_taille_2">{myName}</div>
     </Link>

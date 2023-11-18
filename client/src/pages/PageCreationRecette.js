@@ -486,6 +486,7 @@ function PageCreationRecette({
       <div
         id={boardModificationName}
         className="board_menu_suppl elements_centre"
+        style={{ flexWrap: "wrap" }}
       >
         {!!changingName && (
           <ModifTitreRecette
