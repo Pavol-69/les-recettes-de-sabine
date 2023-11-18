@@ -24,7 +24,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 import { useMediaQuery } from "react-responsive";
 
 function App() {
@@ -95,9 +95,9 @@ function App() {
 
       if (!isNaN(parseRes)) {
         setNbNotif(parseRes);
-      } else {
+      } /* else {
         toast.error(parseRes);
-      }
+      }*/
     } catch (err) {
       console.error(err.message);
     }

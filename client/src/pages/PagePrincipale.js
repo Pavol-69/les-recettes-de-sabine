@@ -278,23 +278,30 @@ function PagePrincipale({
                   </div>
                 </div>
               </form>
-              <div className="plage_vignette elements_centre">
-                {mySearchList.length > 0
-                  ? mySearchList.map((myRct, index) => (
+
+              {mySearchList.length > 0 ? (
+                <div>
+                  <div className="titre_pqt_vignette elements_centre texte_taille_5">
+                    Résultat recherche
+                  </div>
+                  <div className="plage_vignette elements_centre">
+                    {mySearchList.map((myRct, index) => (
                       <VignetteRecette
                         key={"search" + index}
                         myId={myRct.rct_id}
                         myName={myRct.rct_name}
                         myImg={myRct.rct_img}
                       />
-                    ))
-                  : null}
-              </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </div>
+
             {myRctList.length > 0 ? (
               <div>
                 <div className="titre_pqt_vignette elements_centre texte_taille_5">
-                  Toute les recettes
+                  Toutes les recettes
                 </div>
                 <div className="plage_vignette elements_centre">
                   {myRctList.map((myRct, index) => (

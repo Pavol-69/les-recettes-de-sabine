@@ -27,6 +27,7 @@ function UploadImage({ imgList, setImgList, i, tailleTel }) {
       let upload = request
         .post(CLOUDINARY_UPLOAD_URL)
         .field("upload_preset", CLOUDINARY_UPLOAD_PRESET)
+        .field("upload_preset", CLOUDINARY_UPLOAD_PRESET)
         .field("file", e[0]);
       upload.end((err, response) => {
         if (err) {
