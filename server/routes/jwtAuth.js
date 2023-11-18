@@ -8,6 +8,11 @@ const authorization = require("../middlewear/authorization");
 // Inscription
 router.post("/inscription", validInfo, async (req, res) => {
   try {
+    // Création de la  bdd users si elle n'existe pas
+    await pool.query(
+      "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL)"
+    );
+
     // Récupérationd des variables
     const { name, family_name, pseudo, mail, password, password2 } = req.body;
 
@@ -39,9 +44,14 @@ router.post("/inscription", validInfo, async (req, res) => {
     const bcryptPassword = await bcrypt.hash(password, salt);
 
     // Création nouvel utilisateur
+    const nbUsers = await pool.query("SELECT * FROM users");
 
-    // Création de la valeur user_role, qui par défaut sera à "à définir"
-    const role = "to_define";
+    // Création de la valeur user_role, qui par défaut sera à "à définir", sauf s'il s'agit du premier user, à ce moment-là, il sera admin
+    if (nbUsers.rows.length > 0) {
+      role = "to_define";
+    } else {
+      role = "admin";
+    }
 
     const newUser = await pool.query(
       "INSERT INTO users (user_name, user_family_name, user_pseudo, user_mail, user_password, user_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
@@ -62,6 +72,11 @@ router.post("/connexion", validInfo, async (req, res) => {
   try {
     // Récupération des données
     const { mail, password } = req.body;
+
+    // Création de la  bdd users si elle n'existe pas
+    await pool.query(
+      "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL)"
+    );
 
     // Vérification de si l'utilisateur existe bel et bien
     const user = await pool.query("SELECT * FROM users WHERE user_mail = $1", [
