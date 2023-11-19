@@ -39,19 +39,16 @@ function ModifStep({
 
   async function updateRecipeDb(mySectionStepList, myStepList) {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeSteps",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
+      const response = await fetch("/recipe/updateRecipeSteps", {
+        method: "Post",
+        headers: { rct_id: rct_id, "content-type": "application/json" },
 
-          body: JSON.stringify({
-            rct_id: rct_id,
-            rct_section_step: mySectionStepList,
-            rct_step: myStepList,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          rct_id: rct_id,
+          rct_section_step: mySectionStepList,
+          rct_step: myStepList,
+        }),
+      });
 
       const parseRes = await response.json();
 

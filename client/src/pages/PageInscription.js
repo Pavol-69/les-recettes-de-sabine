@@ -28,7 +28,7 @@ function PageInscription({ isAuth, setIsAuth, tailleTel }) {
   async function onSubmitForm(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/auth/inscription", {
+      const response = await fetch("/auth/inscription", {
         method: "POST",
         headers: {
           "content-type": "application/json",

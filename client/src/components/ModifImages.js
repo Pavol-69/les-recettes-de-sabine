@@ -24,18 +24,15 @@ function ModifImages({
 
   async function updateRecipeImg() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeImages",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
+      const response = await fetch("/recipe/updateRecipeImages", {
+        method: "Post",
+        headers: { rct_id: rct_id, "content-type": "application/json" },
 
-          body: JSON.stringify({
-            rct_id: rct_id,
-            rct_img: imgList,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          rct_id: rct_id,
+          rct_img: imgList,
+        }),
+      });
 
       const parseRes = await response.json();
 

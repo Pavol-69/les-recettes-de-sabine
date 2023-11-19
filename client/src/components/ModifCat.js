@@ -46,21 +46,18 @@ function ModifCat({
 
   async function updateCatName() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateCategoryName",
-        {
-          method: "Post",
-          headers: {
-            token: localStorage.token,
-            "content-type": "application/json",
-          },
+      const response = await fetch("/recipe/updateCategoryName", {
+        method: "Post",
+        headers: {
+          token: localStorage.token,
+          "content-type": "application/json",
+        },
 
-          body: JSON.stringify({
-            old_name: oldName,
-            cat_name: newName,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          old_name: oldName,
+          cat_name: newName,
+        }),
+      });
 
       const parseRes = await response.json();
 

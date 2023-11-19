@@ -27,13 +27,10 @@ function PageAdmin({
 
   async function getAllUsersInfos() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/allUsersInfos",
-        {
-          method: "GET",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/dashboard/allUsersInfos", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
       parseRes.rows.sort();
@@ -49,21 +46,18 @@ function PageAdmin({
 
   async function handleChange(e, user_id) {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/changeRole",
-        {
-          method: "POST",
-          headers: {
-            token: localStorage.token,
-            "content-type": "application/json",
-          },
+      const response = await fetch("/dashboard/changeRole", {
+        method: "POST",
+        headers: {
+          token: localStorage.token,
+          "content-type": "application/json",
+        },
 
-          body: JSON.stringify({
-            user_id: user_id,
-            role: e.target.value,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          user_id: user_id,
+          role: e.target.value,
+        }),
+      });
 
       const parseRes = await response.json();
       if (parseRes) {

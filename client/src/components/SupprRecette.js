@@ -14,17 +14,14 @@ function SupprRecette({ rct_id, setChangingDelete, myBoard, tailleTel }) {
 
   async function deleteRecipe() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/deleteRecipe",
-        {
-          method: "Post",
-          headers: { "content-type": "application/json" },
+      const response = await fetch("/recipe/deleteRecipe", {
+        method: "Post",
+        headers: { "content-type": "application/json" },
 
-          body: JSON.stringify({
-            rct_id: rct_id,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          rct_id: rct_id,
+        }),
+      });
 
       const parseRes = await response.json();
 

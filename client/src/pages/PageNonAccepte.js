@@ -27,13 +27,10 @@ function PageNonAccepte({ role, isAuth, setIsAuth, tailleTel }) {
   }
   async function deleteUser() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/deleteUser",
-        {
-          method: "POST",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/dashboard/deleteUser", {
+        method: "POST",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
 

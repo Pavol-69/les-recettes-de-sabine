@@ -43,13 +43,10 @@ function PageUserInfos({
 
   async function getUserInfos() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/userInfos",
-        {
-          method: "GET",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/dashboard/userInfos", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
 
@@ -67,13 +64,10 @@ function PageUserInfos({
 
   async function deleteUser() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/deleteUser",
-        {
-          method: "POST",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/dashboard/deleteUser", {
+        method: "POST",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
 
@@ -92,25 +86,22 @@ function PageUserInfos({
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/updateInfos",
-        {
-          method: "POST",
-          headers: {
-            token: localStorage.token,
-            "content-type": "application/json",
-          },
+      const response = await fetch("/dashboard/updateInfos", {
+        method: "POST",
+        headers: {
+          token: localStorage.token,
+          "content-type": "application/json",
+        },
 
-          body: JSON.stringify({
-            name: name,
-            family_name: family_name,
-            pseudo: pseudo,
-            mail: mail,
-            password: password1,
-            password2: password2,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          name: name,
+          family_name: family_name,
+          pseudo: pseudo,
+          mail: mail,
+          password: password1,
+          password2: password2,
+        }),
+      });
 
       const parseRes = await response.json();
       if (parseRes === true) {

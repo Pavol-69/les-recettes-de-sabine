@@ -50,20 +50,17 @@ function ModifTitreRecette({
 
   async function updateRecipeDb() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeInfos",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
+      const response = await fetch("/recipe/updateRecipeInfos", {
+        method: "Post",
+        headers: { rct_id: rct_id, "content-type": "application/json" },
 
-          body: JSON.stringify({
-            rct_id: rct_id,
-            rct_name: myName,
-            rct_nb: myRct.rct_nb,
-            rct_nb_type: myRct.rct_nb_type,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          rct_id: rct_id,
+          rct_name: myName,
+          rct_nb: myRct.rct_nb,
+          rct_nb_type: myRct.rct_nb_type,
+        }),
+      });
 
       const parseRes = await response.json();
 

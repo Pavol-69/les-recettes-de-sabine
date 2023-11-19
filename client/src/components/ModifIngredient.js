@@ -39,19 +39,16 @@ function ModifIngredient({
 
   async function updateRecipeDb(mySectionIngList, myIngList) {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeIngredients",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
+      const response = await fetch("/recipe/updateRecipeIngredients", {
+        method: "Post",
+        headers: { rct_id: rct_id, "content-type": "application/json" },
 
-          body: JSON.stringify({
-            rct_id: rct_id,
-            rct_section_ing: mySectionIngList,
-            rct_ing: myIngList,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          rct_id: rct_id,
+          rct_section_ing: mySectionIngList,
+          rct_ing: myIngList,
+        }),
+      });
 
       const parseRes = await response.json();
 

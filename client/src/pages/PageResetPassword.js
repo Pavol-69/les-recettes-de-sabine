@@ -25,21 +25,18 @@ function PageResetPassword({ isAuth, setIsAuth, tailleTel }) {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:5000/forgottenpassword/changepassword",
-        {
-          method: "POST",
-          headers: {
-            token: resetKey,
-            "content-type": "application/json",
-          },
+      const response = await fetch("/forgottenpassword/changepassword", {
+        method: "POST",
+        headers: {
+          token: resetKey,
+          "content-type": "application/json",
+        },
 
-          body: JSON.stringify({
-            password: password1,
-            password2: password2,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          password: password1,
+          password2: password2,
+        }),
+      });
 
       const parseRes = await response.json();
 

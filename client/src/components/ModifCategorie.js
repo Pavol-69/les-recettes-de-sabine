@@ -77,17 +77,14 @@ function ModifCategorie({
 
   async function updateRecipeCat() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/updateRecipeCategories",
-        {
-          method: "Post",
-          headers: { rct_id: rct_id, "content-type": "application/json" },
+      const response = await fetch("/recipe/updateRecipeCategories", {
+        method: "Post",
+        headers: { rct_id: rct_id, "content-type": "application/json" },
 
-          body: JSON.stringify({
-            rct_cat: myInfo,
-          }),
-        }
-      );
+        body: JSON.stringify({
+          rct_cat: myInfo,
+        }),
+      });
 
       const parseRes = await response.json();
 

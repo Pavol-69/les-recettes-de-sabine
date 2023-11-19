@@ -79,13 +79,10 @@ function PageCreationRecette({
   // Fonctions fetch
   async function getRecipeInfos() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/getRecipeInfos",
-        {
-          method: "GET",
-          headers: { rct_id: rct_id },
-        }
-      );
+      const response = await fetch("/recipe/getRecipeInfos", {
+        method: "GET",
+        headers: { rct_id: rct_id },
+      });
 
       const parseRes = await response.json();
 

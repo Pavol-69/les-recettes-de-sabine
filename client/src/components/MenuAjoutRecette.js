@@ -26,7 +26,7 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
   // Fonctions fetch
   async function addRecipe() {
     try {
-      const response = await fetch("http://localhost:5000/recipe/addRecipe", {
+      const response = await fetch("/recipe/addRecipe", {
         method: "Post",
         headers: { "content-type": "application/json" },
 

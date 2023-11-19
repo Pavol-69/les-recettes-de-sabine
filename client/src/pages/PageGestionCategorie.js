@@ -43,7 +43,7 @@ function PageGestionCategorie({
 
   async function AddCategories() {
     try {
-      const response = await fetch("http://localhost:5000/recipe/addCategory", {
+      const response = await fetch("/recipe/addCategory", {
         method: "POST",
         headers: {
           token: localStorage.token,
@@ -72,13 +72,10 @@ function PageGestionCategorie({
 
   async function getAllCategories() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/getAllCategories",
-        {
-          method: "GET",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/recipe/getAllCategories", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
       setCatList(parseRes.sort());
@@ -89,19 +86,16 @@ function PageGestionCategorie({
 
   async function DeleteCategories(cat_name) {
     try {
-      const response = await fetch(
-        "http://localhost:5000/recipe/deleteCategory",
-        {
-          method: "POST",
-          headers: {
-            token: localStorage.token,
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            cat_name: cat_name,
-          }),
-        }
-      );
+      const response = await fetch("/recipe/deleteCategory", {
+        method: "POST",
+        headers: {
+          token: localStorage.token,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          cat_name: cat_name,
+        }),
+      });
 
       const parseRes = await response.json();
 
