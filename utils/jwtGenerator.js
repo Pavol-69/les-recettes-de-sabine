@@ -5,8 +5,13 @@ function jwtGenerator(user_id, time) {
   const payload = {
     user: user_id,
   };
-
-  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: `${time}` });
+  if (process.env.NODE_ENV === "production") {
+    return jwt.sign(payload, process.env.jwtSecret, { expiresIn: `${time}` });
+  } else {
+    return jwt.sign(payload, process.env.HEROKU_JWT_SECRET, {
+      expiresIn: `${time}`,
+    });
+  }
 }
 
 module.exports = jwtGenerator;
