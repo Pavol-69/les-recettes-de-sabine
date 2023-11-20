@@ -47,13 +47,10 @@ function App() {
 
   async function getUserInfos() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/userInfos",
-        {
-          method: "GET",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/dashboard/userInfos", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
 
@@ -67,7 +64,7 @@ function App() {
 
   async function isVerify() {
     try {
-      const response = await fetch("http://localhost:5000/auth/is-verified", {
+      const response = await fetch("/auth/is-verified", {
         method: "GET",
         headers: { token: localStorage.token },
       });
@@ -83,13 +80,10 @@ function App() {
 
   async function notifCalcul() {
     try {
-      const response = await fetch(
-        "http://localhost:5000/dashboard/getNbNotif",
-        {
-          method: "GET",
-          headers: { token: localStorage.token },
-        }
-      );
+      const response = await fetch("/dashboard/getNbNotif", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
 
       const parseRes = await response.json();
 
