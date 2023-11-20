@@ -3,6 +3,10 @@ const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const path = require("path");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+module.exports.bcrypt = bcrypt;
+
 const PORT = process.env.PORT || 5000;
 
 // Middlewear
