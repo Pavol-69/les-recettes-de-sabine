@@ -66,7 +66,7 @@ router.post("/inscription", validInfo, async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.log(err.message);
-    res.status(500).json("Erreur serveur");
+    res.status(500).json(err.message);
   }
 });
 
