@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const pool = require("../db");
-const bcrypt = require("../app.js").bcrypt;
+const bcrypt = require("../server.js").bcrypt;
 const jwtGenerator = require("../utils/jwtGenerator");
 const validInfo = require("../middlewear/validinfo");
 const authorization = require("../middlewear/authorization");

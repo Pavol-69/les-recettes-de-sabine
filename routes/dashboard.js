@@ -2,7 +2,7 @@ const router = require("express").Router();
 const pool = require("../db");
 const authorization = require("../middlewear/authorization");
 const authorizationAdmin = require("../middlewear/authorizationAdmin");
-const bcrypt = require("../app.js").bcrypt;
+const bcrypt = require("../server.js").bcrypt;
 
 router.get("/userInfos", authorization, async (req, res) => {
   try {
