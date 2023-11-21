@@ -6,9 +6,11 @@ function jwtGenerator(user_id, time) {
     user: user_id,
   };
   if (process.env.NODE_ENV === "production") {
-    return jwt.sign(payload, process.env.jwtSecret, { expiresIn: `${time}` });
-  } else {
     return jwt.sign(payload, process.env.HEROKU_JWT_SECRET, {
+      expiresIn: `${time}`,
+    });
+  } else {
+    return jwt.sign(payload, process.env.jwtSecret, {
       expiresIn: `${time}`,
     });
   }

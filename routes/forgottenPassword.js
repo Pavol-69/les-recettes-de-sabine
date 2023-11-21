@@ -19,8 +19,11 @@ router.post("/reset", validmail, async (req, res) => {
     // Génératon token
     const token = jwtGenerator(user.rows[0].user_id, "1hr");
 
+    let transporter = {};
+    let mailOptions = {};
+
     if (process.env.NODE_ENV === "production") {
-      const transporter = nodemailer.createTransport({
+      transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
           user: `${process.env.HEROKU_MAIL}`,
@@ -31,7 +34,7 @@ router.post("/reset", validmail, async (req, res) => {
         },
       });
 
-      const mailOptions = {
+      mailOptions = {
         from: `${process.env.HEROKU_MAIL}`,
         to: `${mail}`,
         subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",
@@ -40,7 +43,7 @@ router.post("/reset", validmail, async (req, res) => {
           `${token}`,
       };
     } else {
-      const transporter = nodemailer.createTransport({
+      transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
           user: `${process.env.mail}`,
@@ -51,7 +54,7 @@ router.post("/reset", validmail, async (req, res) => {
         },
       });
 
-      const mailOptions = {
+      mailOptions = {
         from: `${process.env.mail}`,
         to: `${mail}`,
         subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",

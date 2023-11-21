@@ -13,7 +13,6 @@ router.post("/inscription", validInfo, async (req, res) => {
     await pool.query(
       "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL)"
     );
-    console.log("après");
 
     // Récupérationd des variables
     const { name, family_name, pseudo, mail, password, password2 } = req.body;
