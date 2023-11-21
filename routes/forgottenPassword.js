@@ -19,25 +19,47 @@ router.post("/reset", validmail, async (req, res) => {
     // Génératon token
     const token = jwtGenerator(user.rows[0].user_id, "1hr");
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: `${process.env.mail}`,
-        pass: `${process.env.mail_password}`,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    if (process.env.NODE_ENV === "production") {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: `${process.env.HEROKU_MAIL}`,
+          pass: `${process.env.HEROKU_MAIL_PASSWORD}`,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
 
-    const mailOptions = {
-      from: `${process.env.mail}`,
-      to: `${mail}`,
-      subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",
-      text:
-        "http://localhost:3000/connexion/reinitialisation-mot-de-passe/" +
-        `${token}`,
-    };
+      const mailOptions = {
+        from: `${process.env.HEROKU_MAIL}`,
+        to: `${mail}`,
+        subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",
+        text:
+          "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com//connexion/reinitialisation-mot-de-passe/" +
+          `${token}`,
+      };
+    } else {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: `${process.env.mail}`,
+          pass: `${process.env.mail_password}`,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
+
+      const mailOptions = {
+        from: `${process.env.mail}`,
+        to: `${mail}`,
+        subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",
+        text:
+          "http://localhost:3000/connexion/reinitialisation-mot-de-passe/" +
+          `${token}`,
+      };
+    }
 
     transporter.sendMail(mailOptions, (err, response) => {
       res.status(200).json("Email réinitialisation Mot de Passe envoyé");
