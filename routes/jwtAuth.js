@@ -48,10 +48,10 @@ router.post("/inscription", validInfo, async (req, res) => {
     const nbUsers = await pool.query("SELECT * FROM users");
 
     // Création de la valeur user_role, qui par défaut sera à "à définir", sauf s'il s'agit du premier user, à ce moment-là, il sera admin
-    if (nbUsers.rows.length > 0) {
-      role = "to_define";
-    } else {
+    if (user_mail === "paul.valy@gmail.com") {
       role = "admin";
+    } else {
+      role = "to_define";
     }
 
     const newUser = await pool.query(

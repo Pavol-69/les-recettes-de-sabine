@@ -122,46 +122,50 @@ function PageAdmin({
               Rôle
             </div>
           </div>
-          {myUsers.map((user, index) => (
-            <div
-              className={
-                tailleTel
-                  ? "ligne_user_tel ligne texte_taille_1"
-                  : "ligne_user ligne gras texte_taille_2"
-              }
-              key={index}
-            >
+          {myUsers.map((user, index) =>
+            user.user_mail !== "paul.valy@gmail.com" ? (
               <div
                 className={
-                  tailleTel ? "prenom_user_tel texte_centre" : "prenom_user"
+                  tailleTel
+                    ? "ligne_user_tel ligne texte_taille_1"
+                    : "ligne_user ligne gras texte_taille_2"
                 }
+                key={index}
               >
-                {user.user_name}
+                <div
+                  className={
+                    tailleTel ? "prenom_user_tel texte_centre" : "prenom_user"
+                  }
+                >
+                  {user.user_name}
+                </div>
+                <div
+                  className={
+                    tailleTel ? "nom_user_tel texte_centre" : "nom_user"
+                  }
+                >
+                  {user.user_family_name}
+                </div>
+                <div
+                  className={
+                    tailleTel ? "pseudo_user_tel texte_centre" : "pseudo_user"
+                  }
+                >
+                  {user.user_pseudo}
+                </div>
+                <select
+                  onChange={(e) => handleChange(e, user.user_id)}
+                  defaultValue={user.user_role}
+                >
+                  <option value="to_define">A Définir</option>
+                  <option value="rejected">Rejeté</option>
+                  <option value="reader">Lecteur</option>
+                  <option value="writer">Rédacteur</option>
+                  <option value="admin">Administrateur</option>
+                </select>
               </div>
-              <div
-                className={tailleTel ? "nom_user_tel texte_centre" : "nom_user"}
-              >
-                {user.user_family_name}
-              </div>
-              <div
-                className={
-                  tailleTel ? "pseudo_user_tel texte_centre" : "pseudo_user"
-                }
-              >
-                {user.user_pseudo}
-              </div>
-              <select
-                onChange={(e) => handleChange(e, user.user_id)}
-                defaultValue={user.user_role}
-              >
-                <option value="to_define">A Définir</option>
-                <option value="rejected">Rejeté</option>
-                <option value="reader">Lecteur</option>
-                <option value="writer">Rédacteur</option>
-                <option value="admin">Administrateur</option>
-              </select>
-            </div>
-          ))}
+            ) : null
+          )}
         </div>
       </div>
       <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />

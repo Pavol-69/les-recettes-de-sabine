@@ -109,7 +109,7 @@ function PageConnexion({ isAuth, setIsAuth, tailleTel }) {
                 : "btn_connexion bouton_board_empty non_selectionnable"
             }
             id="bouton_connexion"
-            onSubmit={(e) => onSubmitForm(e)}
+            onClick={(e) => onSubmitForm(e)}
           >
             Connexion
           </div>

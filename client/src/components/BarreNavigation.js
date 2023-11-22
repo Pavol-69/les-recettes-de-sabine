@@ -180,7 +180,7 @@ function BarreNavigation({
             }}
           >
             <div style={{ height: "100%", width: "170px" }}>
-              <BoutonLien myLink={"/"} myTitle={"Page Principale"} />
+              <BoutonLien myLink={"/"} myTitle={"Accueil"} />
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@ function BarreNavigation({
               : "bandeau_header align_gauche"
           }
         >
-          <BoutonLien myLink={"/"} myTitle={"Page Principale"} />
+          <BoutonLien myLink={"/"} myTitle={"Accueil"} />
           {tailleInt2 && !tailleInt1 && allowToModify ? (
             <div
               className="ligne elements_centre"

@@ -126,7 +126,7 @@ function ModifStep({
     e.preventDefault();
 
     let mySectionStepList = [...myInfo.rct_section_step];
-    mySectionStepList.push(["", myInfo.rct_section_step.length]);
+    mySectionStepList.push(["", myInfo.rct_section_step.length + 1]);
 
     setMyInfo((prev) => ({
       ...prev,
@@ -143,7 +143,6 @@ function ModifStep({
       myInfo.rct_section_step[myInfo.rct_section_step.length - 1][1],
       myInfo.rct_step.length + 1,
     ]);
-    console.log(myStepList);
     setMyInfo((prev) => ({
       ...prev,
       rct_step: myStepList,
@@ -154,13 +153,15 @@ function ModifStep({
   const myOnChange_section_step = (e) => {
     let mySectionStepList = [...myInfo.rct_section_step];
     const mySplit = e.target.name.split("_");
-    let myPosition = mySplit[mySplit.length - 1];
+    let myPosition = 0;
     for (let i = 0; i < mySectionStepList.length; i++) {
-      if (mySectionStepList[i][1] === myPosition) {
+      if (
+        mySectionStepList[i][1].toString() ===
+        mySplit[mySplit.length - 1].toString()
+      ) {
         myPosition = i;
       }
     }
-    console.log(mySectionStepList);
     mySectionStepList[myPosition][0] = e.target.value;
 
     setMyInfo((prev) => ({

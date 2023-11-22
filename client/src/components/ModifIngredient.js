@@ -127,7 +127,7 @@ function ModifIngredient({
   function ajoutSection(e) {
     e.preventDefault();
     let mySectionIngList = [...myInfo.rct_section_ing];
-    mySectionIngList.push(["", myInfo.rct_section_ing.length]);
+    mySectionIngList.push(["", myInfo.rct_section_ing.length + 1]);
 
     setMyInfo((prev) => ({
       ...prev,
@@ -145,6 +145,7 @@ function ModifIngredient({
       myInfo.rct_section_ing[myInfo.rct_section_ing.length - 1][1],
       myIngList.length + 1,
     ]);
+
     setMyInfo((prev) => ({
       ...prev,
       rct_ing: myIngList,
@@ -155,9 +156,12 @@ function ModifIngredient({
   function myOnChange_section_ing(e) {
     let mySectionIngList = [...myInfo.rct_section_ing];
     const mySplit = e.target.name.split("_");
-    let myPosition = mySplit[mySplit.length - 1];
+    let myPosition = 0;
     for (let i = 0; i < mySectionIngList.length; i++) {
-      if (mySectionIngList[i][1] === myPosition) {
+      if (
+        mySectionIngList[i][1].toString() ===
+        mySplit[mySplit.length - 1].toString()
+      ) {
         myPosition = i;
       }
     }
