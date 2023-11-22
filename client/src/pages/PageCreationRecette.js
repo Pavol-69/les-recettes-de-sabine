@@ -125,9 +125,13 @@ function PageCreationRecette({
     }
   }
 
-  useEffect(() => {
-    getRecipeInfos();
-  }, []);
+  useEffect(
+    () => {
+      getRecipeInfos();
+    },
+    [],
+    [getRecipeInfos]
+  );
 
   // Fonctions Modifier
 
@@ -328,18 +332,18 @@ function PageCreationRecette({
                     img !== "" ? (
                       index === -leftCarrousel ? (
                         <div
-                          key={"le_bon_rond" + index}
+                          key={index}
                           className="rond_carrousel"
                           style={{
-                            background: "rgb(0, 0, 0)",
+                            backgroundColor: "rgb(0, 0, 0)",
                           }}
                         ></div>
                       ) : (
                         <div
-                          key={"un_autre_rond" + index}
+                          key={index}
                           className="rond_carrousel"
                           style={{
-                            background: "rgb(255, 255, 255, 0.8)",
+                            backgroundColor: "rgba(255, 255, 255, 0.8)",
                           }}
                           onClick={(e) => choixCarrousel(e, index)}
                         ></div>

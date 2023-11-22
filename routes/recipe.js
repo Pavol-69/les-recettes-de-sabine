@@ -541,6 +541,10 @@ router.post("/updateCategoryName", authorizationAdmin, async (req, res) => {
       [cat_name]
     );
 
+    if (cat_name === old_cat_name) {
+      return res.status(401).json("Aucun changement.");
+    }
+
     if (myVerif.rows.length !== 0 && cat_name !== old_cat_name) {
       return res.status(401).json("Catégorie déjà existante.");
     }

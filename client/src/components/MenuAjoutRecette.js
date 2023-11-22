@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
 
-function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
+function MenuAjoutRecette({ toShow, setToShow, pseudo, tailleTel }) {
   const [myBoardPosition, setMyBoardPosition] = useState("100vw");
   const [myName, setMyName] = useState("");
   const [path, setPath] = useState("");
@@ -81,13 +81,16 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
         <form
           className="elements_centre colonne"
           onSubmit={(e) => onSubmitValider(e)}
+          style={{ width: tailleTel ? "400px" : "800px" }}
         >
-          <div className="texte_taille_4 gras">
+          <div className="texte_taille_4 gras texte_centre">
             Veuillez donner un nom à votre nouvelle recette
           </div>
           <input
             onChange={myOnChange}
-            className="input_ajout_recette"
+            className={
+              tailleTel ? "input_ajout_recette_tel" : "input_ajout_recette"
+            }
             type="text"
             name="rct_name"
             placeholder="Nom de votre nouvelle recette"
@@ -95,14 +98,22 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo }) {
           ></input>
           <div className="paquet_boutons">
             <div
-              className="bouton_board non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_tel non_selectionnable"
+                  : "bouton_board non_selectionnable"
+              }
               id="bouton_valider"
               onClick={(e) => onSubmitValider(e)}
             >
               Valider
             </div>
             <div
-              className="bouton_board non_selectionnable"
+              className={
+                tailleTel
+                  ? "bouton_board_tel non_selectionnable"
+                  : "bouton_board non_selectionnable"
+              }
               id="bouton_annuler"
               onClick={(e) => annuler(e)}
             >

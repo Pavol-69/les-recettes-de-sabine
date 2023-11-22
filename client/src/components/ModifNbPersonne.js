@@ -139,6 +139,10 @@ function ModifNbPersonne({
         >
           Annuler
         </div>
+        <button
+          onClick={(e) => onSubmitValider(e)}
+          style={{ visibility: "hidden" }}
+        ></button>
       </div>
     </form>
   );

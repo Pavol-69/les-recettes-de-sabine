@@ -14,13 +14,14 @@ import PageMdpOublie from "./pages/PageMdpOublie";
 import PageResetPassword from "./pages/PageResetPassword";
 import PageGestionCategorie from "./pages/PageGestionCategorie";
 import PageNonAccepte from "./pages/PageNonAccepte";
+import PagePortail from "./pages/PagePortail";
 
 //CSS
 import "./styles/CSSGeneral.css";
 import "./styles/index.css";
 
 // Autre
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,9 +31,8 @@ import { useMediaQuery } from "react-responsive";
 function App() {
   const [role, setRole] = useState("");
   const [isAuth, setIsAuth] = useState(false);
-  const [isLoadedInfo, setIsLoadedInfo] = useState(false);
-  const [isLoadedAuth, setIsLoadedAuth] = useState(false);
   const [pseudo, setPseudo] = useState("");
+  const [nbNotif, setNbNotif] = useState(0);
   const [toShow, setToShow] = useState(false);
   const tailleOrdi = useMediaQuery({ query: "(min-width: 1475px)" });
   const tailleInt1 = useMediaQuery({
@@ -43,75 +43,28 @@ function App() {
   });
   const tailleTel = useMediaQuery({ query: "(max-width: 850px)" });
 
-  const [nbNotif, setNbNotif] = useState(0);
+  /*if (!isLoadedInfo || !isLoadedAuth) {
+    return null;
+  }*/
 
-  async function getUserInfos() {
-    try {
-      const response = await fetch("/dashboard/userInfos", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
-
-      const parseRes = await response.json();
-
-      setPseudo(parseRes.user_pseudo);
-      setRole(parseRes.user_role);
-      setIsLoadedInfo(true);
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  async function isVerify() {
-    try {
-      const response = await fetch("/auth/is-verified", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
-
-      const parseRes = await response.json();
-      parseRes === true ? setIsAuth(true) : setIsAuth(false);
-      setIsLoadedAuth(true);
-      return parseRes;
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  async function notifCalcul() {
-    try {
-      const response = await fetch("/dashboard/getNbNotif", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
-
-      const parseRes = await response.json();
-
-      if (!isNaN(parseRes)) {
-        setNbNotif(parseRes);
-      } /* else {
-        toast.error(parseRes);
-      }*/
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  useEffect(() => {
-    getUserInfos();
-    isVerify();
-    notifCalcul();
-  }, []);
-
-  if (isLoadedInfo && isLoadedAuth) {
-    return (
-      <React.StrictMode>
-        <Router>
-          <Routes>
-            <Route
-              path="/"
-              element={<OnGoingRoute isAuth={isAuth} role={role} />}
-            >
+  //if (isLoadedInfo && isLoadedAuth) {
+  return (
+    <React.StrictMode>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute
+                isAuth={isAuth}
+                setIsAuth={setIsAuth}
+                setPseudo={setPseudo}
+                setRole={setRole}
+                setNbNotif={setNbNotif}
+              ></PrivateRoute>
+            }
+          >
+            <Route path="/" element={<OnGoingRoute role={role} />}>
               <Route
                 path="/"
                 element={
@@ -130,67 +83,6 @@ function App() {
                   />
                 }
               />
-            </Route>
-            <Route
-              path="/inscription"
-              element={<PublicRoute isAuth={isAuth} />}
-            >
-              <Route
-                path="/inscription"
-                element={
-                  <PageInscription
-                    isAuth={isAuth}
-                    setIsAuth={setIsAuth}
-                    tailleOrdi={tailleOrdi}
-                    tailleTel={tailleTel}
-                    tailleInt1={tailleInt1}
-                    tailleInt2={tailleInt2}
-                  />
-                }
-              />
-            </Route>
-            <Route path="/connexion" element={<PublicRoute isAuth={isAuth} />}>
-              <Route
-                path="/connexion"
-                element={
-                  <PageConnexion
-                    isAuth={isAuth}
-                    setIsAuth={setIsAuth}
-                    tailleOrdi={tailleOrdi}
-                    tailleTel={tailleTel}
-                    tailleInt1={tailleInt1}
-                    tailleInt2={tailleInt2}
-                  />
-                }
-              />
-              <Route
-                path="/connexion/mot-de-passe-oublie"
-                element={
-                  <PageMdpOublie
-                    isAuth={isAuth}
-                    setIsAuth={setIsAuth}
-                    tailleOrdi={tailleOrdi}
-                    tailleTel={tailleTel}
-                    tailleInt1={tailleInt1}
-                    tailleInt2={tailleInt2}
-                  />
-                }
-              />
-              <Route
-                path="/connexion/reinitialisation-mot-de-passe/:resetKey"
-                element={
-                  <PageResetPassword
-                    isAuth={isAuth}
-                    setIsAuth={setIsAuth}
-                    tailleOrdi={tailleOrdi}
-                    tailleTel={tailleTel}
-                    tailleInt1={tailleInt1}
-                    tailleInt2={tailleInt2}
-                  />
-                }
-              />
-            </Route>
-            <Route path="/recette" element={<PrivateRoute isAuth={isAuth} />}>
               <Route
                 path="/recette/:rct_id"
                 element={
@@ -209,54 +101,6 @@ function App() {
                   />
                 }
               />
-            </Route>
-            <Route
-              path="/admin"
-              element={<AdminRoute isAuth={isAuth} role={role} />}
-            >
-              <Route
-                path="/admin"
-                element={
-                  <PageAdmin
-                    isAuth={isAuth}
-                    setIsAuth={setIsAuth}
-                    pseudo={pseudo}
-                    role={role}
-                    toShow={toShow}
-                    setToShow={setToShow}
-                    nbNotif={nbNotif}
-                    tailleOrdi={tailleOrdi}
-                    tailleTel={tailleTel}
-                    tailleInt1={tailleInt1}
-                    tailleInt2={tailleInt2}
-                  />
-                }
-              />
-            </Route>
-            <Route
-              path="/categorie"
-              element={<AdminRoute isAuth={isAuth} role={role} />}
-            >
-              <Route
-                path="/categorie"
-                element={
-                  <PageGestionCategorie
-                    isAuth={isAuth}
-                    setIsAuth={setIsAuth}
-                    pseudo={pseudo}
-                    role={role}
-                    toShow={toShow}
-                    setToShow={setToShow}
-                    nbNotif={nbNotif}
-                    tailleOrdi={tailleOrdi}
-                    tailleTel={tailleTel}
-                    tailleInt1={tailleInt1}
-                    tailleInt2={tailleInt2}
-                  />
-                }
-              />
-            </Route>
-            <Route path="/mes-infos" element={<PrivateRoute isAuth={isAuth} />}>
               <Route
                 path="/mes-infos"
                 element={
@@ -276,10 +120,58 @@ function App() {
                   />
                 }
               />
+
+              <Route
+                path="/admin"
+                element={<AdminRoute isAuth={isAuth} role={role} />}
+              >
+                <Route
+                  path="/admin"
+                  element={
+                    <PageAdmin
+                      isAuth={isAuth}
+                      setIsAuth={setIsAuth}
+                      pseudo={pseudo}
+                      role={role}
+                      toShow={toShow}
+                      setToShow={setToShow}
+                      nbNotif={nbNotif}
+                      tailleOrdi={tailleOrdi}
+                      tailleTel={tailleTel}
+                      tailleInt1={tailleInt1}
+                      tailleInt2={tailleInt2}
+                    />
+                  }
+                />
+              </Route>
+              <Route
+                path="/categorie"
+                element={<AdminRoute isAuth={isAuth} role={role} />}
+              >
+                <Route
+                  path="/categorie"
+                  element={
+                    <PageGestionCategorie
+                      isAuth={isAuth}
+                      setIsAuth={setIsAuth}
+                      pseudo={pseudo}
+                      role={role}
+                      toShow={toShow}
+                      setToShow={setToShow}
+                      nbNotif={nbNotif}
+                      tailleOrdi={tailleOrdi}
+                      tailleTel={tailleTel}
+                      tailleInt1={tailleInt1}
+                      tailleInt2={tailleInt2}
+                    />
+                  }
+                />
+              </Route>
             </Route>
+
             <Route
               path="/non_accepte"
-              element={<OnGoingRouteReverse isAuth={isAuth} role={role} />}
+              element={<OnGoingRouteReverse role={role} />}
             >
               <Route
                 path="/non_accepte"
@@ -299,12 +191,51 @@ function App() {
                 }
               />
             </Route>
-          </Routes>
-        </Router>
-        <ToastContainer />
-      </React.StrictMode>
-    );
-  }
+          </Route>
+
+          <Route
+            path="/portail_connexion"
+            element={<PublicRoute isAuth={isAuth} />}
+          >
+            <Route
+              path="/portail_connexion"
+              element={
+                <PagePortail
+                  tailleOrdi={tailleOrdi}
+                  tailleTel={tailleTel}
+                  tailleInt1={tailleInt1}
+                  tailleInt2={tailleInt2}
+                />
+              }
+            />
+            <Route
+              path="/portail_connexion/inscription"
+              element={
+                <PageInscription setIsAuth={setIsAuth} tailleTel={tailleTel} />
+              }
+            />
+
+            <Route
+              path="/portail_connexion/connexion"
+              element={
+                <PageConnexion setIsAuth={setIsAuth} tailleTel={tailleTel} />
+              }
+            />
+            <Route
+              path="/portail_connexion/mot_de_passe_oublie"
+              element={<PageMdpOublie tailleTel={tailleTel} />}
+            />
+            <Route
+              path="/portail_connexion/reinitialisation_mot_de_passe/:resetKey"
+              element={<PageResetPassword tailleTel={tailleTel} />}
+            />
+          </Route>
+        </Routes>
+      </Router>
+      <ToastContainer />
+    </React.StrictMode>
+  );
+  //}
 }
 
 export default App;

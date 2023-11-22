@@ -439,7 +439,15 @@ function ModifIngredient({
                     myTopList[myPosition - 1].after(myDrag);
                   }
                 } else {
-                  myTopList[myPosition].before(myDrag);
+                  if (
+                    myTopList[myPosition].childNodes[0].className.indexOf(
+                      "ligne_section_ing"
+                    ) > -1
+                  ) {
+                    myTopList[myPosition - 1].after(myDrag);
+                  } else {
+                    myTopList[myPosition].before(myDrag);
+                  }
                 }
               }
             }

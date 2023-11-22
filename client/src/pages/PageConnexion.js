@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-function PageConnexion({ isAuth, setIsAuth, tailleTel }) {
+function PageConnexion({ setIsAuth, tailleTel }) {
   const [myInfo, setMyInfo] = useState({
     mail: "",
     password: "",
@@ -55,7 +55,6 @@ function PageConnexion({ isAuth, setIsAuth, tailleTel }) {
 
   return (
     <div className="relatif">
-      <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
       <Bandeau mySize="big" />
       <div className="board">
         <form
@@ -97,7 +96,7 @@ function PageConnexion({ isAuth, setIsAuth, tailleTel }) {
           </div>
           <Link
             className="mdp_oublie couleur_texte gras texte_taille_1 elements_centre"
-            to="/connexion/mot-de-passe-oublie"
+            to="/portail_connexion/mot_de_passe_oublie"
           >
             Mot de Passe oublié ?
           </Link>

@@ -406,10 +406,10 @@
   border-width: 1px;
 
   /*Style*/
-  background-color: rgb(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 
   /*Autre*/
-  transition: 1s;
+  transition: all 1s;
   cursor: pointer;
 }
 

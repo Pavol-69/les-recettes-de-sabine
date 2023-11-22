@@ -88,14 +88,9 @@ function PagePrincipale({
   }
 
   useEffect(() => {
-    if (isAuth) {
-      getRctList();
-      getAllCategories();
-    } else {
-      setMyRctList([]);
-      setMyFilterList([]);
-    }
-  }, [isAuth]);
+    getRctList();
+    getAllCategories();
+  }, []);
 
   function menuFiltre(e) {
     ouvertureModif(true);
@@ -192,115 +187,67 @@ function PagePrincipale({
         >
           Les Recettes de Sabine
         </div>
-        {!isAuth ? (
-          <div className="paquet_boutons">
-            <Link
-              className={
-                tailleTel
-                  ? "bouton_board_empty_tel non_selectionnable"
-                  : "bouton_board_empty non_selectionnable"
-              }
-              to="/connexion"
+
+        <div className="plage_user_auth">
+          <div id="plage_recherche" className="elements_centre">
+            <form
+              className="elements_centre colonne"
+              id="groupe_recherche"
+              onSubmit={(e) => rechercher(e)}
             >
-              Connexion
-            </Link>
-            <Link
-              className={
-                tailleTel
-                  ? "bouton_board_empty_tel non_selectionnable"
-                  : "bouton_board_empty non_selectionnable"
-              }
-              to="/inscription"
-            >
-              Inscription
-            </Link>
-          </div>
-        ) : (
-          <div className="plage_user_auth">
-            <div id="plage_recherche" className="elements_centre">
-              <form
-                className="elements_centre colonne"
-                id="groupe_recherche"
-                onSubmit={(e) => rechercher(e)}
+              <input
+                id="input_recherche"
+                placeholder="Rechercher une recette..."
+                onChange={(e) => myOnChange(e)}
+                value={mySearch}
+                style={{
+                  width: tailleTel
+                    ? "350px"
+                    : tailleInt2 && !tailleInt1
+                    ? "800px"
+                    : "100%",
+                }}
+              ></input>
+              <div
+                className="btn_recherche elements_centre"
+                style={{ flexWrap: "wrap", rowGap: "30px" }}
               >
-                <input
-                  id="input_recherche"
-                  placeholder="Rechercher une recette..."
-                  onChange={(e) => myOnChange(e)}
-                  value={mySearch}
-                  style={{
-                    width: tailleTel
-                      ? "350px"
-                      : tailleInt2 && !tailleInt1
-                      ? "800px"
-                      : "100%",
-                  }}
-                ></input>
                 <div
-                  className="btn_recherche elements_centre"
-                  style={{ flexWrap: "wrap", rowGap: "30px" }}
+                  className={
+                    tailleTel ? "bouton_board_empty_tel" : "bouton_board_empty"
+                  }
+                  onClick={(e) => rechercher(e)}
                 >
-                  <div
-                    className={
-                      tailleTel
-                        ? "bouton_board_empty_tel"
-                        : "bouton_board_empty"
-                    }
-                    onClick={(e) => rechercher(e)}
-                  >
-                    Rechercher
-                  </div>
-                  <div
-                    className={
-                      tailleTel
-                        ? "bouton_board_empty_tel"
-                        : "bouton_board_empty"
-                    }
-                    onClick={(e) => menuFiltre(e)}
-                  >
-                    Filtre
-                  </div>
-                  <div
-                    className={
-                      tailleTel
-                        ? "bouton_board_empty_tel"
-                        : "bouton_board_empty"
-                    }
-                    onClick={(e) => reinitialisation(e)}
-                  >
-                    Réinitialisation
-                  </div>
+                  Rechercher
                 </div>
-              </form>
-
-              {mySearchList.length > 0 ? (
-                <div>
-                  <div className="titre_pqt_vignette elements_centre texte_taille_5">
-                    Résultat recherche
-                  </div>
-                  <div className="plage_vignette elements_centre">
-                    {mySearchList.map((myRct, index) => (
-                      <VignetteRecette
-                        key={"search" + index}
-                        myId={myRct.rct_id}
-                        myName={myRct.rct_name}
-                        myImg={myRct.rct_img}
-                      />
-                    ))}
-                  </div>
+                <div
+                  className={
+                    tailleTel ? "bouton_board_empty_tel" : "bouton_board_empty"
+                  }
+                  onClick={(e) => menuFiltre(e)}
+                >
+                  Filtre
                 </div>
-              ) : null}
-            </div>
+                <div
+                  className={
+                    tailleTel ? "bouton_board_empty_tel" : "bouton_board_empty"
+                  }
+                  onClick={(e) => reinitialisation(e)}
+                >
+                  Réinitialisation
+                </div>
+              </div>
+            </form>
 
-            {myRctList.length > 0 ? (
+            {mySearchList.length > 0 ? (
               <div>
                 <div className="titre_pqt_vignette elements_centre texte_taille_5">
-                  Toutes les recettes
+                  Résultat recherche
                 </div>
                 <div className="plage_vignette elements_centre">
-                  {myRctList.map((myRct, index) => (
+                  {mySearchList.map((myRct, index) => (
                     <VignetteRecette
-                      key={"list" + index}
+                      key={"search" + index}
                       myId={myRct.rct_id}
                       myName={myRct.rct_name}
                       myImg={myRct.rct_img}
@@ -310,7 +257,25 @@ function PagePrincipale({
               </div>
             ) : null}
           </div>
-        )}
+
+          {myRctList.length > 0 ? (
+            <div>
+              <div className="titre_pqt_vignette elements_centre texte_taille_5">
+                Toutes les recettes
+              </div>
+              <div className="plage_vignette elements_centre">
+                {myRctList.map((myRct, index) => (
+                  <VignetteRecette
+                    key={"list" + index}
+                    myId={myRct.rct_id}
+                    myName={myRct.rct_name}
+                    myImg={myRct.rct_img}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
       </div>
       <div id={boardModificationName} className="board_menu_suppl">
         {myFilterBool ? (
@@ -324,7 +289,12 @@ function PagePrincipale({
           />
         ) : null}
       </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
+      <MenuAjoutRecette
+        toShow={toShow}
+        setToShow={setToShow}
+        pseudo={pseudo}
+        tailleTel={tailleTel}
+      />
       <PiedDePage />
     </div>
   );

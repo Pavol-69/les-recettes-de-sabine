@@ -83,7 +83,7 @@ function UploadImage({ imgList, setImgList, i, tailleTel }) {
       <Dropzone onDrop={(e) => onImageDrop(e)}>
         {({ getRootProps, getInputProps }) => (
           <div className="drop_img elements_centre" {...getRootProps()}>
-            <img alt={imgList[i]} src={imgList[i]} />
+            <img className="img_upload" alt={imgList[i]} src={imgList[i]} />
             <input {...getInputProps()} />
           </div>
         )}

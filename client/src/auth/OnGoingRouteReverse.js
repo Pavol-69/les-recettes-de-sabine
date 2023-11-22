@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 
-function OnGoingRouteReverse({ isAuth, role }) {
-  return isAuth && (role === "rejected" || role === "to_define") ? (
+function OnGoingRouteReverse({ role }) {
+  return role === "rejected" || role === "to_define" ? (
     <Outlet />
   ) : (
     <Navigate to="/" />

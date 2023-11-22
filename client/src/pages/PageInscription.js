@@ -13,7 +13,7 @@ import "../styles_pages/Connexion.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function PageInscription({ isAuth, setIsAuth, tailleTel }) {
+function PageInscription({ setIsAuth, tailleTel }) {
   const [myInfo, setMyInfo] = useState({
     name: "",
     family_name: "",
@@ -67,7 +67,6 @@ function PageInscription({ isAuth, setIsAuth, tailleTel }) {
 
   return (
     <div className="relatif">
-      <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
       <Bandeau mySize="big" />
       <div className="board">
         <form
@@ -191,6 +190,10 @@ function PageInscription({ isAuth, setIsAuth, tailleTel }) {
           >
             Inscription
           </div>
+          <button
+            onClick={(e) => onSubmitForm(e)}
+            style={{ visibility: "hidden" }}
+          ></button>
         </form>
       </div>
 
